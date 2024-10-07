@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StatsApp</title>
-    <link>href="{{ url_for('static', filename='style/style.css')}}" rel="stylesheet" />
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
     <h1>StatsApp</h1>
-    <p>Welcome! Please enter the concept you want to learn below. </p>
-    <form action="/concept">
-        <input type="text" name="concept" id="concept" placeholder="Enter a Concept" />
-        <button type="submit">Submit</button>
+    <p>Welcome! Please select the concept you want to learn below. </p>
+
+    <form action="/submit" method="POST">
+        <label for="options">Choose an option:</label>
+        <select id="options" name="options">
+            {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+{% endblock %}
