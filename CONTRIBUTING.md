@@ -5,3 +5,7 @@
 - Pytest
 - Pycodestyle
 - Flask
+- Waitress
+
+## Creating pages
+Follow example_page.html layout
