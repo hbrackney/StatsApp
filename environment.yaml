@@ -1,0 +1,14 @@
+name: StatsApp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pylint
+  - pytest
+  - pycodestyle
+  - dash
+  - pandas
+  - scipy
+  - statsmodels
+  - waitress
+prefix: C:\Users\helen\anaconda3\envs\StatsApp
