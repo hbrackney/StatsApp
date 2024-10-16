@@ -8,6 +8,8 @@
 - Waitress
 - Dash
 - Pandas
+- Scipy
+- Statsmodels
 
 ## Creating pages
 Follow example_page.html layout
