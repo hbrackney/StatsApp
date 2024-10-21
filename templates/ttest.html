@@ -4,9 +4,109 @@
 
 {% block content %}
     <h1>T-test</h1>
-    <p>Some text will go here eventually.</p>
+    <p>
+        <b>What is a t-test?</b>
+    </p>
+    <p>A t-test is a statistical test used to compare the means of two groups
+        to determine if they are statistically different from each other.
+        It is useful when dealing with small sample sizes and is based on the
+        t-distribution.
+    </p>
+    <p>The t-test estimates the true difference between two group means using
+        the ratio of the difference in group means over the pooled standard error
+        of both groups. A larger t-value shows that the difference between group
+        means is greater than the pooled standard error, indicating a more significant
+        difference between the groups. You can compare your calculated t-value against
+        the values in a critical value chart (e.g. Student's t-table) to determine
+        whether your t-value is greater than what would be expected by chance.
+        If so, the null hypothesis can be rejected and the alternate hypothesis is true.
+    </p> 
+    <p>A t-test can only be used when comparing the means of <b>two</b> groups (i.e. pairwise
+        comparison). If you want to compare more than two groups, or if you want to do
+        multiple pairwise comparisons, use an ANOVA test or a post-hoc test.
+    </p>
+    <p>The t-test is a parametric test of difference, meaning that it makes the same 
+        assumptions about your data as other parametric tests. The t-test assumes your data:
+    </p>
+    <ul>
+        <li>Are independent</li>
+        <li>Are normally distributed</li>
+        <li>Have a similar amount of variance within each group (homogeneity of variance)</li>
+    </ul>
+    <p>If your data don’t fit these assumptions, use a nonparametric alternative
+        to the t-test, such as the Wilcoxon Signed-Rank test for data with unequal variances.
+    </p>
 
-    <p>A simulation will go here eventually. Users can change numbers in a data set and see how it affects the concept they just learned about. </p>
+    <p>
+        <b>What type of t-test should be used?</b>
+    </p>
+    <p>
+        When choosing a t-test, consider two things: whether the groups being compared come
+        from a single population or two different populations, and whether you want to test
+        the difference in a specific direction.
+    </p>
+    <img src="https://cdn.educba.com/academy/wp-content/uploads/2020/02/Types-of-t-Test-Formulas-1024x478.jpg">
+
+    <p>
+        <b>Type of t-tests:</b>
+    </p>
+    <ol>
+        <li>Independent t-test: Compares means from two different populations (e.g., amount of leaf growth in two species of plants).</li>
+        <li>Paired t-test: Compares means from the same population at different times (e.g., weight loss measurements before and after a diet).</li>
+        <li> One-sample t-test: Compares the mean of a single group against a known value or population mean.</li>
+
+    </ol>
+
+    <p>
+        <b>One-tailed or two-tailed t-test?</b>
+    </p>
+    <ul>
+        <li>Use a <b>two-tailed t-test</b> to compare if two populations are different from one another</li>
+        <li>Use a <b>one-tailed t-test</b> to know whether one population mean is less than or greater than the other</li>
+    </ul>
+
+    <p>
+        <b>To perform a t-test:</b>
+    </p>
+    <ol>
+        <li><b>Formulate Hypothesis (THIS IS IMPORTANT)</b>
+            <ul>
+                <li><strong>Null Hypothesis (H0):</strong> Assumes no difference between the two group means.</li>
+                <li><strong>Alternative Hypothesis (H1):</strong> Assumes a difference between the two group means.</li>
+            </ul>
+        </li>
+        <li><b>Collect Data:</b>Gather data for the two groups that will be compared.</li>
+        <li><b>Calculate the t-statistic:</b>
+            <ul>
+                <li>For an independent t-test, the formula is: $$t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{\frac{s_1}{n_1} + \frac{s_2}{n_2}}}$$</li>
+                <li>Where:
+                    <ul>
+                        <li>\(\bar{X}_1\) and \(\bar{X}_2\) are the sample group means.</li>
+                        <li>\(s_1\) and \(s_2\) are the group standard deviation.</li>
+                        <li>\(n_1\) and \(n_2\) are the group sample sizes.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><b>Determine the Degrees of Freedom</b>
+            <ul>
+                <li>For an independent t-test: \(df = n_1 + n_2 - 2\)</li>
+            </ul>
+        </li>
+        <li><b>Find the Critical t-value:</b> Use a t-distribution table to find the critical value based on the chosen significance
+                level (usually 0.05 for a 95% confidence interval) and degrees of freedom</li>
+        <li><b>Decide:</b>
+            <ul>
+                <li>If the absolute value of the calculated t-statistic is greater than the critical t-value, reject the null (<b>HO</b>) hypothesis.</li>
+            </ul>
+        </li>
+        <li><b>Report Results:</b> Include the t-statistic, degrees of freedom, p-value, and conclusion regarding the hypothesis.</li>
+    </ol>
+
+    <p> Add a section here on the importance of the null and alternative hypothesis. An incorrect set of hypothesis will make or break a t-test.</p>
+
+    <p>A simulation will go here. Users can change numbers in a data set and see how it affects the concept they just learned about. Do we need to plot 
+        the table values over time? Might be good to include a table of the mean, standard deviation, number, t-statistic, and p-value?</p>
     <h1> Interactive T Test Plot Chart</h1>
     <iframe src="/dash_ttest/" style="width:100%; height:600px; border:none;"></iframe>
     
