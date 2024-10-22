@@ -148,7 +148,7 @@ def update_ttest_plot(data1, data2):
         'layout': {
             'title': 'Comparison of Two Datasets',
             'xaxis': {'title': 'X Values'},
-            'yaxis': {'title': 'T Values'},
+            'yaxis': {'title': 'Y Values'},
         }
     }
 
@@ -247,7 +247,7 @@ def update_ztest_plot(data1, data2):
         'layout': {
             'title': 'Comparison of Two Datasets',
             'xaxis': {'title': 'X Values'},
-            'yaxis': {'title': 'Z Values'},
+            'yaxis': {'title': 'Y Values'},
         }
     }
 
