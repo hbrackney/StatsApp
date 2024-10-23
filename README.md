@@ -7,7 +7,7 @@ Download package. Create environment with required dependencies using the enviro
 To end the website run and to regain typing ability in command line or terminal press Crtl + C. 
 
 ## Changelog
-21-10-2014 (SS): Added z-test text information
+21-10-2014 (SS): Added z-test text information <br>
 21-10-2024 (LS): Added t-test text information with images and updated general formatting <br/>
 16-10-2024 (HB): Added interactive plots to the content pages (t test, z test, example page) <br/>
 07-10-2024 (HB): Changed type entry box to dropdown menu for users <br/>
