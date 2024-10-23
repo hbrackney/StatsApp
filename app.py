@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 import pandas as pd
 from scipy import stats
 from statsmodels.stats.weightstats import ztest
+import t_quiz
 
 # Intialize Flask App
 app = Flask(__name__)
@@ -15,8 +16,7 @@ app = Flask(__name__)
 # Home Page Dropdown Menu Options
 options = {
     "t-test": "ttest",
-    "z-test": "z_test_page",
-    "Example": "example_page"
+    "z-test": "z_test_page"
 }
 
 # Interactive Charts/Graphs using Dash
@@ -159,7 +159,7 @@ def update_ttest_plot(data1, data2):
 
 
 # Z Test Plot
-dash_app = Dash(__name__, server=app, routes_pathname_prefix='/dash_ztest/')
+dash_ztest_app = Dash(__name__, server=app, routes_pathname_prefix='/dash_ztest/')
 
 # Initial data for two datasets
 zinitial_data1 = {
@@ -177,7 +177,7 @@ zdf1 = pd.DataFrame(zinitial_data1)
 zdf2 = pd.DataFrame(zinitial_data2)
 
 # Layout of the Dash app
-dash_app.layout = html.Div([
+dash_ztest_app.layout = html.Div([
     html.H1("Compare Two Datasets and Calculate Z-Test"),
 
     html.H3("Dataset 1"),
@@ -212,7 +212,7 @@ dash_app.layout = html.Div([
 ])
 
 # Callback to update the line chart and calculate z-test based on both tables' values
-@dash_app.callback(
+@dash_ztest_app.callback(
     Output('line-chart', 'figure'),
     Output('z-test-result', 'children'),
     Input('data-table1', 'data'),
@@ -265,6 +265,13 @@ def home():
     """
     return render_template("home.html", options=options)
 
+@app.route("/about")  # Home Page
+def about():
+    """This function renders the about page.
+
+    Returns: Creates the about page
+    """
+    return render_template("about.html", options=options)
 
 @app.route("/submit", methods=["POST"])  # Submitting Dropdown menu Option
 def submit():
@@ -279,13 +286,30 @@ def submit():
     return redirect(url_for("home"))
 
 
-@app.route("/ttest")
+@app.route("/ttest", methods=['GET', 'POST'])
 def ttest():
     """This function renders the t test page.
 
     Returns: Creates the t test page
     """
-    return render_template("ttest.html")
+    questions = t_quiz.get_quiz_questions()
+    score = 0
+    bad_answers = []
+
+    if request.method == 'POST':
+        for i, question in enumerate(questions):
+            selected_answer = request.form.get(f'question_{i + 1}')
+            answer = request.form.get('question_1')  # For example
+            print(f'Selected answer: {answer}')
+            print(selected_answer)
+            if selected_answer == question['answer']:
+                score += 1
+            else:
+                bad_answers.append((question, selected_answer))
+
+    return render_template('ttest.html', questions=questions,
+                           score=score, wrong_answers=bad_answers)
+
 
 
 @app.route("/z_test_page")
@@ -317,4 +341,4 @@ def example_page():
 #     return render_template("interactive_table.html")
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=8000)
+    serve(app, host="0.0.0.0", port=8002)

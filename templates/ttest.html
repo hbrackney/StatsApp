@@ -108,6 +108,40 @@
     <p>A simulation will go here. Users can change numbers in a data set and see how it affects the concept they just learned about. Do we need to plot 
         the table values over time? Might be good to include a table of the mean, standard deviation, number, t-statistic, and p-value?</p>
     <h1> Interactive T Test Plot Chart</h1>
-    <iframe src="/dash_ttest/" style="width:100%; height:600px; border:none;"></iframe>
+    <iframe src="/dash_ttest/" style="width:75%; height:600px; border:none;"></iframe>
     
+    <h2>Multiple Choice Quiz</h2>
+    <div class="quiz">
+        <form method="POST">
+            {% for question in questions %}
+                <div>
+                    <p>{{ question.question }}</p>
+                    {% for option in question.options %}
+                        <label>
+                            <input type="radio" name="question_{{ loop.index }}" value="{{ option }}">
+                            {{ option }}
+                        </label><br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if score is not none %}
+            <h3>Your score is: {{ score }}/{{ questions|length }}</h3>
+            {% if wrong_answers %}
+                <h4>Wrong Answers:</h4>
+                <ul>
+                    {% for question, selected_answer in wrong_answers %}
+                        <li>
+                            <strong>{{ question.question }}</strong><br>
+                            Your answer: {{ selected_answer }}<br>
+                            Correct answer: {{ question.answer }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    </div>
+
 {% endblock %}
