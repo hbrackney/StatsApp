@@ -21,10 +21,10 @@
         <li><b>Set hypothesis:</b> Formulate a null hypothesis (H<sub>0</sub>) that assumes
             no difference, and an alternative hypothesis (H<sub>1</sub>) that suggests
             a difference</li>
-        <li><b>Calculate z-statistic:</b> Use the formula $$ z = \frac{bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} $$,
-            where $$ \bar{X} $$ is the sample mean, &mu is the population mean, &sigma is the 
+        <li><b>Calculate z-statistic:</b> Use the formula $$ z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} $$
+            where \(\bar{X}\) is the sample mean, &mu; is the population mean, &sigma; is the 
             population standard deviation, and n is the sample size.</li>
-        <li><b>Compare to a Critical Value:</b> Based on the chosen significance level (&alpha), 
+        <li><b>Compare to a Critical Value:</b> Based on the chosen significance level (&alpha;), 
             compare the statistic to the critical z-value. If the z-statistic is in the 
             rejection region, reject the null hypothesis.</li>
     </ol>
@@ -44,14 +44,14 @@
     </p>
     <p>To find the critical z-value from a z-score table, follow these steps:</p>
     <ol>
-        <li><b>Choose a signifcance level (&alpha):</b> Decide on your significance 
+        <li><b>Choose a signifcance level (&alpha;):</b> Decide on your significance 
             level (e.g., 0.05 for a 95% confidence level).</li>
         <li><b>Determine the tail type:</b></li>
             <ul>
                 <li><b>One-tailed:</b> The critical z-value corresponds directly to the 
                     signifcance level.</li>
                 <li><b>Two-tailed:</b> Divide the significance level by 2 (e.g., for 
-                    &alpha = 0.05, use 0.025 in each tail.</li>
+                    &alpha; = 0.05, use 0.025 in each tail.</li>
             </ul>
         <li><b>Look up the area in the z-table:</b> Find the probability closest to your
             chosen tail value in the z-table (e.g., for a 0.025 tail, find 0.975 in the 
@@ -59,7 +59,7 @@
         <li><b>Find the corresponding z-score:</b> The row and column of the z-table where
             this probability is located gives you the critical z-value. For example, 
             a 0.975 cumulative probability corresponds to a z-value of approximately
-            1.96. Furthermore, for a one-tailed test with &alpha = 0.05, the critical
+            1.96. Furthermore, for a one-tailed test with &alpha; = 0.05, the critical
             z-value is about 1.645.</li>
     </ol>
     <br>
@@ -68,28 +68,28 @@
     </p>
     <p>
         A one-sample z-test checks if the sample mean differs from the population mean
-        when the population standard deviation is known. The formula is $$ z = \frac{bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} $$,
-        where $$ \bar{X} $$ is the sample mean, &mu is the population mean, &sigma is the 
+        when the population standard deviation is known. The formula is $$ z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} $$
+        where \(\bar{X}\) is the sample mean, &mu; is the population mean, &sigma; is the 
         population standard deviation, and n is the sample size.
     </p>
     <ol>
         <li><b>Left-tailed test:</b></li>
         <ul>
-            <li>H<sub>0</sub>: &mu = &mu<sub>0</sub></li>
-            <li>H<sub>1</sub>: &mu &lt &mu<sub>0</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &lt critical z-value</b></li>
+            <li>H<sub>0</sub>: &mu; = &mu;<sub>0</sub></li>
+            <li>H<sub>1</sub>: &mu; &lt; &mu;<sub>0</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &lt; critical z-value</b></li>
         </ul>
         <li><b>Right-tailed test:</b></li>
         <ul>
-            <li>H<sub>0</sub>: &mu = &mu<sub>0</sub></li>
-            <li>H<sub>1</sub>: &mu &gt &mu<sub>0</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &gt critical z-value</b></li>
+            <li>H<sub>0</sub>: &mu; = &mu;<sub>0</sub></li>
+            <li>H<sub>1</sub>: &mu; &gt; &mu;<sub>0</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &gt; critical z-value</b></li>
         </ul>
         <li><b>Two-tailed test:</b></li>
         <ul>
-            <li>H<sub>0</sub>: &mu = &mu<sub>0</sub></li>
-            <li>H<sub>1</sub>: &mu &ne &mu<sub>0</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &lt critical z-value in either direction</b></li>
+            <li>H<sub>0</sub>: &mu; = &mu;<sub>0</sub></li>
+            <li>H<sub>1</sub>: &mu; &ne; &mu;<sub>0</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &lt; critical z-value in either direction</b></li>
         </ul>
     </ol>
     <br>
@@ -100,12 +100,12 @@
         A two-sample z-test compares the means of two independent samples to check
         if they are significantly different. It is used when the population 
         variances are known. The formula for the z-statistic is 
-        $$ z = \frac{\left( \bar{X}_1 - \bar{X}_2 \right) - \left( \mu_1 - \mu_2 \right)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} $$, where 
+        $$ z = \frac{\left( \bar{X}_1 - \bar{X}_2 \right) - \left( \mu_1 - \mu_2 \right)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} $$ where 
     </p>
     <ul>
-        <li>$$\bar{X}$$<sub>1</sub> and $$\bar{X}$$<sub>2</sub> are the sample means</li>
-        <li>&mu<sub>1</sub> and &mu<sub>2</sub> are the population means</li>
-        <li>&sigma<sub>1</sub> and &sigma<sub>2</sub> are the population standard deviations</li>
+        <li>\(\bar{X}\)<sub>1</sub> and \(\bar{X}\)<sub>2</sub> are the sample means</li>
+        <li>&mu;<sub>1</sub> and &mu;<sub>2</sub> are the population means</li>
+        <li>&sigma;<sub>1</sub> and &sigma;<sub>2</sub> are the population standard deviations</li>
         <li>n<sub>1</sub> and n<sub>2</sub> are the sample sizes</li>
     </ul>
     <br>
@@ -113,22 +113,22 @@
         <li><b>Left-tailed test:</b> Tests if the first sample mean is significantly
             less than the second.</li>
         <ul>
-            <li>H<sub>0</sub>: &mu<sub>1</sub> = &mu<sub>2</sub></li>
-            <li>H<sub>1</sub>: &mu<sub>1</sub> &lt &mu<sub>2</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &lt critical z-value</b></li>
+            <li>H<sub>0</sub>: &mu;<sub>1</sub> = &mu;<sub>2</sub></li>
+            <li>H<sub>1</sub>: &mu;<sub>1</sub> &lt; &mu;<sub>2</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &lt; critical z-value</b></li>
         </ul>
         <li><b>Right-tailed test:</b> Tests if the first sample mean is significantly
             greater than the second</li>
         <ul>
-            <li>H<sub>0</sub>: &mu<sub>1</sub> = &mu<sub>2</sub></li>
-            <li>H<sub>1</sub>: &mu<sub>1</sub> &gt &mu<sub>2</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &gt critical z-value</b></li>
+            <li>H<sub>0</sub>: &mu;<sub>1</sub> = &mu;<sub>2</sub></li>
+            <li>H<sub>1</sub>: &mu;<sub>1</sub> &gt; &mu;<sub>2</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &gt; critical z-value</b></li>
         </ul>
         <li><b>Two-tailed test:</b> Tests if the means are signifiant different in either direction.</li>
         <ul>
-            <li>H<sub>0</sub>: &mu<sub>1</sub> = &mu<sub>2</sub></li>
-            <li>H<sub>1</sub>: &mu<sub>1</sub> &ne &mu<sub>2</sub></li>
-            <li><b>Reject H<sub>0</sub> if z-statistic &lt critical z-value in either direction</b></li>
+            <li>H<sub>0</sub>: &mu;<sub>1</sub> = &mu;<sub>2</sub></li>
+            <li>H<sub>1</sub>: &mu;<sub>1</sub> &ne; &mu;<sub>2</sub></li>
+            <li><b>Reject H<sub>0</sub> if z-statistic &lt; critical z-value in either direction</b></li>
         </ul>
     </ol>
     <h1> Interactive Z Test Plot Chart</h1>
