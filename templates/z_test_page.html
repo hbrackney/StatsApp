@@ -131,6 +131,79 @@
             <li><b>Reject H<sub>0</sub> if z-statistic &lt; critical z-value in either direction</b></li>
         </ul>
     </ol>
-    <h1> Interactive Z Test Plot Chart</h1>
+    <h1> Z-Test Example</h1>
+    <p>
+        <b>Scenario:</b>
+    </p>
+    <p>
+        A biologist is studyign two populations of a particular species to determine if there
+        is a significant difference in the everage length of the specific DNA sequence between 
+        the populations. The researcher collects data on the lengths of the DNA sequences from
+        two independent populations and wants to compare the means of these two groups.
+    </p>
+    <p>
+        <b>Research Question:</b>
+    </p>
+    <p>
+        "Is there a significant difference in the average length of the DNA sequence between
+        the two populations?"
+    </p>
+    <p>
+        <b>Data:</b>
+    </p>
+    <ul>
+        <li><b>Population 1:</b> The average DNA sequence length is known to be 150 base pairs (bp)
+        with a standard deviation of 10 bp. A sample of 40 DNA sequences is collected from this 
+        population, and the sample mean is found to be 153 bp.</li>
+        <li><b>Population 2:</b> The average DNA sequence is 155 bp with a standard deviation of
+        12 bp. A sample of 35 DNA sequences is collected from this popualtion, and the sample mean 
+        is found to be 157 bp.</li>
+    </ul>
+    <p>
+        <b>Hypotheses:</b>
+    </p>
+    <ul>
+        <li><b>Null hypothesis (H<sub>0</sub>):</b> The mean length of the DNA sequences of the two
+        populations is the same, such that <b>H<sub>0</sub>: &mu;<sub>1</sub>=&mu;<sub>2</sub></b></li>
+        <li><b>Alternative hypothesis (H<sub>1</sub>):</b> The mean length of DNA sequences in the two 
+        populations is different, such that <b>H<sub>1</sub>: &mu;<sub>1</sub>&ne;&mu;<sub>2</sub></b></li>
+    </ul>
+    <p>
+        <b>Z-Test Formula:</b>
+    </p>
+    <p>
+        For a two-sample z-test, the z-statistic is calculated as: 
+        $$ z = \frac{\left( \bar{X}_1 - \bar{X}_2 \right) - \left( \mu_1 - \mu_2 \right)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} $$ where 
+    </p>
+    <ul>
+        <li>\(\bar{X}\)<sub>1</sub> = 153 bp (sample mean of Population 1),</li>
+        <li>\(\bar{X}\)<sub>2</sub> = 157 bp (sample mean of Population 2),</li>
+        <li>&mu;<sub>1</sub> = 150 bp (population mean of Population 1),</li>
+        <li>&mu;<sub>2</sub> = 155 bp (population mean of Population 2),</li>
+        <li>&sigma;<sub>1</sub> = 10 bp (standard deviation of Population 1),</li>
+        <li>&sigma;<sub>2</sub> = 12 bp (standard deviation of Population 2),</li>
+        <li>n<sub>1</sub> = 40 (sample size of Population 1),</li>
+        <li>n<sub>2</sub> = 35 (sample size of Population 2).</li>
+    </ul>
+    <p>
+        <b>Calculation:</b>
+    </p>
+    <p>
+        First, calculate the z-statistic: $$ z = \frac{\left( 153 - 157 \right) - \left( 150-155 \right)}{\sqrt{\frac{\10^2}{40}+\frac{\12^2}{35}}} $$ = 0.389
+        Find the critical z-value:
+        Two-tailed test where &alpha; = 0..05, the critical value is 1.96.
+    </p>
+    <p>
+        <b>Conclusion:</b>
+    </p>
+    <p>
+        Since the z-statistics of 0.389 is less than the critical z-value of 1.96,
+        the researcher would <b>fail to reject the null hypothesis.</b>
+        <br>
+        This means that, based on the data, there is <b>not enough evidence</b> to conclude that
+        the mean DNA sequence lengths between the two popualtions are significantly different.
+        The observed difference in sample means could be due to random variation rather than a
+        true difference in the population means.
+    </p>
     <iframe src="/dash_ztest/" style="width:100%; height:600px; border:none;"></iframe>
 {% endblock %}
