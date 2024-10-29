@@ -10,7 +10,8 @@ From command line or in visual studio terminal, run the server.py file ("python 
 To end the website run and to regain typing ability in command line or terminal press Crtl + C. 
 
 ## Changelog
-25-10-24 (SS): Added z-test example info to the z-test page <br>
+25-10-2024 (HB): Spilt app.py into app.py, dash_apps.py, plots.py to make things easier to read. 
+25-10-2024 (SS): Added z-test example info to the z-test page <br>
 23-10-2024 (HB): Added a knowledge quiz to the t-test page -> NOT WORKING YET (failing all tests)<br/>
 23-10-2024 (HB): Added tests for app initialization <br/>
 23-10-2024 (HB): Added a navigation bar <br/>
