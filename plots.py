@@ -77,26 +77,32 @@ def generate_ztest_plot(data1, data2):
     """Generates a box plot for the z-test comparing means of two sample populations."""
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
-
-    # Convert to numeric and fill NaNs with 0
-    data_frame1['Z Values'] = pd.to_numeric(data_frame1['Z Values'], errors='coerce').fillna(0)
-    data_frame2['Z Values'] = pd.to_numeric(data_frame2['Z Values'], errors='coerce').fillna(0)
+    
+    # Ensure we are using the correct columns for z-test calculations
+    if 'Population 1' in data_frame1.columns and 'Population 2' in data_frame2.columns:
+        values1 = pd.to_numeric(data_frame1['Population 1'], errors='coerce').fillna(0)
+        values2 = pd.to_numeric(data_frame2['Population 2'], errors='coerce').fillna(0)
+    else:
+        # Fallback if columns are named differently
+        values1 = data_frame1['Z Values']
+        values2 = data_frame2['Z Values']
 
     # Handle cases where both columns are zeros or contain insufficient variance
-    if data_frame1['Z Values'].nunique() <= 1 or data_frame2['Z Values'].nunique() <= 1:
+    if values1.nunique() <= 1 or values2.nunique() <= 1:
         z_stat, p_value = float('nan'), float('nan')
         z_test_result_text = "Z-Statistic: Undefined (insufficient variance in data)"
     else:
         # Perform z-test on the input data
-        z_stat, p_value = ztest(data_frame1['Z Values'], data_frame2['Z Values'], alternative='two-sided')
+        z_stat, p_value = ztest(values1, values2, alternative='two-sided')
         z_test_result_text = f"Z-Statistic: {z_stat:.2f}, P-Value: {p_value:.4f}"
 
     # Create a box plot for visualization
     figure = go.Figure()
-    figure.add_trace(go.Box(y=data_frame1['Z Values'], name='Population 1'))
-    figure.add_trace(go.Box(y=data_frame2['Z Values'], name='Population 2'))
+    figure.add_trace(go.Box(y=values1, name='Population 1'))
+    figure.add_trace(go.Box(y=values2, name='Population 2'))
     figure.update_layout(
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
+    
     return figure, z_test_result_text

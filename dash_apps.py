@@ -3,6 +3,7 @@ viewed in the web app. It uses dash to do so."""
 
 from dash import Dash, dcc, html, dash_table
 from dash.dependencies import Input, Output, State
+import pandas as pd
 import plotly.graph_objs as go
 import plots
 
