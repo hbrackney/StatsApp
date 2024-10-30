@@ -136,15 +136,20 @@ def create_dash_apps(flask_app):
     )
 
     def update_ztest_plot(n_clicks, data1, data2):
+        print("update button clicked:", n_clicks) # Debug statement
         if n_clicks > 0:
-            # Ensure data is converted to numeric
+            # Convert data to numeric, ignoring non-numeric values
             data_frame1 = pd.DataFrame(data1).apply(pd.to_numeric, errors='coerce').fillna(0)
             data_frame2 = pd.DataFrame(data2).apply(pd.to_numeric, errors='coerce').fillna(0)
             
+             # Check data values before proceeding (debugging)
+            print("Data Frame 1:\n", data_frame1)
+            print("Data Frame 2:\n", data_frame2)
+
             figure, z_test_result_text = plots.generate_ztest_plot(data_frame1.to_dict('records'), 
                                                                    data_frame2.to_dict('records'))
             return figure, z_test_result_text
-        return go.Figure(), ""
+        return go.Figure(), "No update requested."
 
 def create_data_table(table_id, data, value_col):
     """This function creates the tables for the 

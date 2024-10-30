@@ -78,8 +78,18 @@ def generate_ztest_plot(data1, data2):
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
 
-    # Perform z-test on the input data
-    z_stat, p_value = ztest(data_frame1['Z Values'], data_frame2['Z Values'], alternative='two-sided')
+    # Convert to numeric and fill NaNs with 0
+    data_frame1['Z Values'] = pd.to_numeric(data_frame1['Z Values'], errors='coerce').fillna(0)
+    data_frame2['Z Values'] = pd.to_numeric(data_frame2['Z Values'], errors='coerce').fillna(0)
+
+    # Handle cases where both columns are zeros or contain insufficient variance
+    if data_frame1['Z Values'].nunique() <= 1 or data_frame2['Z Values'].nunique() <= 1:
+        z_stat, p_value = float('nan'), float('nan')
+        z_test_result_text = "Z-Statistic: Undefined (insufficient variance in data)"
+    else:
+        # Perform z-test on the input data
+        z_stat, p_value = ztest(data_frame1['Z Values'], data_frame2['Z Values'], alternative='two-sided')
+        z_test_result_text = f"Z-Statistic: {z_stat:.2f}, P-Value: {p_value:.4f}"
 
     # Create a box plot for visualization
     figure = go.Figure()
@@ -89,6 +99,4 @@ def generate_ztest_plot(data1, data2):
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
-
-    z_test_result_text = f"Z-Statistic: {z_stat:.2f}"
     return figure, z_test_result_text
