@@ -2,7 +2,8 @@
 viewed in the web app. It uses dash to do so."""
 
 from dash import Dash, dcc, html, dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
+import pandas as pd
 import plotly.graph_objs as go
 import plots
 
@@ -87,35 +88,69 @@ def create_dash_apps(flask_app):
 
     # Z-Test Plot
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
-    zdf1, zdf2 = plots.generate_ztest_data()
+    zdf1, zdf2 = plots.initialize_zero_data(30)
 
     dash_ztest_app.layout = html.Div([
-        html.H1("Compare Two Datasets and Calculate Z-Test"),
-        create_data_table('data-table1', zdf1, 'Z Values'),
-        create_data_table('data-table2', zdf2, 'Z Values'),
-        dcc.Graph(id='line-chart'),
-        html.H3("Z-Test Result"),
+        html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
+        html.Div([
+            html.H3("Enter Data for Population 1"),
+            create_data_table('data-table1', zdf1, 'Population 1'),
+            html.Button("Add Row to Population 1", id="add-row-btn1", n_clicks=0),
+        ]),
+        html.Div([
+            html.H3("Enter Data for Population 2"),
+            create_data_table('data-table2', zdf2, 'Population 2'),
+            html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0),
+        ]),
+        html.Button("Update Box Plot and Z-Statistic", id="update-plot-btn", n_clicks=0),
+        dcc.Graph(id='box-plot'),
+        html.H3("Z-Statistic Result"),
         html.Div(id='z-test-result')
     ])
 
     @dash_ztest_app.callback(
-        Output('line-chart', 'figure'),
-        Output('z-test-result', 'children'),
-        Input('data-table1', 'data'),
-        Input('data-table2', 'data')
+        Output('data-table1', 'data'),
+        Input('add-row-btn1', 'n_clicks'),
+        State('data-table1', 'data')
     )
-    def update_ztest_plot(data1, data2):
-        """This function takes in the user
-        inputted value to change the plot as needed.
+    def add_row_population1(n_clicks, data1):
+        if n_clicks > 0:
+            data1.append({'X Values': len(data1) + 1, 'Z Values': 0})
+        return data1
 
-        Args:
-            data1: Web app user inputted numbers
-            data2: Web app user inputted numbers
+    @dash_ztest_app.callback(
+        Output('data-table2', 'data'),
+        Input('add-row-btn2', 'n_clicks'),
+        State('data-table2', 'data')
+    )
+    def add_row_population2(n_clicks, data2):
+        if n_clicks > 0:
+            data2.append({'X Values': len(data2) + 1, 'Z Values': 0})
+        return data2
 
-        Returns:
-            figure: the new updated plot is outputted.
-        """
-        return plots.generate_ztest_plot(data1, data2)
+    @dash_ztest_app.callback(
+        Output('box-plot', 'figure'),
+        Output('z-test-result', 'children'),
+        Input('update-plot-btn', 'n_clicks'),
+        State('data-table1', 'data'),
+        State('data-table2', 'data')
+    )
+
+    def update_ztest_plot(n_clicks, data1, data2):
+        print("update button clicked:", n_clicks) # Debug statement
+        if n_clicks > 0:
+            # Convert data to numeric, ignoring non-numeric values
+            data_frame1 = pd.DataFrame(data1).apply(pd.to_numeric, errors='coerce').fillna(0)
+            data_frame2 = pd.DataFrame(data2).apply(pd.to_numeric, errors='coerce').fillna(0)
+            
+             # Check data values before proceeding (debugging)
+            print("Data Frame 1:\n", data_frame1)
+            print("Data Frame 2:\n", data_frame2)
+
+            figure, z_test_result_text = plots.generate_ztest_plot(data_frame1.to_dict('records'), 
+                                                                   data_frame2.to_dict('records'))
+            return figure, z_test_result_text
+        return go.Figure(), "No update requested."
 
 def create_data_table(table_id, data, value_col):
     """This function creates the tables for the 
