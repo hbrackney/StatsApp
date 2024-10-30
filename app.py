@@ -3,7 +3,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from waitress import serve
 from dash_apps import create_dash_apps
-import t_quiz
 
 # Intialize Flask App
 app = Flask(__name__)
@@ -52,24 +51,7 @@ def ttest():
 
     Returns: Creates the t test page
     """
-    questions = t_quiz.get_quiz_questions()
-    score = 0
-    bad_answers = []
-
-    if request.method == 'POST':
-        for i, question in enumerate(questions):
-            selected_answer = request.form.get(f'question_{i + 1}')
-            answer = request.form.get('question_1')  # For example
-            print(f'Selected answer: {answer}')
-            print(selected_answer)
-            if selected_answer == question['answer']:
-                score += 1
-            else:
-                bad_answers.append((question, selected_answer))
-
-    return render_template('ttest.html', questions=questions,
-                           score=score, wrong_answers=bad_answers)
-
+    return render_template('ttest.html')
 
 
 @app.route("/z_test_page")
