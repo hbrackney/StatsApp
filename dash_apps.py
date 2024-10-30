@@ -94,41 +94,52 @@ def create_dash_apps(flask_app):
         html.Div([
             html.H3("Enter Data for Population 1"),
             create_data_table('data-table1', zdf1, 'Population 1'),
+            html.Button("Add Row to Population 1", id="add-row-btn1", n_clicks=0),
+        ]),
+        html.Div([
             html.H3("Enter Data for Population 2"),
             create_data_table('data-table2', zdf2, 'Population 2')
+            html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0),
         ]),
-        html.Button("Add Row", id="add-row-btn", n_clicks=0),
+        html.Button("Update Box Plot and Z-Statistic", id="update-plot-btn", n_clicks=0),
         dcc.Graph(id='box-plot'),
-        html.H3("Z-Test Result"),
+        html.H3("Z-Statistic Result"),
         html.Div(id='z-test-result')
     ])
 
     @dash_ztest_app.callback(
         Output('data-table1', 'data'),
-        Output('data-table2', 'data'),
-        [Input('add-row-btn', 'n_clicks')],
-        [State('data-table1', 'data'), State('data-table2', 'data')]
+        Input('add-row-btn1', 'n_clicks'),
+        State('data-table1', 'data')
     )
-
-    def add_row(n_clicks, data1, data2):
+    def add_row_population1(n_clicks, data1):
         if n_clicks > 0:
             data1.append({'X Values': len(data1) + 1, 'Z Values': 0})
+        return data1
+
+    @dash_ztest_app.callback(
+        Output('data-table2', 'data'),
+        Input('add-row-btn2', 'n_clicks'),
+        State('data-table2', 'data')
+    )
+    def add_row_population2(n_clicks, data2):
+        if n_clicks > 0:
             data2.append({'X Values': len(data2) + 1, 'Z Values': 0})
-        return data1, data2
+        return data2
 
+    @dash_ztest_app.callback(
+        Output('box-plot', 'figure'),
+        Output('z-test-result', 'children'),
+        Input('update-plot-btn', 'n_clicks'),
+        State('data-table1', 'data'),
+        State('data-table2', 'data')
+    )
 
-    def update_ztest_plot(data1, data2):
-        """This function takes in the user
-        inputted value to change the plot as needed.
-
-        Args:
-            data1: Web app user inputted numbers
-            data2: Web app user inputted numbers
-
-        Returns:
-            figure: the new updated plot is outputted.
-        """
-        return plots.generate_ztest_plot(data1, data2)
+    def update_ztest_plot(n_clicks, data1, data2):
+        if n_clicks > 0:
+            figure, z_test_result_text = plots.generate_ztest_plot(data1, data2)
+            return figure, z_test_result_text
+        return go.Figure(), ""
 
 def create_data_table(table_id, data, value_col):
     """This function creates the tables for the 
