@@ -2,7 +2,7 @@
 viewed in the web app. It uses dash to do so."""
 
 from dash import Dash, dcc, html, dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 import plots
 
@@ -87,23 +87,36 @@ def create_dash_apps(flask_app):
 
     # Z-Test Plot
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
-    zdf1, zdf2 = plots.generate_ztest_data()
+    zdf1, zdf2 = plots.initialize_zero_data(30)
 
     dash_ztest_app.layout = html.Div([
-        html.H1("Compare Two Datasets and Calculate Z-Test"),
-        create_data_table('data-table1', zdf1, 'Z Values'),
-        create_data_table('data-table2', zdf2, 'Z Values'),
-        dcc.Graph(id='line-chart'),
+        html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
+        html.Div([
+            html.H3("Enter Data for Population 1"),
+            create_data_table('data-table1', zdf1, 'Population 1'),
+            html.H3("Enter Data for Population 2"),
+            create_data_table('data-table2', zdf2, 'Population 2')
+        ]),
+        html.Button("Add Row", id="add-row-btn", n_clicks=0),
+        dcc.Graph(id='box-plot'),
         html.H3("Z-Test Result"),
         html.Div(id='z-test-result')
     ])
 
     @dash_ztest_app.callback(
-        Output('line-chart', 'figure'),
-        Output('z-test-result', 'children'),
-        Input('data-table1', 'data'),
-        Input('data-table2', 'data')
+        Output('data-table1', 'data'),
+        Output('data-table2', 'data'),
+        [Input('add-row-btn', 'n_clicks')],
+        [State('data-table1', 'data'), State('data-table2', 'data')]
     )
+
+    def add_row(n_clicks, data1, data2):
+        if n_clicks > 0:
+            data1.append({'X Values': len(data1) + 1, 'Z Values': 0})
+            data2.append({'X Values': len(data2) + 1, 'Z Values': 0})
+        return data1, data2
+
+
     def update_ztest_plot(data1, data2):
         """This function takes in the user
         inputted value to change the plot as needed.
