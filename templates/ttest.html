@@ -112,36 +112,39 @@
     
     <h2>Multiple Choice Quiz</h2>
     <div class="quiz">
-        <form method="POST">
-            {% for question in questions %}
-                <div>
-                    <p>{{ question.question }}</p>
-                    {% for option in question.options %}
-                        <label>
-                            <input type="radio" name="question_{{ loop.index }}" value="{{ option }}">
-                            {{ option }}
-                        </label><br>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-            <input type="submit" value="Submit">
+        <h2>Quiz</h2>
+        <p><strong>What is the capital of France?</strong></p>
+        <form id="quizForm">
+            <input type="radio" name="option" value="Berlin"> Berlin<br>
+            <input type="radio" name="option" value="Madrid"> Madrid<br>
+            <input type="radio" name="option" value="Paris"> Paris<br>
+            <input type="radio" name="option" value="Rome"> Rome<br>
+            <br>
+            <button type="button" onclick="checkAnswer()">Submit</button>
         </form>
-
-        {% if score is not none %}
-            <h3>Your score is: {{ score }}/{{ questions|length }}</h3>
-            {% if wrong_answers %}
-                <h4>Wrong Answers:</h4>
-                <ul>
-                    {% for question, selected_answer in wrong_answers %}
-                        <li>
-                            <strong>{{ question.question }}</strong><br>
-                            Your answer: {{ selected_answer }}<br>
-                            Correct answer: {{ question.answer }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endif %}
+        <div class="result" id="result"></div>
     </div>
+
+    <script>
+        function checkAnswer() {
+            const options = document.getElementsByName('option');
+            let selectedAnswer = '';
+            for (const option of options) {
+                if (option.checked) {
+                    selectedAnswer = option.value;
+                    break;
+                }
+            }
+            
+            const resultDiv = document.getElementById('result');
+            if (selectedAnswer === 'Paris') {
+                resultDiv.textContent = 'Correct! The capital of France is Paris.';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Wrong! The correct answer is Paris.';
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
 
 {% endblock %}
