@@ -94,7 +94,7 @@ def generate_ztest_plot(data1, data2):
     else:
         # Perform z-test on the input data
         z_stat, p_value = ztest(values1, values2, alternative='two-sided')
-        z_test_result_text = f"Z-Statistic: {z_stat:.2f}, P-Value: {p_value:.4f}"
+        z_test_result_text = f"Z-Statistic: {z_stat:.2f}, P-value: {p_value:.4f}"
 
     # Create a box plot for visualization
     figure = go.Figure()
