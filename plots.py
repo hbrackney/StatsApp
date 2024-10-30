@@ -90,5 +90,5 @@ def generate_ztest_plot(data1, data2):
         yaxis={'title': 'Values'}
     )
 
-    z_test_result_text = f"Z-Statistic: {z_stat:.2f}, P-Value: {p_value:.4f}"
+    z_test_result_text = f"Z-Statistic: {z_stat:.2f}"
     return figure, z_test_result_text

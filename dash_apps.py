@@ -98,7 +98,7 @@ def create_dash_apps(flask_app):
         ]),
         html.Div([
             html.H3("Enter Data for Population 2"),
-            create_data_table('data-table2', zdf2, 'Population 2')
+            create_data_table('data-table2', zdf2, 'Population 2'),
             html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0),
         ]),
         html.Button("Update Box Plot and Z-Statistic", id="update-plot-btn", n_clicks=0),
@@ -137,7 +137,12 @@ def create_dash_apps(flask_app):
 
     def update_ztest_plot(n_clicks, data1, data2):
         if n_clicks > 0:
-            figure, z_test_result_text = plots.generate_ztest_plot(data1, data2)
+            # Ensure data is converted to numeric
+            data_frame1 = pd.DataFrame(data1).apply(pd.to_numeric, errors='coerce').fillna(0)
+            data_frame2 = pd.DataFrame(data2).apply(pd.to_numeric, errors='coerce').fillna(0)
+            
+            figure, z_test_result_text = plots.generate_ztest_plot(data_frame1.to_dict('records'), 
+                                                                   data_frame2.to_dict('records'))
             return figure, z_test_result_text
         return go.Figure(), ""
 
