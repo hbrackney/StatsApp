@@ -6,12 +6,9 @@ import pandas as pd
 from scipy import stats
 from statsmodels.stats.weightstats import ztest
 import plotly.graph_objs as go
+import numpy as np
 
-def initialize_zero_data(rows=30):
-    """Initialize data for both sample populations with zeros."""
-    initial_data = {'X Values': list(range(1, rows + 1)), 'Z Values': [0] * rows}
-    return pd.DataFrame(initial_data), pd.DataFrame(initial_data)
-
+# T-test Table/Plot Information
 def generate_ttest_data():
     """This function creates the data for the
     t-test plot. 
@@ -73,11 +70,19 @@ def generate_ttest_plot(data1, data2):
     t_test_result_text = f"T-Statistic: {t_stat:.2f}, P-Value: {p_value:.4f}"
     return figure, t_test_result_text
 
+# Z-test Table/Plot Information
+def initialize_random_data(rows=30):
+    """Initialize data for both sample populations with random numbers between 80 to 100."""
+    # Generate random data between 80 and 100
+    data1 = {'X Values': list(range(1, rows + 1)), 'Population 1': np.random.randint(80, 101, rows)}
+    data2 = {'X Values': list(range(1, rows + 1)), 'Population 2': np.random.randint(80, 101, rows)}
+    return pd.DataFrame(data1), pd.DataFrame(data2)
+
 def generate_ztest_plot(data1, data2):
     """Generates a box plot for the z-test comparing means of two sample populations."""
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
-    
+
     # Ensure we are using the correct columns for z-test calculations
     if 'Population 1' in data_frame1.columns and 'Population 2' in data_frame2.columns:
         values1 = pd.to_numeric(data_frame1['Population 1'], errors='coerce').fillna(0)
@@ -104,5 +109,5 @@ def generate_ztest_plot(data1, data2):
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
-    
+
     return figure, z_test_result_text
