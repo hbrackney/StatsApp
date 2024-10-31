@@ -88,7 +88,7 @@ def create_dash_apps(flask_app):
 
     # Z-Test Plot
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
-    zdf1, zdf2 = plots.initialize_zero_data(30)
+    zdf1, zdf2 = plots.initialize_random_data(30)
 
     dash_ztest_app.layout = html.Div([
         html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
