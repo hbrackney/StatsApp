@@ -151,6 +151,11 @@ def create_dash_apps(flask_app):
                                                                    data_frame2.to_dict('records'))
             return figure, z_test_result_text
         return go.Figure(), "No update requested."
+    return {
+        'dash_test': dash_test_app,
+        'dash_ttest': dash_ttest_app,
+        'dash_ztest': dash_ztest_app
+    }
 
 def create_data_table(table_id, data, value_col):
     """This function creates the tables for the 

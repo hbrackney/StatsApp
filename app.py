@@ -1,6 +1,6 @@
 """This is the app intialization page."""
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from waitress import serve
 from dash_apps import create_dash_apps
 
@@ -47,10 +47,7 @@ def submit():
 
 @app.route("/ttest", methods=['GET', 'POST'])
 def ttest():
-    """This function renders the t test page.
-
-    Returns: Creates the t test page
-    """
+    """This function renders the t test page or handles POST requests."""
     return render_template('ttest.html')
 
 

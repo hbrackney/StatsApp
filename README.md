@@ -10,6 +10,7 @@ From command line or in visual studio terminal, run the server.py file ("python 
 To end the website run and to regain typing ability in command line or terminal press Crtl + C. 
 
 ## Changelog
+30-10-2024 (LS): Added and fixed tests in the test_dash_apps.py through dash.testing. </br>
 30-10-2024 (HB): Removed t_quiz.py/quizzes.py (and corresponding test files). Corrected quiz code in t-test.html. Added tests for dash_apps.py and plots.py -> test_dash_apps.py is not passing right now (requesting help debugging).</br>
 30-10-2024 (SS): Updated data tabes and plots for z-test page so that an updated box plot, z-statistic value, and p-value are correctly displayed when the user inputs new data points into the table. </br>
 25-10-2024 (HB): Spilt app.py into app.py, dash_apps.py, plots.py to make things easier to read. </br>
