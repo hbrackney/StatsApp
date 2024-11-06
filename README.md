@@ -10,11 +10,11 @@ From command line or in visual studio terminal, run the server.py file (`python 
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+06-11-24 (SS): Added example python script to z-test page and updated about page. <br>
 
 ### Version 0
 This version is an initial build to test basic functions and usablity. </br>
 </br>
-06-11-24 (SS): Added example python script to z-test page and updated about page. <br>
 30-10-2024 (LS): Added and fixed tests in the test_dash_apps.py through dash.testing. </br>
 30-10-2024 (HB): Removed t_quiz.py/quizzes.py (and corresponding test files). Corrected quiz code in t-test.html. Added tests for dash_apps.py and plots.py</br>
 30-10-2024 (SS): Updated data tabes and plots for z-test page so that an updated box plot, z-statistic value, and p-value are correctly displayed when the user inputs new data points into the table. </br>
