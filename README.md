@@ -10,6 +10,7 @@ From command line or in visual studio terminal, run the server.py file (`python 
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+06-11-24 (SS): Added example python script to z-test page and updated about page. <br>
 
 ### Version 0
 This version is an initial build to test basic functions and usablity. </br>
