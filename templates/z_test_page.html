@@ -204,4 +204,89 @@
         true difference in the population means.
     </p>
     <iframe src="/dash_ztest/" style="width:100%; height:600px; border:none;"></iframe>
+    <br>
+    <h1>
+        <br>
+        Example Python Script to Run for Yourself!
+    </h1>
+    <p>This Python script shows you how to perform a z-test. Feel free to copy and paste it for your own use!</p>
+    <pre><code class="language-python">
+    import math
+    import scipy.stats as stats
+        
+    def calculate_z_statistic(sample_mean1, sample_mean2, pop_mean1, pop_mean2, std_dev1, std_dev2, n1, n2):
+        """
+        Calculate the z-statistic for a two-sample z-test.
+            
+        Parameters:
+        - sample_mean1: mean of sample 1
+        - sample_mean2: mean of sample 2
+        - pop_mean1: population mean for sample 1
+        - pop_mean2: population mean for sample 2
+        - std_dev1: standard deviation of population 1
+        - std_dev2: standard deviation of population 2
+        - n1: sample size for sample 1
+        - n2: sample size for sample 2
+            
+        Returns:
+        - z_statistic: calculated z-statistic
+        """
+        numerator = (sample_mean1 - sample_mean2) - (pop_mean1 - pop_mean2)
+        denominator = math.sqrt((std_dev1**2 / n1) + (std_dev2**2 / n2))
+        z_statistic = numerator / denominator
+        return z_statistic
+        
+    def calculate_critical_value(alpha, tail_type='two-tailed'):
+        """
+        Calculate the critical z-value for a given significance level.
+            
+        Parameters:
+        - alpha: significance level (e.g., 0.05 for 5% significance level)
+        - tail_type: type of test ('one-tailed' or 'two-tailed')
+            
+        Returns:
+        - critical_z: critical z-value for the given alpha and test type
+        """
+        if tail_type == 'two-tailed':
+            critical_z = stats.norm.ppf(1 - alpha / 2)
+        elif tail_type == 'one-tailed':
+            critical_z = stats.norm.ppf(1 - alpha)
+        return critical_z
+        
+    # Input sample data
+    sample_mean1 = float(input("Enter sample mean for group 1: "))
+    sample_mean2 = float(input("Enter sample mean for group 2: "))
+    pop_mean1 = float(input("Enter population mean for group 1: "))
+    pop_mean2 = float(input("Enter population mean for group 2: "))
+    std_dev1 = float(input("Enter population standard deviation for group 1: "))
+    std_dev2 = float(input("Enter population standard deviation for group 2: "))
+    n1 = int(input("Enter sample size for group 1: "))
+    n2 = int(input("Enter sample size for group 2: "))
+    alpha = float(input("Enter significance level (e.g., 0.05 for 5%): "))
+    tail_type = input("Enter test type ('one-tailed' or 'two-tailed'): ")
+        
+    # Calculate z-statistic
+    z_statistic = calculate_z_statistic(sample_mean1, sample_mean2, pop_mean1, pop_mean2, std_dev1, std_dev2, n1, n2)
+        
+    # Calculate critical z-value
+    critical_z_value = calculate_critical_value(alpha, tail_type)
+        
+    # Output results
+    print(f"Calculated z-statistic: {z_statistic}")
+    print(f"Critical z-value: {critical_z_value}")
+        
+    # Decision rule
+    if tail_type == 'two-tailed':
+        if abs(z_statistic) > critical_z_value:
+            print("Reject the null hypothesis.")
+        else:
+            print("Fail to reject the null hypothesis.")
+    elif tail_type == 'one-tailed':
+        if z_statistic > critical_z_value:
+            print("Reject the null hypothesis (right-tailed test).")
+        elif z_statistic < -critical_z_value:
+            print("Reject the null hypothesis (left-tailed test).")
+        else:
+            print("Fail to reject the null hypothesis.") 
+    </code></pre>
 {% endblock %}
