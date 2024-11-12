@@ -1,5 +1,5 @@
 # StatsApp
-CSCI 6118 Project - Statiscs Learning Web App 
+CSCI 6118 Project - Statistics Learning Web App 
 
 ## Installation 
 Download package. Create environment with required dependencies using the environment.yaml file (`conda env create -f environment.yaml`). Flask may require additional download in the conda environment.
@@ -10,7 +10,8 @@ From command line or in visual studio terminal, run the server.py file (`python 
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
-11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots <br/>
+11-12-2024 (SS): Added quiz to z-test page and added more thorough docstrings. <br>
+11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots. <br/>
 06-11-24 (SS): Added example python script to z-test page and updated about page. <br/>
 
 ### Version 0

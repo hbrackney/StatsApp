@@ -89,4 +89,4 @@ def example_page():
     return render_template(f"{pages[5]}.html")
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=14000)
+    serve(app, host="0.0.0.0", port=1000)
