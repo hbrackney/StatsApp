@@ -17,6 +17,12 @@ def test_home_page(client):
     assert response.status_code == 200
     assert b'Welcome!' in response.data
 
+def test_about_page(client):
+    """Test that the about page loads successfully."""
+    response = client.get('/about')
+    assert response.status_code == 200
+    assert b'About' in response.data
+
 def test_ttest_page(client):
     """Test that the t-test page loads successfully."""
     response = client.get('/ttest')
@@ -29,8 +35,14 @@ def test_ztest_page(client):
     assert response.status_code == 200
     assert b'z-test' in response.data
 
-def test_example_page(client):
+def test_distribution_page(client):
+    """Test that the z-test page loads successfully."""
+    response = client.get('/distributions_page')
+    assert response.status_code == 200
+    assert b'distribution' in response.data
+
+def test_reference_page(client):
     """Test that the example page loads successfully."""
-    response = client.get('/example_page')
+    response = client.get('/reference_page')
     assert response.status_code == 200
     assert b'concept' in response.data

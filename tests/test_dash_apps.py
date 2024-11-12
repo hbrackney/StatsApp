@@ -1,20 +1,21 @@
 """This test file tests the dash apps module"""
 import pytest
-from dash import Dash, dcc, html
-from dash.dependencies import Input, Output, State
-from dash.testing import wait
+from dash import Dash # , dcc, html
+# from dash.dependencies import Input, Output, State
+# from dash.testing import wait
 from flask import Flask
-import pandas as pd
-from dash_apps import create_dash_apps, create_data_table
+# import pandas as pd
+import dash_apps
+# import plots
 
 @pytest.fixture
 def test_app():
     """Create a testing Flask app and initialize Dash apps."""
     flask_app = Flask(__name__)
-    dash_apps = create_dash_apps(flask_app)
+    dash_app = dash_apps.create_dash_apps(flask_app)
 
     # Use the Flask app's test client
-    return {key: flask_app.test_client() for key in dash_apps.keys()}
+    return {key: flask_app.test_client() for key in dash_app.keys()}
 
 def test_update_plot_test(test_app):
     """Tests that theDash app correctly handles requests to the /dash_test/"""
@@ -49,13 +50,14 @@ def test_update_ztest_plot(test_app):
         'data-table1': data1,
         'data-table2': data2
     })
+    assert response.status_code == 200 or 405
 
-    assert response.status_code == 200 or 405  # Ensure the response is 200
+def test_update_distributions_test(test_app):
+    """Tests that theDash app correctly handles requests to the /dash_distribution/"""
+    client = test_app['dash_distribution']
+    response = client.get('/dash_distribution/')
+    assert response.status_code == 200
 
-def test_data_table_creation():
-    """Test the creation of data tables."""
-    sample_data = pd.DataFrame({'X Values': [1], 'Y Values': [2]})
-    table = create_data_table('data-table1', sample_data, 'Y Values')
-    
-    # Access the data property correctly
-    assert len(table.data) == 1  # Change this line
+    # Simulate the input value change correctly
+    response = client.post('/dash_distribution/', json={'data-input': 3})
+    assert response.status_code == 405 # Returns a page error

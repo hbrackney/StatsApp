@@ -8,9 +8,11 @@ import plotly.graph_objs as go
 import plots
 
 def create_dash_apps(flask_app):
-    """This function creates the dash app
+    """This decorator creates the dash app
     so the plots can be interactive and viewed
-    on the web app.
+    on the web app. The functions in this decorator
+    change the plots as needed and ensure everything
+    is formatted correctly.
 
     Args:
         flask_app (flash_app): This function need an
@@ -21,7 +23,7 @@ def create_dash_apps(flask_app):
         contains the information needs for the dash apps
         to start up.
     """
-    # Test Graph
+    # Test Graph for the Reference Page
     dash_test_app = Dash(__name__, server=flask_app, routes_pathname_prefix="/dash_test/")
     dash_test_app.layout = html.Div(
         [
@@ -32,9 +34,10 @@ def create_dash_apps(flask_app):
     )
 
     @dash_test_app.callback(Output("plot", "figure"), Input("data-input", "value"))
-    def update_plot_test(value):
-        """This function takes in the user
-        inputted value to change the plot as needed.
+    def update_plot_test(value: float):
+        """This function generates a bar plot based on a
+        user-provided input value. As the user changes
+        the inputted value, the plot will change. 
 
         Args:
             value (int): Web app user inputted number
@@ -54,28 +57,32 @@ def create_dash_apps(flask_app):
             },
         }
 
-    # T-test Plot
+    # Making the T-test figures
     dash_ttest_app = Dash(__name__, server=flask_app, routes_pathname_prefix="/dash_ttest/")
     tdf1, tdf2 = plots.generate_ttest_data()
 
+    # T-test Table
     dash_ttest_app.layout = html.Div([
         html.H1("Compare Two Datasets and Calculate T-Test"),
-        create_data_table('data-table1', tdf1, 'Y-Values'),
-        create_data_table('data-table2', tdf2, 'Y-Values'),
+        create_data_table_two_col('data-table1', tdf1, 'Y-Values'),
+        create_data_table_two_col('data-table2', tdf2, 'Y-Values'),
         dcc.Graph(id='line-chart'),
         html.H3("T-Test Result"),
         html.Div(id='t-test-result')
     ])
 
+    # T-test Plot
     @dash_ttest_app.callback(
         Output('line-chart', 'figure'),
         Output('t-test-result', 'children'),
         Input('data-table1', 'data'),
         Input('data-table2', 'data')
     )
+
     def update_ttest_plot(data1, data2):
-        """This function takes in the user
-        inputted value to change the plot as needed.
+        """This function generates a line plot based on a
+        user-provided input values. As the user changes
+        the inputted values, the plot will change. 
 
         Args:
             data1: Web app user inputted numbers
@@ -86,20 +93,21 @@ def create_dash_apps(flask_app):
         """
         return plots.generate_ttest_plot(data1, data2)
 
-    # Z-Test Plot
+    # Z-Test Figures
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
     zdf1, zdf2 = plots.initialize_random_data(30)
 
+    # Z-test Table (html formatting to allow for better user visuals)
     dash_ztest_app.layout = html.Div([
         html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
         html.Div([
             html.H3("Enter Data for Population 1"),
-            create_data_table('data-table1', zdf1, 'Population 1'),
+            create_data_table_two_col('data-table1', zdf1, 'Population 1'),
             html.Button("Add Row to Population 1", id="add-row-btn1", n_clicks=0),
         ]),
         html.Div([
             html.H3("Enter Data for Population 2"),
-            create_data_table('data-table2', zdf2, 'Population 2'),
+            create_data_table_two_col('data-table2', zdf2, 'Population 2'),
             html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0),
         ]),
         html.Button("Update Box Plot and Z-Statistic", id="update-plot-btn", n_clicks=0),
@@ -108,58 +116,97 @@ def create_dash_apps(flask_app):
         html.Div(id='z-test-result')
     ])
 
+    # Updating the Z-test Population 1 Table
     @dash_ztest_app.callback(
         Output('data-table1', 'data'),
         Input('add-row-btn1', 'n_clicks'),
         State('data-table1', 'data')
     )
     def add_row_population1(n_clicks, data1):
+        # TODO: Add Docstring
         if n_clicks > 0:
             data1.append({'X Values': len(data1) + 1, 'Z Values': 0})
         return data1
 
+    # Updating the Z-test Population 1 Table
     @dash_ztest_app.callback(
         Output('data-table2', 'data'),
         Input('add-row-btn2', 'n_clicks'),
         State('data-table2', 'data')
     )
     def add_row_population2(n_clicks, data2):
+        # TODO: Add Docstring
         if n_clicks > 0:
             data2.append({'X Values': len(data2) + 1, 'Z Values': 0})
         return data2
 
+    # Z-test Plot
     @dash_ztest_app.callback(
         Output('box-plot', 'figure'),
         Output('z-test-result', 'children'),
         Input('update-plot-btn', 'n_clicks'),
         State('data-table1', 'data'),
-        State('data-table2', 'data')
+
     )
 
     def update_ztest_plot(n_clicks, data1, data2):
+        # TODO: Add Docstring
         print("update button clicked:", n_clicks) # Debug statement
         if n_clicks > 0:
             # Convert data to numeric, ignoring non-numeric values
             data_frame1 = pd.DataFrame(data1).apply(pd.to_numeric, errors='coerce').fillna(0)
             data_frame2 = pd.DataFrame(data2).apply(pd.to_numeric, errors='coerce').fillna(0)
-            
+
              # Check data values before proceeding (debugging)
             print("Data Frame 1:\n", data_frame1)
             print("Data Frame 2:\n", data_frame2)
 
-            figure, z_test_result_text = plots.generate_ztest_plot(data_frame1.to_dict('records'), 
+            figure, z_test_result_text = plots.generate_ztest_plot(data_frame1.to_dict('records'),
                                                                    data_frame2.to_dict('records'))
             return figure, z_test_result_text
         return go.Figure(), "No update requested."
+
+    # Making the Distribution Page figures
+    dash_distribution_app = Dash(__name__, server=flask_app,
+                                 routes_pathname_prefix="/dash_distribution/")
+    dist_data = plots.generate_distribution_data()
+
+    # Formatting Distribution Data Table
+    dash_distribution_app.layout = html.Div([
+        html.H1("Data for Distribution Plot"),
+        create_data_table_one_col('Distribution Data', dist_data, 'Values'),
+        dcc.Graph(id='hist-chart', style={'width': '60%', 'margin': '10 auto'})
+    ])
+
+    # Distribution Plot
+    @dash_distribution_app.callback(
+        Output('hist-chart', 'figure'),
+        Input('Distribution Data', 'data')
+    )
+
+    def update_distribution_plot(dist_data1):
+        """This function generates a histogram based on a
+        user-provided input values. As the user changes
+        the inputted values, the plot will change. 
+
+        Args:
+            data1: Web app user inputted numbers
+
+        Returns:
+            figure: the new updated plot is outputted.
+        """
+        return plots.generate_distribution_plot(dist_data1)
+
     return {
         'dash_test': dash_test_app,
         'dash_ttest': dash_ttest_app,
-        'dash_ztest': dash_ztest_app
+        'dash_ztest': dash_ztest_app,
+        'dash_distribution': dash_distribution_app
     }
 
-def create_data_table(table_id, data, value_col):
-    """This function creates the tables for the 
-    user to interact with.
+def create_data_table_two_col(table_id, data, value_col):
+    """This function creates the table of data with two columns of data for the 
+    user to see and interact with on the web app page.
 
     Args:
         table_id (int): table identifying number 
@@ -179,5 +226,39 @@ def create_data_table(table_id, data, value_col):
         data=data.to_dict('records'),
         editable=True,
         row_deletable=False,
-        style_table={'overflowX': 'auto'},
+        style_table={'overflowX': 'auto'}
+    )
+
+def create_data_table_one_col(table_id, data, value_col):
+    """This function creates the tables of data for the 
+    user to see and interact with on the web app page.
+
+    Args:
+        table_id (int): table identifying number 
+        data (list): dataframe of information for the table
+        value_col (str): name of the column
+
+    Returns:
+        dictionary: table information for the dash
+        app to format
+    """
+    return dash_table.DataTable(
+        id=table_id,
+        columns=[
+            {'name': value_col, 'id': value_col, 'editable': True}
+        ],
+        data=data.to_dict('records'),
+        editable=True,
+        row_deletable=False,
+        style_table={
+            'overflowX': 'auto',  # Horizontal scrolling if the table is wider than the container
+            'maxWidth': '600px',   # Limit the max width of the table (set as appropriate)
+            'width': 'auto',       # Ensure the table width adapts to the content
+        },
+        style_cell={
+            'textAlign': 'center',  # Center align the text
+            'padding': '5px',
+            'minWidth': '50px',    # Set a minimum width for the column
+            'width': 'auto',        # Allow the column to resize dynamically based on content
+        },
     )

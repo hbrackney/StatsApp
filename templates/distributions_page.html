@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Data Distributions{% endblock %}
+
+{% block content %}
+<h1>Data Distributons</h1>
+<h2>What are Data Distributions?</h2>
+<p>Data distributions describe how data is spread or arranged across different
+    values or ranges. In statistics, the distribution of data refers to the way
+    in which data points are distributed over a particular range of values,
+    showing where they tend to cluster, how they spread out, and whether they
+    follow any particular pattern. Listed below are some common types of data distributions.</p>
+
+<h2>What are the Different Types of Distributions?</h2>
+<h3>Normal Distributions</h3>
+<p>This is one of the most common data distributions in statistics, often referred
+    to as the "bell curve." The data points cluster around a central mean (average),
+    with most values falling near the mean and fewer values farther away. The shape
+    is symmetric, with a peak at the mean and tails that approach zero as they extend
+    farther from the mean. Normal distributions are usaully described by \(N (\mu, \sigma) \)
+    where \( \mu \) is the mean and \( \sigma \) is the standard deviation. </p>
+<img src=static\images\Normal_Curve.jpg width="600" height="400">
+
+<h3>Binomal Distributions</h3>
+<p>A binomal distribution shows the number of successes for a fixed number of trials
+    where the outcome could is either success or failure. The mean \( \mu = np \) where n is number
+    of trials and p is the probability of success. Similarly, the standard deviation is \( \sigma = \sqrt{n
+    \cdot p \cdot (1-p)}\). </p>
+<img src=static\images\binomial_dist.png width="600" height="400" alt="https://statisticsbyjim.com/probability/binomial-distribution/">
+
+<h3>Exponential Distributions</h3>
+<p>This distribution models the time between events in a process that occurs continuously and
+    independently at a constant rate. The mean \( \mu = \frac{1}{\lambda} \) where \( \lambda \)
+    is the rate parameter (e.g. cars per hour). Similarly, the standard deviation is
+    \( \sigma = \frac{1}{\lambda}\).</p>
+    <img src=static\images\exp_dist.png width="600" height="400" alt="https://en.wikipedia.org/wiki/Exponential_distribution">
+
+<h3>Uniform Distributions</h3>
+<p>In a uniform distribution, the data points are spread evenly across the range. For example,
+    a fair six sided dye. The mean \( \mu = \frac{b+a}{2} \) where the range of the distribution is [a,b].
+    Similarly, the standard deviation is \( \sigma = \sqrt{\frac{(b-a)^2}{12}}\). 
+</p>
+<img src=static\images\uniform_dist.png width="600" height="400">
+
+<h1>Example Interactive Dataset Visualization</h1>
+<iframe src="/dash_distribution/" style="width:80%; height:600px; border:none;"></iframe>
+
+<h2>Want to test your knowledge?</h2>
+<div class="quiz">
+    <!-- Question 1 -->
+    <p><strong>Which distribution is this?</strong></p>
+    <img src=static\images\binomial_dist.png width="600" height="400" alt="https://statisticsbyjim.com/probability/binomial-distribution/">
+    <form id="quizForm_q1">
+        <input type="radio" name="option_q1" value="Normal"> Normal<br>
+        <input type="radio" name="option_q1" value="Binomial"> Binomal<br>
+        <input type="radio" name="option_q1" value="Uniform"> Uniform<br>
+        <input type="radio" name="option_q1" value="Exponential"> Exponential<br>
+        <br>
+        <button type="button" onclick="checkAnswer_q1()">Submit</button>
+    </form>
+    <div class="result" id="result_q1"></div>
+</div>
+
+<div class="quiz">
+    <!-- Question 2 -->
+    <p><strong>What is the mean of the above distribution?</strong></p>
+    <form id="quizForm_q2">
+        <input type="radio" name="option_q2" value="1"> 1<br>
+        <input type="radio" name="option_q2" value="5"> 5<br>
+        <input type="radio" name="option_q2" value="2"> 2<br>
+        <input type="radio" name="option_q2" value="1.667"> 1.667<br>
+        <br>
+        <button type="button" onclick="checkAnswer_q2()">Submit</button>
+    </form>
+    <div class="result" id="result_q2"></div>
+</div>
+
+<script>
+    // Function to check the answer for Question 1
+    function checkAnswer_q1() {
+        const selectedAnswer = document.querySelector('input[name="option_q1"]:checked');
+        const resultDiv = document.getElementById('result_q1');
+
+        if (selectedAnswer) {
+            if (selectedAnswer.value === 'Binomial') {
+                resultDiv.textContent = 'Correct! This is a Binomial Distribution.';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Wrong! The correct answer is Binomial.';
+                resultDiv.style.color = 'red';
+            }
+        } else {
+            resultDiv.textContent = 'Please select an answer.';
+            resultDiv.style.color = 'orange';
+        }
+    }
+
+    // Function to check the answer for Question 2
+    function checkAnswer_q2() {
+        const selectedAnswer = document.querySelector('input[name="option_q2"]:checked');
+        const resultDiv = document.getElementById('result_q2');
+
+        if (selectedAnswer) {
+            if (selectedAnswer.value === '1.667') {
+                resultDiv.textContent = 'Correct! The mean is 1.667.';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Wrong! Remember, the mean for a binomial distribution is n * p.';
+                resultDiv.style.color = 'red';
+            }
+        } else {
+            resultDiv.textContent = 'Please select an answer.';
+            resultDiv.style.color = 'orange';
+        }
+    }
+</script>
+
+
+{% endblock %}

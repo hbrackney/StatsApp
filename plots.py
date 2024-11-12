@@ -28,7 +28,7 @@ def generate_ttest_data():
     return pd.DataFrame(initial_data1), pd.DataFrame(initial_data2)
 
 def generate_ttest_plot(data1, data2):
-    """This function generates the t-test plot.
+    """This function generates the t-test line plot.
 
     Args:
         data1 (list): two by many list
@@ -111,3 +111,44 @@ def generate_ztest_plot(data1, data2):
     )
 
     return figure, z_test_result_text
+
+# Distriubtion Table/Plot Information
+def generate_distribution_data():
+    """This function creates the data for the
+    distribution plot. 
+
+    Returns:
+        Dataframes: one pandas dataframes of data
+    """
+    initial_data1 = {
+        'Values': list(np.linspace(1,20,20)),
+    }
+    return pd.DataFrame(initial_data1)
+
+def generate_distribution_plot(data1):
+    """This function generates a histogram of the supplied data. 
+
+    Args:
+        data1 (list): a one dimensional list
+
+    Returns: the figure and a printed statment about
+    the t-test and p value so the dash app can print them
+    """
+    data_frame1 = pd.DataFrame(data1)
+    if not all(isinstance(x, (int, float)) for x in data_frame1['Values']):
+        raise ValueError("All values in 'Values' must be numeric.")
+    figure = {
+        'data': [
+            go.Histogram(
+                    x=data_frame1['Values'],
+                    name="Histogram"
+                ),
+        ],
+        'layout': {
+            'title': 'Histogram of Data',
+            'xaxis': {'title': 'Values'},
+            'yaxis': {'title': 'Frequency'},
+        }
+    }
+
+    return figure
