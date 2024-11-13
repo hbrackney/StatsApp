@@ -28,14 +28,25 @@ def generate_ttest_data():
     return pd.DataFrame(initial_data1), pd.DataFrame(initial_data2)
 
 def generate_ttest_plot(data1, data2):
-    """This function generates the t-test line plot.
+    """
+    Generates a line plot comparing two datasets and calculates 
+    the t-test statistic for the difference in their means.
 
     Args:
-        data1 (list): two by many list
-        data2 (list): two by many list
+        - data1 (list of dict): Data for the first dataset, where 
+            each dictionary represents a row with 'X Values' and 
+            'Y Values' keys.
+        - data2 (list of dict): Data for the second dataset, where
+            each dictionary represents a row with 'X Values' and 
+            'Y Values' keys.
 
-    Returns: the figure and a printed statment about
-    the t-test and p value so the dash app can print them
+    Returns:
+        - dict: A Plotly figure dictionary containing a line plot 
+            of 'Y Values' vs. 'X Values' for both datasets.
+        - str: A formatted string displaying the calculated t-test 
+            statistic and p-value for the difference between the 
+            two datasets.
+
     """
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
@@ -72,14 +83,48 @@ def generate_ttest_plot(data1, data2):
 
 # Z-test Table/Plot Information
 def initialize_random_data(rows=30):
-    """Initialize data for both sample populations with random numbers between 80 to 100."""
+    """
+    Generates random data for two sample populations 
+    with values between 80 and 100.
+
+    Args:
+        - rows (int): The number of data points (rows)  
+            to generate for each population.
+            Defaults to 30.
+
+    Returns:
+        - pd.DataFrame: DataFrame for Population 1 
+            with columns 'X Values' (index from 1 to `rows`) 
+            and 'Population 1' (random values between 80 and 100).
+        - pd.DataFrame: DataFrame for Population 2 
+            with columns 'X Values' (index from 1 to `rows`) 
+            and 'Population 2' (random values between 80 and 100).
+    """
     # Generate random data between 80 and 100
     data1 = {'X Values': list(range(1, rows + 1)), 'Population 1': np.random.randint(80, 101, rows)}
     data2 = {'X Values': list(range(1, rows + 1)), 'Population 2': np.random.randint(80, 101, rows)}
     return pd.DataFrame(data1), pd.DataFrame(data2)
 
 def generate_ztest_plot(data1, data2):
-    """Generates a box plot for the z-test comparing means of two sample populations."""
+    """
+    Generates a box plot and calculates the z-test statistic for comparing 
+    the means of two sample populations.
+
+    Args:
+        - data1 (list of dict): Data for the first population, where each 
+                                dictionary represents a row with keys such as 
+                                'X Values' and 'Population 1'.
+        - data2 (list of dict): Data for the second population, where each 
+                                dictionary represents a row with keys such as 
+                                'X Values' and 'Population 2'.
+
+    Returns:
+        - plotly.graph_objs.Figure: A box plot comparing the distributions 
+            of Population 1 and Population 2.
+        - str: A formatted string displaying the calculated z-test statistic 
+            and p-value. If variance is insufficient, returns a message 
+            indicating the z-test could not be performed.
+    """
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
 
@@ -109,7 +154,7 @@ def generate_ztest_plot(data1, data2):
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
-
+    
     return figure, z_test_result_text
 
 # Distriubtion Table/Plot Information
@@ -126,13 +171,12 @@ def generate_distribution_data():
     return pd.DataFrame(initial_data1)
 
 def generate_distribution_plot(data1):
-    """This function generates a histogram of the supplied data. 
+    """
+    Generates a dataset for creating a distribution plot.
 
-    Args:
-        data1 (list): a one dimensional list
-
-    Returns: the figure and a printed statment about
-    the t-test and p value so the dash app can print them
+    Returns:
+        pd.DataFrame: A DataFrame containing a single column 
+        'Values' with 20 evenly spaced values from 1 to 20.
     """
     data_frame1 = pd.DataFrame(data1)
     if not all(isinstance(x, (int, float)) for x in data_frame1['Values']):
