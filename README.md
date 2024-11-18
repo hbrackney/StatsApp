@@ -1,6 +1,5 @@
-# StatsApp
-CSCI 6118 Project - Statistics Learning Web App 
-
+# BioStat Academy
+CSCI 6118 Project - An interactive app designed to introduce basic statistical concepts to biologists. Learning statistics is crucial for biologists, as it enables them to analyze data, design reliable experiments, and draw valid conclusions. Statistics is essential in concepts like hypothesis testing and biological variability, as well as making evidence-based decisions. With statistical tools, biologists can interpret results accurately, manage large datasets, and communicate findings effectively. Thus, learning and understanding statistics is important for all research biologists.
 
 ## Installation 
 Download package. All specific dependencies are  included in the ` environment.yaml` file. Create environment with required dependencies using the `environment.yaml` file: 
@@ -22,6 +21,7 @@ The website is now live!
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+18-11-2024 (LS): Updated and expanded README and CONTRIBUTING to include background info and description.
 18-11-2024 (HB): Filled in Reference page to explain more and be more of a template.
 18-11-2024 (HB): Added a figure on the home page that flips between images from some of the pages.
 18-11-2024 (HB): Added python and R examples to Distributions Page. Added code/precode styles to the styles.css file. 
