@@ -53,7 +53,7 @@ def submit(options_list=options):
 
 
 # T-test page
-@app.route(f"/{pages[2]}", methods=['GET', 'POST']) 
+@app.route(f"/{pages[2]}", methods=['GET', 'POST'])
 def ttest():
     """This function renders the t test page or handles POST requests."""
     return render_template(f'{pages[2]}.html')

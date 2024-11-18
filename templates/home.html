@@ -14,4 +14,45 @@
         </select>
         <input type="submit" value="Submit">
     </form>
+
+   <!-- Rotating Images in Figure -->
+    <div class="image-container">
+    <figure>
+        <img src="https://cdn.educba.com/academy/wp-content/uploads/2020/02/Types-of-t-Test-Formulas-1024x478.jpg" alt="Image 1">
+        <figcaption class="caption">T-test Formulas from the T-test Page</figcaption>
+    </figure>
+    <figure class="active">
+        <img src="static\images\binomial_dist.png" alt="Image 2">
+        <figcaption class="caption active">Binomal Distribution from the Distributions Page</figcaption>
+    </figure>
+    <figure>
+        <img src="static\images\exp_dist.png" alt="Image 3">
+        <figcaption class="caption">Exponential Distribution from the Distributions Page</figcaption>
+    </figure>
+    <figure>
+        <img src="static\images\uniform_dist.png" alt="Image 4">
+        <figcaption class="caption">Uniform Distribution from the Distributions Page</figcaption>
+    </figure>
+    </div>
+    
+    <script>
+        // JavaScript to cycle through images
+        let currentImageIndex = 0;
+        const figures = document.querySelectorAll('.image-container figure');
+    
+        function showNextImage() {
+            // Hide the current image
+            figures[currentImageIndex].classList.remove('active');
+    
+            // Move to the next image
+            currentImageIndex = (currentImageIndex + 1) % figures.length;
+    
+            // Show the next image
+            figures[currentImageIndex].classList.add('active');
+        }
+    
+        // Change image every 3 seconds
+        setInterval(showNextImage, 3000);
+    </script>
+    
 {% endblock %}

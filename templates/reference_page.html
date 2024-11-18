@@ -5,8 +5,96 @@
 {% block content %}
 <h1>Reference Page</h1>
 <p>Do you have a concept that you want to add to the website?</p>
-<p> Possible multiple paragraphs of information.</p>
+<p>You should use this page as a template in how to format your html code. Each page needs to have four main compontents:</p>
+<ul>
+    <li>Text about the concept you want to have, including any important formulas or helpful images.</li>
+    <li>An Interactive plot. This will be created though dash plot.</li>
+    <li>A knowledge test. This quiz is done in html.</li>
+    <li>An example of how to use this concept in python or another coding language</li>
+</ul>
+<h2>1. Your Explantory Text</h2>
+<p>You would put any text or images explaining your concept first</p>
 
-<h1>Example Interactive Dataset Visualization</h1>
+<h2>2. Interactive Dataset Visualization</h2>
+<p>You would put an interactive plot that viauslizes your concept and allows the user to play around with 
+    some data help the concept make more sense.</p>
+<p>This plot with be created by:</p>
+<ol>
+    <li>Create two function in <code>plots.py</code>. One to generate your pretend data and one to create the plot.</li>
+    <li>In <code>dash_apps.py</code>, add a dash route to make your plot interactive. There are examples in that file.</li>
+    <li>Create a route to the plot using the "iframe" block on the html page. See the example below!</li>
+</ol>
+<p>This seems fairly simple, but Remember to also add tests in <code>test_plots.py</code> and <code>test_dash_apps.py</code> for your functions.</p>
 <iframe src="/dash_test/" style="width:80%; height:600px; border:none;"></iframe>
+
+<h2>3. The Knowledge Test</h2>
+<p>This is done is html. Please add at least one question about your concept to the page. For example:</p>
+
+<div class="quiz">
+    <!-- Question 2 -->
+    <p><strong>What is the capital of Paris?</strong></p>
+    <form id="quizForm_q1">
+        <input type="radio" name="option_q2" value="Rome"> Rome<br>
+        <input type="radio" name="option_q2" value="Paris"> Paris <br>
+        <input type="radio" name="option_q2" value="Brussels"> Brussels <br>
+        <input type="radio" name="option_q2" value="Prague"> Prague <br>
+        <br>
+        <button type="button" onclick="checkAnswer_q1()">Submit</button>
+    </form>
+    <div class="result" id="result_q2"></div>
+</div>
+
+<script>
+    // Function to check the answer for Question 1
+    function checkAnswer_q1() {
+        const selectedAnswer = document.querySelector('input[name="option_q1"]:checked');
+        const resultDiv = document.getElementById('result_q1');
+
+        if (selectedAnswer) {
+            if (selectedAnswer.value === 'Paris') {
+                resultDiv.textContent = 'Correct! The capital of France is Paris!';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Wrong! Try again.';
+                resultDiv.style.color = 'red';
+            }
+        } else {
+            resultDiv.textContent = 'Please select an answer.';
+            resultDiv.style.color = 'orange';
+        }
+    }
+</script>
+
+
+<h2>4. Adding Your Python Example</h2>
+<p>Using "code" and "precode" blocks, here you would add an example script. For example:</p>
+<div class="section">
+    <p>In Python, you can use libraries like <code>matplotlib</code> and <code>numpy</code> to generate a normal distribution curve. Here's an example:</p>
+    
+    <pre><code>
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate random data following a normal distribution
+data = np.random.normal(loc=0, scale=1, size=1000)
+
+# Plot the histogram
+plt.hist(data, bins=30, density=True, alpha=0.6, color='g')
+
+# Add a curve for the normal distribution
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = 1/(np.sqrt(2 * np.pi)) * np.exp(-0.5 * (x ** 2))
+plt.plot(x, p, 'k', linewidth=2)
+
+plt.title('Normal Distribution Curve')
+plt.show()
+    </code></pre>
+    <p>This code generates a histogram of data sampled from a normal distribution and overlays the theoretical normal distribution curve on top.</p>
+</div>
+
+<h2>5. Last Steps</h2>
+<p> The finally piece of making your page live is adding a route to the page in the <code>app.py</code> file. This 
+    you can do by following the same formating that the other pages have using Flask syntax. Remember to add your
+    page to the drop down options at the top of file or no one will be able to access it!</p>
 {% endblock %}
