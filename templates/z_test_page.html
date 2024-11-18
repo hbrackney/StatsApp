@@ -205,8 +205,42 @@
     </p>
     <iframe src="/dash_ztest/" style="width:100%; height:600px; border:none;"></iframe>
     <br>
+    <h2>Multiple Choice Quiz</h2>
+    <div class="quiz">
+        <p>If the z-statistic is 0.344 and the critical z-value is 0.564, would you reject or fail to reject H<sub>0</sub>?</p>
+        <form id="quizForm">
+            <input type="radio" name="option" value="Reject H0"> Reject H<sub>0</sub><br>
+            <input type="radio" name="option" value="Fail to reject H0"> Fail to reject H<sub>0</sub><br>
+            <input type="radio" name="option" value="I'm not sure"> I'm not sure<br>
+            <br>
+            <button type="button" onclick="checkAnswer()">Submit</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkAnswer() {
+            const options = document.getElementsByName('option');
+            let selectedAnswer = '';
+            for (const option of options) {
+                if (option.checked) {
+                    selectedAnswer = option.value;
+                    break;
+                }
+            }
+            
+            const resultDiv = document.getElementById('result');
+            if (selectedAnswer === 'Fail to reject H0') {
+                resultDiv.textContent = 'Correct! You would fail to reject the null hypothesis in this situation.';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Try again.';
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
+    <br>
     <h1>
-        <br>
         Example Python Script to Run for Yourself!
     </h1>
     <p>This Python script shows you how to perform a z-test. Feel free to copy and paste it for your own use!</p>

@@ -61,7 +61,7 @@ def create_dash_apps(flask_app):
     dash_ttest_app = Dash(__name__, server=flask_app, routes_pathname_prefix="/dash_ttest/")
     tdf1, tdf2 = plots.generate_ttest_data()
 
-    # T-test Table
+    # T-test Data Table
     dash_ttest_app.layout = html.Div([
         html.H1("Compare Two Datasets and Calculate T-Test"),
         create_data_table_two_col('data-table1', tdf1, 'Y-Values'),
@@ -97,7 +97,7 @@ def create_dash_apps(flask_app):
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
     zdf1, zdf2 = plots.initialize_random_data(30)
 
-    # Z-test Table (html formatting to allow for better user visuals)
+    # Z-test Data Table
     dash_ztest_app.layout = html.Div([
         html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
         html.Div([
@@ -116,26 +116,52 @@ def create_dash_apps(flask_app):
         html.Div(id='z-test-result')
     ])
 
-    # Updating the Z-test Population 1 Table
+    # Updating the Z-test Population 1 Data Table
     @dash_ztest_app.callback(
         Output('data-table1', 'data'),
         Input('add-row-btn1', 'n_clicks'),
         State('data-table1', 'data')
     )
     def add_row_population1(n_clicks, data1):
-        # TODO: Add Docstring
+        """
+        Adds a new row with default values to the Population 1 data table 
+        when the "Add Row to Population 1" button is clicked.
+
+        Args:
+            - n_clicks (int): The number of times the add row button has been clicked.
+            - data1 (list of dict): Current data for Population 1, where each
+                dictionary represents a row with 'X Values' and 'Z Values' keys.
+
+        Returns:
+            list of dict: Updated data1 list with a new row appended if `n_clicks` > 0.
+                        The new row has an incremented 'X Values' and a 'Z Values' 
+                        initialized to 0.
+        """
         if n_clicks > 0:
             data1.append({'X Values': len(data1) + 1, 'Z Values': 0})
         return data1
 
-    # Updating the Z-test Population 1 Table
+    # Updating the Z-test Population 1 Data Table
     @dash_ztest_app.callback(
         Output('data-table2', 'data'),
         Input('add-row-btn2', 'n_clicks'),
         State('data-table2', 'data')
     )
     def add_row_population2(n_clicks, data2):
-        # TODO: Add Docstring
+        """
+        Adds a new row with default values to the Population 2 data table 
+        when the "Add Row to Population 2" button is clicked.
+
+        Args:
+            - n_clicks (int): The number of times the add row button has been clicked.
+            - data2 (list of dict): Current data for Population 2, where each
+                dictionary represents a row with 'X Values' and 'Z Values' keys.
+
+        Returns:
+            list of dict: Updated data2 list with a new row appended if `n_clicks` > 0.
+                        The new row has an incremented 'X Values' and a 'Z Values' 
+                        initialized to 0.
+        """
         if n_clicks > 0:
             data2.append({'X Values': len(data2) + 1, 'Z Values': 0})
         return data2
@@ -146,12 +172,31 @@ def create_dash_apps(flask_app):
         Output('z-test-result', 'children'),
         Input('update-plot-btn', 'n_clicks'),
         State('data-table1', 'data'),
-
+        State('data-table2', 'data')
     )
 
     def update_ztest_plot(n_clicks, data1, data2):
-        # TODO: Add Docstring
+        """
+        Updates the box plot and calculates the z-statistic for 
+        two populations when the "Update Box Plot and Z-Statistic" 
+        button is clicked.
+
+        Args:
+            - n_clicks (int): Click count for the update button, 
+                triggering the update.
+            - data1 (list of dict): Data for Population 1, from the 
+                interactive table, with 'X Values' and 'Population 1' keys.
+            - data2 (list of dict): Data for Population 2, from the interactive 
+                table, with 'X Values' and 'Population 2' keys.
+
+        Returns:
+            - figure (plotly.graph_objs.Figure): Box plot comparing 
+                the distributions of Population 1 and Population 2.
+            - z_test_result_text (str): Calculated z-statistic and 
+                p-value or a message if data variance is insufficient.
+        """        
         print("update button clicked:", n_clicks) # Debug statement
+        
         if n_clicks > 0:
             # Convert data to numeric, ignoring non-numeric values
             data_frame1 = pd.DataFrame(data1).apply(pd.to_numeric, errors='coerce').fillna(0)
