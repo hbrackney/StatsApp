@@ -5,6 +5,7 @@
 }
 
 body {
+    font-size: 16px;
     margin: 20px;
     line-height: 1.6;
     padding-top: 100px;
@@ -73,4 +74,52 @@ nav{
 
 .quiz{
     margin: 20px;
+}
+
+code {
+    background-color: #f4f4f4;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+pre {
+    background-color: #f4f4f4; /* Grey background for the code block */
+    padding: 15px; /* Padding around the code */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for 3D effect */
+    overflow-x: auto; /* Horizontal scrolling if code overflows */
+    font-family: Consolas, 'Courier New', monospace; /* Monospace font for code */
+    margin-bottom: 20px; /* Space after each code block */
+}
+
+.image-container {
+    margin-top: 50px; /* Ensure space for the header */
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+/* Styling for the figure element */
+figure {
+    margin: 0;
+    display: none; /* Start with all figures hidden */
+}
+
+/* Ensure the image has a minimum width but adjusts its height based on aspect ratio */
+img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+/* Caption styling */
+figcaption {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* Show the active image */
+.active {
+    display: block;
 }

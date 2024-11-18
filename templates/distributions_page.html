@@ -116,4 +116,100 @@
 </script>
 
 
+
+<h1>Creating Different Data Distribution Curves in Python and R (Normal and Exponential)</h1>
+
+<div class="section">
+    <h2>Creating a Normal Distribution Curve in Python</h2>
+    <p>In Python, you can use libraries like <code>matplotlib</code> and <code>numpy</code> to generate a normal distribution curve. Here's an example:</p>
+    
+    <pre><code>
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate random data following a normal distribution
+data = np.random.normal(loc=0, scale=1, size=1000)
+
+# Plot the histogram
+plt.hist(data, bins=30, density=True, alpha=0.6, color='g')
+
+# Add a curve for the normal distribution
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = 1/(np.sqrt(2 * np.pi)) * np.exp(-0.5 * (x ** 2))
+plt.plot(x, p, 'k', linewidth=2)
+
+plt.title('Normal Distribution Curve')
+plt.show()
+    </code></pre>
+    <p>This code generates a histogram of data sampled from a normal distribution and overlays the theoretical normal distribution curve on top.</p>
+</div>
+
+<div class="section">
+    <h2>Creating a Normal Distribution Curve in R</h2>
+    <p>In R, you can use the <code>ggplot2</code> library to create a normal distribution curve. Here's an example:</p>
+    
+    <pre><code>
+# Load necessary library
+library(ggplot2)
+
+# Generate random data from a normal distribution
+data <- rnorm(1000, mean = 0, sd = 1)
+
+# Create a data frame for ggplot
+data_frame <- data.frame(value = data)
+
+# Plot the histogram with a normal distribution curve
+ggplot(data_frame, aes(x = value)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "green", alpha = 0.6) +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 1), color = "black", size = 1) +
+  ggtitle('Normal Distribution Curve')
+    </code></pre>
+    <p>This R code creates a histogram of randomly generated data and overlays the theoretical normal distribution curve.</p>
+</div>
+
+<div class="section">
+    <h2>Creating an Exponential Distribution Curve in Python</h2>
+    <p>In Python, you can create an exponential distribution curve using <code>numpy</code> and <code>matplotlib</code>. Here's an example:</p>
+    
+    <pre><code>
+# Generate random data from an exponential distribution
+data = np.random.exponential(scale=1, size=1000)
+
+# Plot the histogram
+plt.hist(data, bins=30, density=True, alpha=0.6, color='r')
+
+# Add a curve for the exponential distribution
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = np.exp(-x)
+plt.plot(x, p, 'k', linewidth=2)
+
+plt.title('Exponential Distribution Curve')
+plt.show()
+    </code></pre>
+    <p>This Python code generates a histogram of data sampled from an exponential distribution and overlays the theoretical exponential distribution curve.</p>
+</div>
+
+<div class="section">
+    <h2>Creating an Exponential Distribution Curve in R</h2>
+    <p>In R, you can generate an exponential distribution curve using the <code>ggplot2</code> library. Here's an example:</p>
+    
+    <pre><code>
+# Generate random data from an exponential distribution
+data <- rexp(1000, rate = 1)
+
+# Create a data frame for ggplot
+data_frame <- data.frame(value = data)
+
+# Plot the histogram with an exponential distribution curve
+ggplot(data_frame, aes(x = value)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "red", alpha = 0.6) +
+  stat_function(fun = dexp, args = list(rate = 1), color = "black", size = 1) +
+  ggtitle('Exponential Distribution Curve')
+    </code></pre>
+    <p>This R code creates a histogram of data sampled from an exponential distribution and overlays the theoretical exponential distribution curve.</p>
+</div>
+
+
 {% endblock %}

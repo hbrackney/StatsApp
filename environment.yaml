@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.12.7
   - pylint
   - pytest
   - pycodestyle
@@ -10,5 +11,11 @@ dependencies:
   - pandas
   - scipy
   - statsmodels
-  - waitress
-prefix: C:\Users\helen\anaconda3\envs\StatsApp
+  - waitress=3.0
+  - werkseug=3.0
+  - plots
+  - plotly
+  - numpy
+  - pip
+  - pip:
+    - Flask
