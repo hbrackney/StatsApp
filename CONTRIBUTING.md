@@ -5,14 +5,14 @@ Thank you for your interest in contributing to BioStat Academy! This website aim
 Whether you're fixing a typo, improving an explanation, adding a new example, or suggesting new content, your help is valuable. Please follow these guidelines to make the process smooth and efficient for everyone.
 
 ## Table of Contents
-- [Contributing to Biostat Academy] (#contributing-to-biostat-academy)
-    - [Table of Contents] (#table-of-contents)
-    - [Setting Up Your Development Environment] (#setting-up-your-development-environment)
-        - [Required Python Packages] (#required-python-packages)
-    - [Testing] (#testing)
-    - [Pull Request Guidelines] (#pull-request-guidelines)
-    - [Creating Pages] (#creating-pages)
-    - [Thank You for Contributing!] (#thank-you-for-contributing!)
+- [Contributing to Biostat Academy](#contributing-to-biostat-academy)
+    - [Table of Contents](#table-of-contents)
+    - [Setting Up Your Development Environment](#setting-up-your-development-environment)
+        - [Required Python Packages](#required-python-packages)
+    - [Testing](#testing)
+    - [Pull Request Guidelines](#pull-request-guidelines)
+    - [Creating Pages](#creating-pages)
+    - [Thank You for Contributing!](#thank-you-for-contributing)
 
 ## How to Contribute
 1. Report Issues
