@@ -12,8 +12,6 @@ dependencies:
   - scipy
   - statsmodels
   - waitress=3.0
-  - werkseug=3.0
-  - plots
   - plotly
   - numpy
   - pip
