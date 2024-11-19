@@ -33,6 +33,7 @@ The website is now live!
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+
 19-11-2024 (HB): Changed ReadME.md installation instructions to be more through. <br/>
 19-11-2024 (HB): Fixed Quiz on Distributions Page. Added more tests for plots.py and app.py. <br/>
 18-11-2024 (LS): Updated and expanded README and CONTRIBUTING to include background info and description. <br/>
