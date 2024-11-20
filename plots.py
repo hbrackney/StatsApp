@@ -154,7 +154,7 @@ def generate_ztest_plot(data1, data2):
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
-    
+
     return figure, z_test_result_text
 
 # Distriubtion Table/Plot Information
@@ -196,3 +196,90 @@ def generate_distribution_plot(data1):
     }
 
     return figure
+
+def initialize_anova_data(rows=30):
+    """
+    Generates random data for three sample populations 
+    with values between 80 and 100.
+
+    Args:
+        - rows (int): The number of data points (rows)  
+            to generate for each population.
+            Defaults to 30.
+
+    Returns:
+        - pd.DataFrame: DataFrame for Population 1 
+            with columns 'X Values' (index from 1 to `rows`) 
+            and 'Population 1' (random values between 80 and 100).
+        - pd.DataFrame: DataFrame for Population 2 
+            with columns 'X Values' (index from 1 to `rows`) 
+            and 'Population 2' (random values between 80 and 100).
+        - pd.DataFrame: DataFrame for Population 3 
+            with columns 'X Values' (index from 1 to `rows`) 
+            and 'Population 3' (random values between 80 and 100).
+    """
+    # Generate random data between 80 and 100 for three populations
+    data1 = {'X Values': list(range(1, rows + 1)), 'Population 1': np.random.randint(80, 101, rows)}
+    data2 = {'X Values': list(range(1, rows + 1)), 'Population 2': np.random.randint(80, 101, rows)}
+    data3 = {'X Values': list(range(1, rows + 1)), 'Population 3': np.random.randint(80, 101, rows)}
+    return pd.DataFrame(data1), pd.DataFrame(data2), pd.DataFrame(data3)
+
+def generate_anova_plot(data1, data2, data3):
+    """
+    Generates a box plot and calculates the ANOVA test statistic for comparing 
+    the means of three sample populations.
+
+    Args:
+        - data1 (list of dict): Data for the first population, where each 
+                                dictionary represents a row with keys such as 
+                                'X Values' and 'Population 1'.
+        - data2 (list of dict): Data for the second population, where each 
+                                dictionary represents a row with keys such as 
+                                'X Values' and 'Population 2'.
+        - data3 (list of dict): Data for the third population, where each 
+                                dictionary represents a row with keys such as 
+                                'X Values' and 'Population 3'.
+
+    Returns:
+        - plotly.graph_objs.Figure: A box plot comparing the distributions 
+            of Population 1, Population 2, and Population 3.
+        - str: A formatted string displaying the calculated ANOVA F-statistic 
+            and p-value.
+    """
+    data_frame1 = pd.DataFrame(data1)
+    data_frame2 = pd.DataFrame(data2)
+    data_frame3 = pd.DataFrame(data3)
+
+    # Ensure we are using the correct columns for ANOVA calculations
+    if 'Population 1' in data_frame1.columns and 'Population 2' in data_frame2.columns and 'Population 3' in data_frame3.columns:
+        values1 = pd.to_numeric(data_frame1['Population 1'], errors='coerce').fillna(0)
+        values2 = pd.to_numeric(data_frame2['Population 2'], errors='coerce').fillna(0)
+        values3 = pd.to_numeric(data_frame3['Population 3'], errors='coerce').fillna(0)
+    else:
+        # Fallback if columns are named differently
+        values1 = data_frame1['Z Values']
+        values2 = data_frame2['Z Values']
+        values3 = data_frame3['Z Values']
+
+    # Perform one-way ANOVA
+    f_stat, p_value = stats.f_oneway(values1, values2, values3)
+
+    # Create a box plot for visualization
+    figure = go.Figure()
+    figure.add_trace(go.Box(y=values1, name='Population 1', marker=dict(color='blue')))
+    figure.add_trace(go.Box(y=values2, name='Population 2', marker=dict(color='green')))
+    figure.add_trace(go.Box(y=values3, name='Population 3', marker=dict(color='red')))
+    figure.update_layout(
+        title=f"ANOVA Test: F-statistic = {f_stat:.2f}, P-value = {p_value:.4f}",
+        yaxis={'title': 'Values'},
+        xaxis={'title': 'Groups'},
+        showlegend=False
+    )
+
+    # Provide explanation based on p-value
+    if p_value < 0.05:
+        anova_result_text = f"ANOVA Test: F-statistic = {f_stat:.2f}, P-value = {p_value:.4f}\nThe p-value is less than 0.05, indicating that there is a significant difference between the groups."
+    else:
+        anova_result_text = f"ANOVA Test: F-statistic = {f_stat:.2f}, P-value = {p_value:.4f}\nThe p-value is greater than 0.05, indicating that there is no significant difference between the groups."
+
+    return figure, anova_result_text
