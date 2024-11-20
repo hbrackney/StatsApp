@@ -128,13 +128,16 @@ To end the website run and to regain typing ability in command line or terminal 
 19-11-2024 (LS): Added description to the About page. </br>
 19-11-2024 (LS): Updated t-test page and added python/R examples
 19-11-2024 (LS): Added ANOVA page with tests for the dash apps and plots, and added python/R examples </br>
+19-11-2024 (LS): Added description to the About page. </br>
+19-11-2024 (LS): Updated t-test page and added python/R examples
+19-11-2024 (LS): Added ANOVA page with tests for the dash apps and plots, and added python/R examples </br>
 19-11-2024 (HB): Changed ReadME.md installation instructions to be more through. <br/>
 19-11-2024 (HB): Fixed Quiz on Distributions Page. Added more tests for plots.py and app.py. <br/>
-18-11-2024 (LS): Updated and expanded README and CONTRIBUTING to include background info and description. </br>
-18-11-2024 (HB): Filled in Reference page to explain more and be more of a template. </br>
-18-11-2024 (HB): Added a figure on the home page that flips between images from some of the pages. </br>
-18-11-2024 (HB): Added python and R examples to Distributions Page. Added code/precode styles to the styles.css file. </br>
-12-11-2024 (SS): Added quiz to z-test page and added more thorough docstrings. </br>
+18-11-2024 (LS): Updated and expanded README and CONTRIBUTING to include background info and description. </br> </br>
+18-11-2024 (HB): Filled in Reference page to explain more and be more of a template. </br> </br>
+18-11-2024 (HB): Added a figure on the home page that flips between images from some of the pages. </br> </br>
+18-11-2024 (HB): Added python and R examples to Distributions Page. Added code/precode styles to the styles.css file. </br></br>
+12-11-2024 (SS): Added quiz to z-test page and added more thorough docstrings. <//br>
 11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots. <br/>
 06-11-24 (SS): Added example python script to z-test page and updated about page. <br/>
 

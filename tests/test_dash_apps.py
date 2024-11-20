@@ -119,3 +119,41 @@ def test_create_dash_apps(test_app):
     # Check for 405 on unsupported methods
     response = test_app['dash_anova'].post('/dash_anova/')  # Simulate a POST to check 405
     assert response.status_code == 405, "Expected 405 Method Not Allowed for POST"
+
+def test_create_data_table_two_col():
+    """Tests that the output and format of the generated tables is correct"""
+    # Sample data to pass to the function
+    data = pd.DataFrame({
+        'X Values': [1, 2, 3],
+        'Y Values': [10, 20, 30]
+    })
+
+    # Call the function with this data
+    table = dash_apps.create_data_table_two_col('table-id', data, 'Y Values')
+
+    # Ensure the table is a Dash Table
+    assert isinstance(table, dash_table.DataTable)
+
+    # Check that the table has the correct number of columns and rows
+    assert len(table.columns) == 2  # 'X Values' and 'Y Values'
+    assert table.columns[0]['name'] == 'X Values'  # Check the column names
+    assert table.columns[1]['name'] == 'Y Values'
+    assert len(table.data) == 3  # Check the number of rows
+
+def test_create_data_table_one_col():
+    """Tests that the output and format of the table is correct"""
+    # Sample data to pass to the function
+    data = pd.DataFrame({
+        'Values': [10, 20, 30]
+    })
+
+    # Call the function with this data
+    table = dash_apps.create_data_table_one_col('table-id', data, 'Values')
+
+    # Ensure the table is a Dash Table
+    assert isinstance(table, dash_table.DataTable)
+
+    # Check that the table has the correct number of columns (1 column)
+    assert len(table.columns) == 1
+    assert table.columns[0]['name'] == 'Values'
+    assert len(table.data) == 3  # Check the number of rows
