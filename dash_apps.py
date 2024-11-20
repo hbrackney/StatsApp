@@ -5,7 +5,6 @@ from dash import Dash, dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import numpy as np
-import numpy as np
 import plotly.graph_objs as go
 import plots
 
@@ -198,9 +197,7 @@ def create_dash_apps(flask_app):
             - z_test_result_text (str): Calculated z-statistic and 
                 p-value or a message if data variance is insufficient.
         """
-        """
         print("update button clicked:", n_clicks) # Debug statement
-
 
         if n_clicks > 0:
             # Convert data to numeric, ignoring non-numeric values
@@ -389,236 +386,6 @@ def create_dash_apps(flask_app):
 
         return go.Figure(), "No update requested."
 
-    dash_regressions_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_regressions/')
-
-    linear_df = plots.initialize_linear_data()
-
-    # Layout for the Linear Regression page
-    dash_regressions_app.layout = html.Div([
-        html.H1("Interactive Linear Regression"),
-        html.Div([
-            html.H3("Edit Data Table"),
-            dash_table.DataTable(
-                id='linear-data-table',
-                columns=[
-                    {'name': 'X Values', 'id': 'X Values', 'editable': True},
-                    {'name': 'Y Values', 'id': 'Y Values', 'editable': True},
-                ],
-                data=linear_df.to_dict('records'),
-                editable=True,
-                row_deletable=False,
-                style_table={'overflowX': 'auto'}
-            ),
-            html.Button("Add Row", id="add-row-btn", n_clicks=0),
-        ]),
-        html.Button("Update Plot", id="update-regression-plot-btn", n_clicks=0),
-        dcc.Graph(id='linear-regression-plot'),
-        html.H3("Linear Regression Equation"),
-        html.Div(id='linear-regression-equation', style={'fontSize': '18px', 'marginTop': '20px'}),
-        html.H3("R² Value"),
-        html.Div(id='linear-regression-r2', style={'fontSize': '18px', 'marginTop': '10px'}),
-    ])
-
-    # Callback to update regressions data table
-    @dash_regressions_app.callback(
-        Output('linear-data-table', 'data'),
-        Input('add-row-btn', 'n_clicks'),
-        State('linear-data-table', 'data')
-    )
-
-    def add_row(n_clicks, current_data):
-        """
-        Adds a new row to the linear regression data table when the "Add Row" button is clicked.
-
-        Args:
-            n_clicks (int): Number of times the button has been clicked.
-            current_data (list of dict): Current data in the data table.
-
-        Returns:
-            list of dict: Updated data with a new row appended.
-        """
-        if n_clicks > 0:
-            next_x_value = len(current_data) + 1  # Increment X Value
-            current_data.append({'X Values': next_x_value, 'Y Values': 0})  # Add new row
-        return current_data
-
-    # Callback to update the plot and display the regression equation
-    @dash_regressions_app.callback(
-        [Output('linear-regression-plot', 'figure'),
-         Output('linear-regression-equation', 'children'),
-         Output('linear-regression-r2', 'children')],
-        [Input('update-regression-plot-btn', 'n_clicks')],
-        [State('linear-data-table', 'data')]
-    )
-
-    def update_linear_regression_plot(n_clicks, data):
-        """
-        Updates the linear regression plot and displays the equation and R² value 
-        when the "Update Plot" button is clicked.
-
-        Args:
-            n_clicks (int): Number of times the update button has been clicked.
-            data (list of dict): Data for the regression table.
-
-        Returns:
-            - plotly.graph_objs.Figure: The updated regression plot.
-            - str: The linear regression equation or a placeholder message.
-            - str: The R² value or a placeholder message.
-        """
-        if n_clicks and n_clicks > 0:
-            # Generate the plot, equation, and R² value
-            figure, equation, r2_value = plots.generate_linear_regression_plot(data)
-            return (
-                figure,
-                f"Linear Regression Equation: {equation}",
-                f"R² Value: {r2_value:.4f}"
-            )
-        
-        # Default state before updates
-        return go.Figure(), "No updates requested.", "No updates requested."
-
-    # ANOVA Test Figures
-    dash_anova_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_anova/')
-
-    # Data Generation for ANOVA Test
-    def initialize_anova_data(rows=30):
-        """
-        Generates random data for three sample populations 
-        with values between 80 and 100.
-
-        Args:
-            - rows (int): The number of data points (rows) to generate.
-                Defaults to 30.
-
-        Returns:
-            - pd.DataFrame: DataFrame with 'X Values', 'Population 1', 
-                'Population 2', and 'Population 3'.
-        """
-        data = {
-            'X Values': list(range(1, rows + 1)),
-            'Population 1': np.random.randint(80, 101, rows),
-            'Population 2': np.random.randint(80, 101, rows),
-            'Population 3': np.random.randint(80, 101, rows),
-        }
-        return pd.DataFrame(data)
-
-    anova_df = initialize_anova_data(30)
-
-    # Data Table Function for Three Populations
-    def create_data_table_three_col(table_id, anova_df):
-        """This function creates a table of data with three columns of data for the 
-        user to see and interact with on the web app page.
-        
-        Args:
-            table_id (int): table identifying number 
-            data (list): dataframe of information for the table
-
-        Returns:
-            dictionary: table information for the dash app to format
-        """
-        return dash_table.DataTable(
-            id=table_id,
-            columns=[
-                {'name': 'X Values', 'id': 'X Values', 'editable': True},
-                {'name': 'Population 1', 'id': 'Population 1', 'editable': True},
-                {'name': 'Population 2', 'id': 'Population 2', 'editable': True},
-                {'name': 'Population 3', 'id': 'Population 3', 'editable': True},
-            ],
-            data=anova_df.to_dict('records'),
-            editable=True,
-            row_deletable=False,
-            style_table={'overflowX': 'auto'}
-        )
-
-    # ANOVA Data Table
-    dash_anova_app.layout = html.Div([
-        html.H1("Compare Three Datasets and Calculate ANOVA F-Statistic Value"),
-
-        # Single Data Table for all populations
-        html.Div([
-            html.H3("Enter Data for All Populations"),
-            create_data_table_three_col('data-table1', anova_df),  # Just use one DataFrame now
-            html.Button("Add Row", id="add-row-btn1", n_clicks=0),
-        ]),
-
-        html.Button("Update Box Plot and ANOVA Test", id="update-plot-btn", n_clicks=0),
-        dcc.Graph(id='box-plot'),
-        html.H3("ANOVA Test Result"),
-        html.Div(id='anova-test-result')
-    ])
-
-    # Updating the ANOVA Data Table
-    @dash_anova_app.callback(
-        Output('data-table1', 'data'),
-        Input('add-row-btn1', 'n_clicks'),
-        State('data-table1', 'data')
-    )
-    def add_row_to_all_populations(n_clicks, data):
-        """
-        Adds a new row with default values to the consolidated data table
-        when the "Add Row" button is clicked.
-
-        Args:
-            - n_clicks (int): The number of times the add row button has been clicked.
-            - data (list of dict): Current data for all populations, where each dictionary is a
-                row with 'X Values', 'Population 1', 'Population 2', and 'Population 3' keys.
-
-        Returns:
-            list of dict: Updated data list with a new row appended if `n_clicks` > 0.
-                The new row has an incremented 'X Values' and initialized population values.
-        """
-        if n_clicks > 0:
-            next_x_value = len(data) + 1
-            data.append({'X Values': next_x_value,
-                         'Population 1': 0,
-                         'Population 2': 0,
-                         'Population 3': 0})
-        return data
-
-    # ANOVA Plot
-    @dash_anova_app.callback(
-        Output('box-plot', 'figure'),
-        Output('anova-test-result', 'children'),
-        Input('update-plot-btn', 'n_clicks'),
-        State('data-table1', 'data')
-    )
-    def update_anova_plot(n_clicks, data):
-        """
-        Updates the box plot and calculates the ANOVA test statistic for 
-        three populations when the "Update Box Plot and ANOVA Test" 
-        button is clicked.
-
-        Args:
-            - n_clicks (int): Click count for the update button, 
-                triggering the update.
-            - data (list of dict): Data for all populations, from the interactive table,
-                 with 'X Values', 'Population 1', 'Population 2', and 'Population 3' keys.
-
-        Returns:
-            - figure (plotly.graph_objs.Figure): Box plot comparing 
-                the distributions of Population 1, Population 2, and Population 3.
-            - anova_result_text (str): Calculated ANOVA F-statistic and 
-                p-value or a message if data variance is insufficient.
-        """
-        print("update button clicked:", n_clicks)  # Debug statement
-
-        if n_clicks > 0:
-            # Convert data to numeric, ignoring non-numeric values
-            data_frame = pd.DataFrame(data).apply(pd.to_numeric, errors='coerce').fillna(0)
-
-            # Check data values before proceeding (debugging)
-            print("Data Frame:\n", data_frame)
-
-            # Separate the populations
-            pop1 = data_frame['Population 1']
-            pop2 = data_frame['Population 2']
-            pop3 = data_frame['Population 3']
-
-            figure, anova_result_text = plots.generate_anova_plot(pop1, pop2, pop3)
-            return figure, anova_result_text
-
-        return go.Figure(), "No update requested."
-
     return {
         'dash_test': dash_test_app,
         'dash_ttest': dash_ttest_app,
@@ -626,7 +393,6 @@ def create_dash_apps(flask_app):
         'dash_distribution': dash_distribution_app,
         'dash_anova': dash_anova_app,
         'dash_regressions': dash_regressions_app,
-        'dash_anova': dash_anova_app
     }
 
 def create_data_table_two_col(table_id, data, value_col):

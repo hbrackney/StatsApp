@@ -7,7 +7,6 @@ from dash.testing.application_runners import import_app
 # from dash.testing import wait
 from flask import Flask
 import pandas as pd
-import pandas as pd
 import dash_apps
 # import plots
 from dash_apps import create_dash_apps

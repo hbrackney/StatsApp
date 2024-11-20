@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # List of Pages -> make sure if page name is changed, the html file matches
 pages = ["home", "about", "ttest", "z_test_page", "distributions_page",
-         "anova", "anova", "regressions", "reference_page"]
+         "anova", "reference_page"]
 
 # Home Page Dropdown Menu Options
 options = {
@@ -17,9 +17,7 @@ options = {
     "z-test": pages[3],
     "Data Distributions": pages[4],
     "ANOVA test": pages[5],
-    "Example page": pages [6],
-    "ANOVA test": pages[5],
-    "Regressions": pages[6]
+    "Example page": pages [6]
 }
 
 create_dash_apps(app)
@@ -81,22 +79,6 @@ def distributions_page():
     return render_template("distributions_page.html")
 
 @app.route(f"/{pages[5]}")
-def anova():
-    """This function renders the ANOVA page.
-
-    Returns: Creates the ANOVA page
-    """
-    return render_template(f'{pages[5]}.html')
-
-@app.route(f"/{pages[6]}")
-def regressions():
-    """This function renders the regressions page.
-
-    Returns: Creates the regressions page
-    """
-    return render_template(f'{pages[6]}.html')
-
-@app.route(f"/{pages[7]}")
 def anova():
     """This function renders the ANOVA page.
 
