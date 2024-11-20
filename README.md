@@ -2,9 +2,21 @@
 CSCI 6118 Project - An interactive app designed to introduce basic statistical concepts to biologists. Learning statistics is crucial for biologists, as it enables them to analyze data, design reliable experiments, and draw valid conclusions. Statistics is essential in concepts like hypothesis testing and biological variability, as well as making evidence-based decisions. With statistical tools, biologists can interpret results accurately, manage large datasets, and communicate findings effectively. Thus, learning and understanding statistics is important for all research biologists.
 
 ## Installation 
-Download package. All specific dependencies are  included in the ` environment.yaml` file. Create environment with required dependencies using the `environment.yaml` file: 
+Clone the repository in your command line by:
+```
+git clone https://github.com/hbrackney/StatsApp.git
+```
+ All specific dependencies are included in the ` environment.yaml` file. Create environment with required dependencies using the `environment.yaml` file: 
 ```
 conda env create -f environment.yaml
+```
+And then activate the environment:
+```
+conda activate StatsApp
+```
+Step into the repository by: (for Mac or Windows users)
+```
+cd StatsApp 
 ```
 
 ## Usage
@@ -24,6 +36,8 @@ To end the website run and to regain typing ability in command line or terminal 
 19-11-2024 (LS): Added description to the About page. </br>
 19-11-2024 (LS): Updated t-test page and added python/R examples
 19-11-2024 (LS): Added ANOVA page with tests for the dash apps and plots, and added python/R examples </br>
+19-11-2024 (HB): Changed ReadME.md installation instructions to be more through. <br/>
+19-11-2024 (HB): Fixed Quiz on Distributions Page. Added more tests for plots.py and app.py. <br/>
 18-11-2024 (LS): Updated and expanded README and CONTRIBUTING to include background info and description. </br>
 18-11-2024 (HB): Filled in Reference page to explain more and be more of a template. </br>
 18-11-2024 (HB): Added a figure on the home page that flips between images from some of the pages. </br>
