@@ -154,7 +154,7 @@ def generate_ztest_plot(data1, data2):
         title='Box Plot of Sample Populations',
         yaxis={'title': 'Values'}
     )
-    
+
     return figure, z_test_result_text
 
 # Distriubtion Table/Plot Information
