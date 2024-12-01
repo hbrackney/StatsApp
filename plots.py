@@ -7,6 +7,7 @@ from scipy import stats
 from statsmodels.stats.weightstats import ztest
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score
 import plotly.graph_objs as go
 import numpy as np
 
