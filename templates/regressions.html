@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Regressions{% endblock %}
+
+{% block content %}
+    <h1>Regression Models</h1>
+    <p>
+        The primary goal of regression modeling is to model  the relationship between independent and 
+        dependent variables in a mathematical form, often to predict the dependent variable based on 
+        the values of the independent variables or to understand how changes in the predictors impact 
+        the outcome. We will examine two commonly used regressions: linear and polynomial regressions.
+    </p>
+    <p>
+        <b>What is a linear regression?</b>
+    </p>
+    <p> 
+        Linear regression is a statistical method used to model the relationship between one dependent 
+        variable and one or more independent variables.
+    </p>
+    <ul>
+        <li><b>Simple linear regression:</b> Involves one dependent variable and one independent 
+            variable. A straight line models the relationship and the equation for a simple linear
+            regression is y = mx + b, where y is the dependent variable, x is the independent variable,
+            m is the slope coefficient, and b is the intercept coefficient.</li>
+        <li><b>Multiple linear regression:</b> Involves one dependent variable and multiple independent
+            variables. The equation for a multiple linear regression is 
+            y = a<sub>0</sub> + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> +...+ a<sub>n</sub>x<sub>n</sub>,
+            where x<sub>1</sub>, x<sub>2</sub>,..., x<sub>n</sub> are the independent variables and 
+            a<sub>1</sub>, a<sub>2</sub>,..., a<sub>n</sub> coefficients represent the 
+            contribution of each predictor.</li>
+    </ul>
+    <img src=static\images\linear_regression.jpeg width="600" height="400" alt="Linear Regression Plot">
+    <br>
+    <p>
+        <b>What is a polynomial regression?</b>
+    </p>
+    <p>
+        Polynomial regression is a type of regression analysis that models the relationship between the
+        dependent variable (y) and one independent variable (x) as an nth-degree polynomial.
+        It is used when the relationship between the variables is nonlinear, and a straight line (as in 
+        linear regression) cannot adequately capture the trend in the data. The equation for a polynomial
+        regression is modeled by y = a<sub>0</sub> + a<sub>1</sub>x<sup>1</sup> + a<sub>2</sub>x<sup>2</sup> +...+ a<sub>n</sub>x<sup>n</sup>,
+        where y is the dependent variable (response), x is the independent variable (predictor), and 
+        a<sub>0</sub>, a<sub>1</sub>, a<sub>2</sub>,..., a<sub>n</sub> are coefficents of the polynomial.
+    </p>
+    <img src=static\images\polynomial_regression.jpeg width="600" height="400" alt="Polynomial Regression Plot">
+    <br>
+    <p>
+        <b>When should you use linear vs polynomial regression?</b>
+    </p>
+    <p>Linear Regression:</p>
+    <ul>
+        <li>When the relationship between variables is linear.</li>
+        <li>When simplicity and interpretability are crucial.</li>
+        <li>With smaller datasets to avoid overfitting.</li>
+        <li>For initial analysis to understand basic trends.</li>
+    </ul>
+    <p>Polynomial Regression:</p>
+    <ul>
+        <li>When the relationship between variables is non-linear.</li>
+        <li>To capture more complex relationships in large datasets.</li>
+        <li>When flexibility is needed to fit a wider range of data shapes.</li>
+        <li>With careful consideration of the polynomial degree to avoid overfitting.</li>
+    </ul>
+    <br>
+    <p>
+        <b>Evaluating a regression model:</b>
+    </p>
+    <p>
+        When choosing a regression model, you want to evaluate the model's residuals and R2 value
+        (Coefficient of Determination) to determine how well the model performs.
+    </p>
+    <p>
+        <b>Residuals:</b> Larger residuals indicate a poor fit between the model and the data, whereas 
+        smaller residuals indicate a better fit. Additionally, a residual scatter plot should display random 
+        patterns. Non-random patterns (ie. curves and trends) suggest model issues.
+    </p>
+    <img src=static\images\good_residual.jpeg width="600" height="400" alt="Example of a good residual plot">
+    <p>Good residual plot example</p>
+    <img src=static\images\bad_residual.jpeg width="600" height="400" alt="Example of a bad residual plot">
+    <p>Bad residual plot example (curve/trend in residuals)</p>
+    <p>
+        <b>R<sup>2</sup> value:</b> R<sup>2</sup> indicates how well a regression model explains the variability of the dependent 
+        variable. Higher R2 values typically indicate a better model, but context matters (e.g., in complex
+        or noisy data, even a low R2 can be meaningful).
+    </p>
+    <ul>
+        <li><b>R<sup>2</sup>=1:</b> Perfect fit; the model explains all the variability in the data.</li>
+        <li><b>R<sup>2</sup>=0:</b> The model explains none of the variability.</li>
+        <li><b>Negative R<sup>2</sup>:</b> Indicates the model is worse than a horizontal line (e.g., poor fit or inappropriate model).</li>
+    </ul>
+    <p>
+        Note: Adding more predictors to a model will generally increase R2, even if the predictors are 
+        irrelevant. Thus, when R2 is approximately the same for both a linear and polynomial model, it is 
+        generally best to use the linear model to avoid overfitting, especially if the residuals are small 
+        and random.
+    </p>
+
+{% endblock %}
