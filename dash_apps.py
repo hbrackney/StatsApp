@@ -406,28 +406,56 @@ def create_dash_apps(flask_app):
                 row_deletable=False,
                 style_table={'overflowX': 'auto'}
             ),
+            html.Button("Add Row", id="add-row-btn", n_clicks=0),
         ]),
         html.Button("Update Plot", id="update-regression-plot-btn", n_clicks=0),
         dcc.Graph(id='linear-regression-plot'),
         html.H3("Linear Regression Equation"),
         html.Div(id='linear-regression-equation', style={'fontSize': '18px', 'marginTop': '20px'}),
+        html.H3("R² Value"),
+        html.Div(id='linear-regression-r2', style={'fontSize': '18px', 'marginTop': '10px'}),
     ])
+
+    # Callback to update regressions data table
+    @dash_regressions_app.callback(
+        Output('linear-data-table', 'data'),
+        Input('add-row-btn', 'n_clicks'),
+        State('linear-data-table', 'data')
+    )
+
+    def add_row(n_clicks, current_data):
+        """
+        Adds a new row to the linear regression data table when the "Add Row" button is clicked.
+
+        Args:
+            n_clicks (int): Number of times the button has been clicked.
+            current_data (list of dict): Current data in the data table.
+
+        Returns:
+            list of dict: Updated data with a new row appended.
+        """
+        if n_clicks > 0:
+            next_x_value = len(current_data) + 1  # Increment X Value
+            current_data.append({'X Values': next_x_value, 'Y Values': 0})  # Add new row
+        return current_data
 
     # Callback to update the plot and display the regression equation
     @dash_regressions_app.callback(
         [Output('linear-regression-plot', 'figure'),
-         Output('linear-regression-equation', 'children')],
+         Output('linear-regression-equation', 'children'),
+         Output('linear-regression-r2', 'children')],
         [Input('update-regression-plot-btn', 'n_clicks')],
         [State('linear-data-table', 'data')]
     )
+
     def update_linear_regression_plot(n_clicks, data):
         """
         Updates the linear regression plot and displays the equation when the 
         "Update Plot" button is clicked.
         """
         if n_clicks > 0:
-            figure, equation = plots.generate_linear_regression_plot(data)
-            return figure, f"Linear Regression Equation: {equation}"
+            figure, equation, r2_value = plots.generate_linear_regression_plot(data)
+            return figure, f"Linear Regression Equation: {equation}", f"R² Value: {r2_value:.4f}"
         return go.Figure(), "No updates yet."
 
     return {

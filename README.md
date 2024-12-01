@@ -33,6 +33,7 @@ The website is now live!
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+01-12-2024 (SS): Completed Regressions page. Note: I added scikit-learn to the dependencies, so install that before running again. </br>
 19-11-2024 (LS): Added description to the About page. </br>
 19-11-2024 (LS): Updated t-test page and added python/R examples
 19-11-2024 (LS): Added ANOVA page with tests for the dash apps and plots, and added python/R examples </br>
@@ -43,7 +44,7 @@ To end the website run and to regain typing ability in command line or terminal 
 18-11-2024 (HB): Added a figure on the home page that flips between images from some of the pages. </br>
 18-11-2024 (HB): Added python and R examples to Distributions Page. Added code/precode styles to the styles.css file. </br>
 12-11-2024 (SS): Added quiz to z-test page and added more thorough docstrings. </br>
-11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots. <br/>
+11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots. </br>
 06-11-24 (SS): Added example python script to z-test page and updated about page. <br/>
 
 ### Version 0
