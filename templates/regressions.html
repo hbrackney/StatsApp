@@ -96,5 +96,107 @@
         and random.
     </p>
     <iframe src="/dash_regressions/" style="width:100%; height:600px; border:none;"></iframe>
+    <br>
+    <h2>Multiple Choice Quiz</h2>
+    <div class="quiz">
+        <p>
+            Say you plot data using a linear regression and polynomial regression model. The linear regression model
+            has a R<sup>2</sup> of 0.87 and the polynomial regression model has a R<sup>2</sup> of 0.98. Which model
+            should you use for your analysis?
+        </p>
+        <form id="quizForm">
+            <input type="radio" name="option" value="Linear regression model"> Linear regression model<br>
+            <input type="radio" name="option" value="Polynomial regression model"> Polynomial regression model<br>
+            <input type="radio" name="option" value="I'm not sure"> I'm not sure<br>
+            <br>
+            <button type="button" onclick="checkAnswer()">Submit</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
 
+    <script>
+        function checkAnswer() {
+            const options = document.getElementsByName('option');
+            let selectedAnswer = '';
+            for (const option of options) {
+                if (option.checked) {
+                    selectedAnswer = option.value;
+                    break;
+                }
+            }
+            
+            const resultDiv = document.getElementById('result');
+            if (selectedAnswer === 'Polynomial regression model') {
+                resultDiv.textContent = 'Correct! You should use the polynomial regression model for future analysis because it is a better fit for the data than the linear regression model';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Try again.';
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
+    <br>
+    <h1>
+        Example Python Script to Run for Yourself!
+    </h1>
+    <p>
+        This Python script calculates the equations and R<sup>2</sup> values for linear and polynomial regression models.
+        Feel free to copy and paste it for your own use!
+    </p>
+    <pre><code class="language-python">
+        import numpy as np
+        import pandas as pd
+        from sklearn.linear_model import LinearRegression
+        from sklearn.preprocessing import PolynomialFeatures
+        from sklearn.metrics import r2_score
+        
+        # Example dataset
+        data = {
+            'X': [1, 2, 3, 4, 5], # Replace with your own data
+            'Y': [1.2, 1.9, 3.0, 3.8, 5.1] # Replace with your own data
+        }
+        df = pd.DataFrame(data)
+        
+        # Separate features and target
+        X = df['X'].values.reshape(-1, 1)  # Feature matrix
+        Y = df['Y'].values                 # Target array
+        
+        # Linear Regression Model
+        linear_model = LinearRegression()
+        linear_model.fit(X, Y)
+        Y_pred_linear = linear_model.predict(X)
+        
+        # Extract coefficients for the linear regression equation
+        linear_slope = linear_model.coef_[0]
+        linear_intercept = linear_model.intercept_
+        linear_r2 = r2_score(Y, Y_pred_linear)
+        linear_equation = f"y = {linear_slope:.2f}x + {linear_intercept:.2f}"
+        
+        # Polynomial Regression Model
+        degree = 2  # You can adjust the degree as needed
+        poly_features = PolynomialFeatures(degree=degree)
+        X_poly = poly_features.fit_transform(X)
+        
+        poly_model = LinearRegression()
+        poly_model.fit(X_poly, Y)
+        Y_pred_poly = poly_model.predict(X_poly)
+        
+        # Extract coefficients for the polynomial regression equation
+        poly_coefficients = poly_model.coef_
+        poly_intercept = poly_model.intercept_
+        poly_r2 = r2_score(Y, Y_pred_poly)
+        
+        # Create the polynomial equation as a string
+        poly_terms = [f"{poly_coefficients[i]:.2f}x^{i}" if i > 0 else f"{poly_coefficients[i]:.2f}" for i in range(len(poly_coefficients))]
+        poly_equation = "y = " + " + ".join(poly_terms)
+        
+        # Output results
+        print("Linear Regression Model:")
+        print(f"Equation: {linear_equation}")
+        print(f"R^2 Value: {linear_r2:.4f}")
+        print("\nPolynomial Regression Model:")
+        print(f"Equation: {poly_equation}")
+        print(f"R^2 Value: {poly_r2:.4f}")
+    </code></pre>
+        
 {% endblock %}

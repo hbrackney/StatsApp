@@ -6,6 +6,7 @@ import pandas as pd
 from scipy import stats
 from statsmodels.stats.weightstats import ztest
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 import plotly.graph_objs as go
 import numpy as np
 
@@ -313,6 +314,8 @@ def generate_linear_regression_plot(data):
     Returns:
         - plotly.graph_objs.Figure: A scatter plot with a regression line.
         - str: The linear regression equation in the format y = mx + b.
+        - float: The R^2 value indicating the goodness of fit.
+
     """
     # Convert input data to a DataFrame
     df = pd.DataFrame(data).apply(pd.to_numeric, errors='coerce').dropna()
@@ -327,6 +330,7 @@ def generate_linear_regression_plot(data):
     # Generate regression equation
     slope = model.coef_[0]
     intercept = model.intercept_
+    r2_value = r2_score(Y, Y_pred)
     equation = f"y = {slope:.2f}x + {intercept:.2f}"
 
     # Create scatter plot with regression line
@@ -340,4 +344,4 @@ def generate_linear_regression_plot(data):
         showlegend=True
     )
 
-    return figure, equation
+    return figure, equation, r2_value
