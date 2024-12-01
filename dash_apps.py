@@ -80,6 +80,7 @@ def create_dash_apps(flask_app):
         Input('data-table2', 'data')
     )
 
+    # Updating T-Test Plot after User Provides Data
     def update_ttest_plot(data1, data2):
         """This function generates a line plot based on a
         user-provided input values. As the user changes
@@ -385,12 +386,57 @@ def create_dash_apps(flask_app):
 
         return go.Figure(), "No update requested."
 
+    dash_regressions_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_regressions/')
+
+    linear_df = plots.initialize_linear_data()
+
+    # Layout for the Linear Regression page
+    dash_regressions_app.layout = html.Div([
+        html.H1("Interactive Linear Regression"),
+        html.Div([
+            html.H3("Edit Data Table"),
+            dash_table.DataTable(
+                id='linear-data-table',
+                columns=[
+                    {'name': 'X Values', 'id': 'X Values', 'editable': True},
+                    {'name': 'Y Values', 'id': 'Y Values', 'editable': True},
+                ],
+                data=linear_df.to_dict('records'),
+                editable=True,
+                row_deletable=False,
+                style_table={'overflowX': 'auto'}
+            ),
+        ]),
+        html.Button("Update Plot", id="update-regression-plot-btn", n_clicks=0),
+        dcc.Graph(id='linear-regression-plot'),
+        html.H3("Linear Regression Equation"),
+        html.Div(id='linear-regression-equation', style={'fontSize': '18px', 'marginTop': '20px'}),
+    ])
+
+    # Callback to update the plot and display the regression equation
+    @dash_regressions_app.callback(
+        [Output('linear-regression-plot', 'figure'),
+         Output('linear-regression-equation', 'children')],
+        [Input('update-regression-plot-btn', 'n_clicks')],
+        [State('linear-data-table', 'data')]
+    )
+    def update_linear_regression_plot(n_clicks, data):
+        """
+        Updates the linear regression plot and displays the equation when the 
+        "Update Plot" button is clicked.
+        """
+        if n_clicks > 0:
+            figure, equation = plots.generate_linear_regression_plot(data)
+            return figure, f"Linear Regression Equation: {equation}"
+        return go.Figure(), "No updates yet."
+
     return {
         'dash_test': dash_test_app,
         'dash_ttest': dash_ttest_app,
         'dash_ztest': dash_ztest_app,
         'dash_distribution': dash_distribution_app,
-        'dash_anova': dash_anova_app
+        'dash_anova': dash_anova_app,
+        'dash_regressions': dash_regressions_app
     }
 
 def create_data_table_two_col(table_id, data, value_col):
@@ -451,3 +497,4 @@ def create_data_table_one_col(table_id, data, value_col):
             'width': 'auto',        # Allow the column to resize dynamically based on content
         },
     )
+

@@ -5,6 +5,7 @@ about the plots."""
 import pandas as pd
 from scipy import stats
 from statsmodels.stats.weightstats import ztest
+from sklearn.linear_model import LinearRegression
 import plotly.graph_objs as go
 import numpy as np
 
@@ -283,3 +284,60 @@ def generate_anova_plot(data1, data2, data3):
         anova_result_text = f"ANOVA Test: F-statistic = {f_stat:.2f}, P-value = {p_value:.4f}\nThe p-value is greater than 0.05, indicating that there is no significant difference between the groups."
 
     return figure, anova_result_text
+
+# Initialize data table for Regressions page
+def initialize_linear_data(rows=10):
+    """
+    Generates initial data for linear regression with X values starting at 1 
+    and increasing by 2, and Y values calculated as 2X + 1.
+
+    Args:
+        rows (int): Number of rows to generate. Defaults to 10.
+
+    Returns:
+        pd.DataFrame: A DataFrame with 'X Values' and 'Y Values' columns.
+    """
+    x_values = np.arange(1, rows + 1)  # Generate consecutive integers starting from 1
+    y_values = 2 * x_values + 1 # Initial values should follow a linear regresion model for plotting purposes
+    return pd.DataFrame({"X Values": x_values, "Y Values": y_values})
+
+# Generate interactive plot for Regressions page
+def generate_linear_regression_plot(data):
+    """
+    Generates a scatter plot with a linear regression line based on input data.
+
+    Args:
+        data (list of dict): Data for the regression, where each dictionary 
+                             represents a row with 'X Values' and 'Y Values' keys.
+
+    Returns:
+        - plotly.graph_objs.Figure: A scatter plot with a regression line.
+        - str: The linear regression equation in the format y = mx + b.
+    """
+    # Convert input data to a DataFrame
+    df = pd.DataFrame(data).apply(pd.to_numeric, errors='coerce').dropna()
+
+    # Perform linear regression
+    X = df['X Values'].values.reshape(-1, 1)
+    Y = df['Y Values'].values
+    model = LinearRegression()
+    model.fit(X, Y)
+    Y_pred = model.predict(X)
+
+    # Generate regression equation
+    slope = model.coef_[0]
+    intercept = model.intercept_
+    equation = f"y = {slope:.2f}x + {intercept:.2f}"
+
+    # Create scatter plot with regression line
+    figure = go.Figure()
+    figure.add_trace(go.Scatter(x=df['X Values'], y=df['Y Values'], mode='markers', name='Data Points'))
+    figure.add_trace(go.Scatter(x=df['X Values'], y=Y_pred, mode='lines', name='Regression Line'))
+    figure.update_layout(
+        title="Linear Regression Plot",
+        xaxis_title="X Values",
+        yaxis_title="Y Values",
+        showlegend=True
+    )
+
+    return figure, equation
