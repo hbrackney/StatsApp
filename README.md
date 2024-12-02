@@ -140,7 +140,6 @@ To end the website run and to regain typing ability in command line or terminal 
 12-11-2024 (SS): Added quiz to z-test page and added more thorough docstrings. </br>
 11-11-2024 (HB): Added Distribution Page with tests for the dash apps and plots. </br>
 06-11-24 (SS): Added example python script to z-test page and updated about page. <br/>
-
 ### Version 0
 This version is an initial build to test basic functions and usablity. </br>
 </br>
