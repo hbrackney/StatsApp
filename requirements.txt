@@ -1,4 +1,0 @@
-Flask==3.03
-Python==3.12.7
-Werkseug==3.0.4
-waitress=3.0.0
