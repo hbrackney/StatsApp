@@ -64,20 +64,20 @@ def create_dash_apps(flask_app):
 
     # T-test Data Table
     dash_ttest_app.layout = html.Div([
-        html.H1("Compare Two Datasets and Calculate T-Test"),
-        create_data_table_two_col('data-table1', tdf1, 'Y-Values'),
-        create_data_table_two_col('data-table2', tdf2, 'Y-Values'),
-        dcc.Graph(id='line-chart'),
-        html.H3("T-Test Result"),
-        html.Div(id='t-test-result')
+        html.H1("Compare Two Datasets and Calculate T-Test"), # Header
+        create_data_table_two_col('data-table1', tdf1, 'Y-Values'), # Table 1
+        create_data_table_two_col('data-table2', tdf2, 'Y-Values'), # Table 2
+        dcc.Graph(id='line-chart'), # Creating the graph
+        html.H3("T-Test Result"), # Header
+        html.Div(id='t-test-result') # Styling
     ])
 
     # T-test Plot
     @dash_ttest_app.callback(
-        Output('line-chart', 'figure'),
-        Output('t-test-result', 'children'),
-        Input('data-table1', 'data'),
-        Input('data-table2', 'data')
+        Output('line-chart', 'figure'), # Creating the line chart
+        Output('t-test-result', 'children'), # Creating the result text output
+        Input('data-table1', 'data'), # Allowing for table updating
+        Input('data-table2', 'data') # Allowing for table updating
     )
 
     # Updating T-Test Plot after User Provides Data
@@ -101,28 +101,28 @@ def create_dash_apps(flask_app):
 
     # Z-test Data Table
     dash_ztest_app.layout = html.Div([
-        html.H1("Compare Two Datasets and Calculate Z-Statistic Value"),
-        html.Div([
-            html.H3("Enter Data for Population 1"),
-            create_data_table_two_col('data-table1', zdf1, 'Population 1'),
-            html.Button("Add Row to Population 1", id="add-row-btn1", n_clicks=0),
+        html.H1("Compare Two Datasets and Calculate Z-Statistic Value"), # Header
+        html.Div([ 
+            html.H3("Enter Data for Population 1"), # Sub-Header
+            create_data_table_two_col('data-table1', zdf1, 'Population 1'), # Table 1
+            html.Button("Add Row to Population 1", id="add-row-btn1", n_clicks=0), # Updating
         ]),
         html.Div([
-            html.H3("Enter Data for Population 2"),
-            create_data_table_two_col('data-table2', zdf2, 'Population 2'),
-            html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0),
+            html.H3("Enter Data for Population 2"), # Sub-Header
+            create_data_table_two_col('data-table2', zdf2, 'Population 2'), # Table 2
+            html.Button("Add Row to Population 2", id="add-row-btn2", n_clicks=0), # Updating
         ]),
         html.Button("Update Box Plot and Z-Statistic", id="update-plot-btn", n_clicks=0),
-        dcc.Graph(id='box-plot'),
-        html.H3("Z-Statistic Result"),
-        html.Div(id='z-test-result')
+        dcc.Graph(id='box-plot'), # Creating the box-plot
+        html.H3("Z-Statistic Result"), # Sub-header
+        html.Div(id='z-test-result') # Styling
     ])
 
     # Updating the Z-test Population 1 Data Table
     @dash_ztest_app.callback(
-        Output('data-table1', 'data'),
-        Input('add-row-btn1', 'n_clicks'),
-        State('data-table1', 'data')
+        Output('data-table1', 'data'), # Making Table
+        Input('add-row-btn1', 'n_clicks'), # Adding rows to the table
+        State('data-table1', 'data') # Updating the table
     )
     def add_row_population1(n_clicks, data1):
         """
@@ -145,9 +145,9 @@ def create_dash_apps(flask_app):
 
     # Updating the Z-test Population 1 Data Table
     @dash_ztest_app.callback(
-        Output('data-table2', 'data'),
-        Input('add-row-btn2', 'n_clicks'),
-        State('data-table2', 'data')
+        Output('data-table2', 'data'), # Making the Table
+        Input('add-row-btn2', 'n_clicks'), # Adding rows to the table
+        State('data-table2', 'data') # Updating the table
     )
     def add_row_population2(n_clicks, data2):
         """
@@ -170,11 +170,11 @@ def create_dash_apps(flask_app):
 
     # Z-test Plot
     @dash_ztest_app.callback(
-        Output('box-plot', 'figure'),
-        Output('z-test-result', 'children'),
-        Input('update-plot-btn', 'n_clicks'),
-        State('data-table1', 'data'),
-        State('data-table2', 'data')
+        Output('box-plot', 'figure'), # Making the Box-plot
+        Output('z-test-result', 'children'), # Text Result
+        Input('update-plot-btn', 'n_clicks'), # Adding Rows
+        State('data-table1', 'data'), # Updating Dataset 1
+        State('data-table2', 'data') # Updating Dataset 2
     )
 
     def update_ztest_plot(n_clicks, data1, data2):

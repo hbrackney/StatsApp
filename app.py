@@ -17,8 +17,7 @@ options = {
     "z-test": pages[3],
     "Data Distributions": pages[4],
     "ANOVA test": pages[5],
-    "Regressions": pages[6],
-    "Example page": pages [7]
+    "Regressions": pages[6]
 }
 
 create_dash_apps(app)
@@ -69,7 +68,7 @@ def z_test_page():
 
     Returns: Creates the z test page
     """
-    return render_template("z_test_page.html")
+    return render_template(f'{pages[3]}.html')
 
 @app.route(f"/{pages[4]}")
 def distributions_page():
@@ -77,7 +76,7 @@ def distributions_page():
 
     Returns: Creates the Data Distributions page
     """
-    return render_template("distributions_page.html")
+    return render_template(f'{pages[4]}.html')
 
 @app.route(f"/{pages[5]}")
 def anova():
@@ -85,7 +84,7 @@ def anova():
 
     Returns: Creates the ANOVA page
     """
-    return render_template("anova.html")
+    return render_template(f'{pages[5]}.html')
 
 @app.route(f"/{pages[6]}")
 def regressions():
@@ -93,7 +92,7 @@ def regressions():
 
     Returns: Creates the regressions page
     """
-    return render_template("regressions.html")
+    return render_template(f'{pages[6]}.html')
 
 @app.route(f"/{pages[7]}")
 def example_page():
@@ -104,7 +103,7 @@ def example_page():
 
     Returns: Creates the interactive page
     """
-    return render_template(f"{pages[6]}.html")
+    return render_template(f"{pages[7]}.html")
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=4200)
+    serve(app, host="0.0.0.0", port=14000)
