@@ -1,7 +1,6 @@
 """This test file tests the dash apps module"""
 import pytest
-import dash
-from dash import Dash, dash_table # , dcc, html
+from dash import Dash, dash_table
 from dash.testing.application_runners import import_app
 # from dash.dependencies import Input, Output, State
 # from dash.testing import wait
