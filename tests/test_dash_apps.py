@@ -1,14 +1,11 @@
 """This test file tests the dash apps module"""
 import pytest
-from dash import Dash, dash_table # , dcc, html
+from dash import Dash, dash_table
 from dash.testing.application_runners import import_app
 import time
-# from dash.dependencies import Input, Output, State
-# from dash.testing import wait
 from flask import Flask
 import pandas as pd
 import dash_apps
-# import plots
 
 @pytest.fixture
 def test_app():
