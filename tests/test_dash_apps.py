@@ -96,7 +96,6 @@ def test_create_data_table_one_col():
 
     # Call the function with this data
     table = dash_apps.create_data_table_one_col('table-id', data, 'Values')
-
     # Ensure the table is a Dash Table
     assert isinstance(table, dash_table.DataTable)
 
