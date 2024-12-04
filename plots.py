@@ -317,9 +317,26 @@ def generate_linear_regression_plot(data):
         - str: The linear regression equation in the format y = mx + b.
         - float: The R^2 value indicating the goodness of fit.
 
+    Raises:
+        KeyError: If required columns ('X Values', 'Y Values') are missing.
+        ValueError: If the input data contains invalid types or inconsistent lengths.
+
     """
+    # Check if the data is a list of dictionaries
+    if not isinstance(data, list) or not all(isinstance(row, dict) for row in data):
+        raise ValueError("Input data must be a list of dictionaries")
+
     # Convert input data to a DataFrame
-    df = pd.DataFrame(data).apply(pd.to_numeric, errors='coerce').dropna()
+    df = pd.DataFrame(data)
+
+    # Check for required columns
+    if 'X Values' not in df.columns or 'Y Values' not in df.columns:
+        raise KeyError("Input data must contain 'X Values' and 'Y Values' columns")
+
+    # Ensure columns are numeric
+    df = df.apply(pd.to_numeric, errors='coerce').dropna()
+    if df.empty:
+        raise ValueError("Data contains no valid numeric values after cleaning")
 
     # Perform linear regression
     X = df['X Values'].values.reshape(-1, 1)

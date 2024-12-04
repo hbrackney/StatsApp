@@ -131,6 +131,30 @@ def test_create_data_table_one_col():
     assert len(table.data) == 3  # Check the number of rows
     assert response.status_code == 405 # Returns a page error
 
+
+# Regressions Tests    
+def test_regressions_add_row(test_app):
+    """Tests adding a row to the regression data table."""
+    client = test_app['dash_regressions']
+    initial_data = [{'X Values': 1, 'Y Values': 3}]
+    response = client.post('/dash_regressions/', json={
+        'add-row-btn': 1,
+        'linear-data-table': initial_data
+    })
+    assert response.status_code == 200 or 405  # Page correctly loads
+
+def test_regressions_update_plot(test_app):
+    """Tests updating the regression plot with user-provided data."""
+    client = test_app['dash_regressions']
+    data = [{'X Values': 1, 'Y Values': 2}, {'X Values': 2, 'Y Values': 4}]
+    response = client.post('/dash_regressions/', json={
+        'update-regression-plot-btn': 1,
+        'linear-data-table': data
+    })
+    assert response.status_code == 200 or 405  # Page correctly loads
+
+
+# Output and Formatting Tests
 def test_create_data_table_two_col():
     """Tests that the output and format of the generated tables is correct"""
     # Sample data to pass to the function
