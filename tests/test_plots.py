@@ -137,6 +137,24 @@ class TestInitializeRandomData:
         assert list(data1.columns) == ['X Values', 'Population 1']
         assert list(data2.columns) == ['X Values', 'Population 2']
 
+    def test_initialize_linear_data(self):
+        """Test the initialize_linear_data function."""
+        rows = 5
+        df = plots.initialize_linear_data(rows)
+
+        # Verify the DataFrame structure
+        assert isinstance(df, pd.DataFrame), "Output should be a pandas DataFrame"
+        assert list(df.columns) == ['X Values', 'Y Values'], "DataFrame should have 'X Values' and 'Y Values' columns"
+
+        # Verify the number of rows
+        assert len(df) == rows, f"DataFrame should have {rows} rows"
+
+        # Verify the linear relationship: Y = 2X + 1
+        x_expected = np.arange(1, rows + 1)
+        y_expected = 2 * x_expected + 1
+        assert (df['X Values'].values == x_expected).all(), "X Values should be consecutive integers starting from 1"
+        assert (df['Y Values'].values == y_expected).all(), "Y Values should follow the equation Y = 2X + 1"
+
 
 class TestGenerateZTestPlot:
     """Tests for the generate_ztest_plot function."""
@@ -256,3 +274,71 @@ class TestGenerateDistributionPlot:
         # Test the function with invalid input (missing 'Values' column)
         with pytest.raises(KeyError):
             plots.generate_distribution_plot(missing_column_data)
+
+class TestGenerateRegressionPlot:
+    '''
+    A test suite for the `generate_linear_regression_plot` function in the plots module.
+    The function is tested for:
+    - Correct calculation of the regression line equation and R² value.
+    - Proper handling of edge cases, such as empty data, invalid data types, 
+      missing columns, and non-numeric values.
+    '''
+    def test_generate_linear_regression_plot(self):
+        """Test the generate_linear_regression_plot function."""
+        # Input data following a perfect linear relationship
+        data = [
+            {'X Values': 1, 'Y Values': 3},
+            {'X Values': 2, 'Y Values': 5},
+            {'X Values': 3, 'Y Values': 7},
+            {'X Values': 4, 'Y Values': 9}
+        ]
+
+        figure, equation, r2_value = plots.generate_linear_regression_plot(data)
+
+        # Verify the equation is correct
+        expected_equation = "y = 2.00x + 1.00"
+        assert equation == expected_equation, f"Expected equation: {expected_equation}, but got: {equation}"
+
+        # Verify the R^2 value is 1.0 (perfect fit)
+        assert r2_value == 1.0, f"Expected R^2 value of 1.0, but got: {r2_value}"
+
+        # Verify the figure contains the expected traces
+        assert isinstance(figure, go.Figure), "Output figure should be a Plotly Figure"
+        assert len(figure.data) == 2, "Figure should have 2 traces (data points and regression line)"
+        assert figure.data[0].name == "Data Points", "First trace should represent data points"
+        assert figure.data[1].name == "Regression Line", "Second trace should represent the regression line"
+
+    def test_generate_linear_regression_plot_empty_data(self):
+        """Test generate_linear_regression_plot with no data."""
+        empty_data = []
+
+        # Test the function with empty input (should raise KeyError for missing columns)
+        with pytest.raises(KeyError):
+            plots.generate_linear_regression_plot(empty_data)
+    
+    def test_generate_linear_regression_plot_invalid_data_type(self):
+        """Negative test for generate_linear_regression_plot with invalid data type."""
+        invalid_data = {'X Values': ['a', 'b', 'c'], 'Y Values': [1, 2, 3]}
+
+        # Test the function with invalid input (should raise ValueError or similar)
+        with pytest.raises(ValueError):
+            plots.generate_linear_regression_plot(invalid_data)
+
+    def test_generate_linear_regression_plot_missing_columns(self):
+        """Negative test for generate_linear_regression_plot with missing columns."""
+        missing_column_data = [{'SomeOtherColumn': [1, 2, 3]}]
+
+        # Test the function with missing 'X Values' or 'Y Values' columns (should raise KeyError)
+        with pytest.raises(KeyError):
+            plots.generate_linear_regression_plot(missing_column_data)
+
+    def test_generate_linear_regression_plot_non_numeric_values(self):
+        """Test generate_linear_regression_plot with non-numeric values."""
+        non_numeric_data = [
+            {'X Values': 1, 'Y Values': 'a'},  # 'Y Values' contains non-numeric data
+            {'X Values': 'b', 'Y Values': 2}  # 'X Values' contains non-numeric data
+        ]
+
+        # Expect the function to raise a ValueError when non-numeric data is present
+        with pytest.raises(ValueError, match="Data contains no valid numeric values after cleaning"):
+            plots.generate_linear_regression_plot(non_numeric_data)

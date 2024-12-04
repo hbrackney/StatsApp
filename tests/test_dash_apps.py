@@ -26,8 +26,9 @@ def test_update_plot_test(test_app):
     response = client.post('/dash_test/', json={'data-input': 3})  # Adjust the data as necessary
     assert response.status_code == 200 or 405 # Page correctly loads
 
-# Example for testing the addition of a row in the DataTable
-def test_add_row_population1(test_app):
+
+# Z-test Tests
+def test_ztest_add_row_population1(test_app):
     """Tests the functionality of adding a row to a data table in dash_ztest"""
     client = test_app['dash_ztest']
     initial_data = [{'X Values': 1, 'Z Values': 0}]
@@ -51,6 +52,8 @@ def test_update_ztest_plot(test_app):
     })
     assert response.status_code == 200 or 405 # Page correctly loads
 
+
+# Distributions Tests
 def test_update_distributions_test(test_app):
     """Tests that the Dash app correctly handles requests to the /dash_distribution/"""
     client = test_app['dash_distribution']
@@ -61,6 +64,30 @@ def test_update_distributions_test(test_app):
     response = client.post('/dash_distribution/', json={'data-input': 3})
     assert response.status_code == 405 # Returns a page error
 
+
+# Regressions Tests    
+def test_regressions_add_row(test_app):
+    """Tests adding a row to the regression data table."""
+    client = test_app['dash_regressions']
+    initial_data = [{'X Values': 1, 'Y Values': 3}]
+    response = client.post('/dash_regressions/', json={
+        'add-row-btn': 1,
+        'linear-data-table': initial_data
+    })
+    assert response.status_code == 200 or 405  # Page correctly loads
+
+def test_regressions_update_plot(test_app):
+    """Tests updating the regression plot with user-provided data."""
+    client = test_app['dash_regressions']
+    data = [{'X Values': 1, 'Y Values': 2}, {'X Values': 2, 'Y Values': 4}]
+    response = client.post('/dash_regressions/', json={
+        'update-regression-plot-btn': 1,
+        'linear-data-table': data
+    })
+    assert response.status_code == 200 or 405  # Page correctly loads
+
+
+# Output and Formatting Tests
 def test_create_data_table_two_col():
     """Tests that the output and format of the generated tables is correct"""
     # Sample data to pass to the function
