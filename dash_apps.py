@@ -450,13 +450,29 @@ def create_dash_apps(flask_app):
 
     def update_linear_regression_plot(n_clicks, data):
         """
-        Updates the linear regression plot and displays the equation when the 
-        "Update Plot" button is clicked.
+        Updates the linear regression plot and displays the equation and R² value 
+        when the "Update Plot" button is clicked.
+
+        Args:
+            n_clicks (int): Number of times the update button has been clicked.
+            data (list of dict): Data for the regression table.
+
+        Returns:
+            - plotly.graph_objs.Figure: The updated regression plot.
+            - str: The linear regression equation or a placeholder message.
+            - str: The R² value or a placeholder message.
         """
-        if n_clicks > 0:
+        if n_clicks and n_clicks > 0:
+            # Generate the plot, equation, and R² value
             figure, equation, r2_value = plots.generate_linear_regression_plot(data)
-            return figure, f"Linear Regression Equation: {equation}", f"R² Value: {r2_value:.4f}"
-        return go.Figure(), "No updates yet."
+            return (
+                figure,
+                f"Linear Regression Equation: {equation}",
+                f"R² Value: {r2_value:.4f}"
+            )
+        
+        # Default state before updates
+        return go.Figure(), "No updates requested.", "No updates requested."
 
     return {
         'dash_test': dash_test_app,
