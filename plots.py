@@ -11,76 +11,72 @@ import plotly.graph_objs as go
 import numpy as np
 
 # T-test Table/Plot Information
-def generate_ttest_data():
-    """This function creates the data for the
-    t-test plot. 
+def initialize_ttest_data(rows=10):
+    """
+    Generates random data for two sample populations with values between 80 and 100.
+
+    Args:
+        - rows (int): The number of data points to generate. Defaults to 10.
 
     Returns:
-        Dataframes: two pandas dataframes of data
+        - pd.DataFrame: DataFrame for Population 1 with randomized values.
+        - pd.DataFrame: DataFrame for Population 2 with randomized values.
     """
-    # Initial data for two datasets
-    initial_data1 = {
-        'X Values': [1, 2, 3, 4, 5],
-        'Y Values': [10, 15, 13, 17, 19]
-    }
-    initial_data2 = {
-        'X Values': [1, 2, 3, 4, 5],
-        'Y Values': [12, 14, 11, 20, 18]
-    }
-    return pd.DataFrame(initial_data1), pd.DataFrame(initial_data2) # returns two data tables
+    data1 = {'X Values': list(range(1, rows + 1)), 'Population 1': np.random.randint(80, 101, rows)}
+    data2 = {'X Values': list(range(1, rows + 1)), 'Population 2': np.random.randint(80, 101, rows)}
+    return pd.DataFrame(data1), pd.DataFrame(data2)
+
+# T-test Table/Plot Information
+def initialize_ttest_data(rows=10):
+    """
+    Generates random data for two sample populations with values between 80 and 100.
+
+    Args:
+        - rows (int): The number of data points to generate. Defaults to 10.
+
+    Returns:
+        - pd.DataFrame: DataFrame for Population 1 with randomized values.
+        - pd.DataFrame: DataFrame for Population 2 with randomized values.
+    """
+    data1 = {'X Values': list(range(1, rows + 1)), 'Population 1': np.random.randint(80, 101, rows)}
+    data2 = {'X Values': list(range(1, rows + 1)), 'Population 2': np.random.randint(80, 101, rows)}
+    return pd.DataFrame(data1), pd.DataFrame(data2)
 
 def generate_ttest_plot(data1, data2):
     """
-    Generates a line plot comparing two datasets and calculates 
-    the t-test statistic for the difference in their means.
+    Generates a box plot and calculates the t-test statistic for comparing
+    the means of two sample populations.
 
     Args:
-        - data1 (list of dict): Data for the first dataset, where 
-            each dictionary represents a row with 'X Values' and 
-            'Y Values' keys.
-        - data2 (list of dict): Data for the second dataset, where
-            each dictionary represents a row with 'X Values' and 
-            'Y Values' keys.
+        - data1 (list of dict): Data for Population 1, with keys such as 'X Values' and 'Population 1'.
+        - data2 (list of dict): Data for Population 2, with keys such as 'X Values' and 'Population 2'.
 
     Returns:
-        - dict: A Plotly figure dictionary containing a line plot 
-            of 'Y Values' vs. 'X Values' for both datasets.
-        - str: A formatted string displaying the calculated t-test 
-            statistic and p-value for the difference between the 
-            two datasets.
-
+        - plotly.graph_objs.Figure: A box plot comparing the distributions of Population 1 and Population 2.
+        - str: A formatted string displaying the t-test statistic and p-value.
     """
-    # Convert input data into DataFrames
-    data_frame1 = pd.DataFrame(data1)
-    data_frame2 = pd.DataFrame(data2)
+    df1 = pd.DataFrame(data1)
+    df2 = pd.DataFrame(data2)
+
+    # Extract numeric values for t-test calculations
+    values1 = pd.to_numeric(df1['Population 1'], errors='coerce').dropna()
+    values2 = pd.to_numeric(df2['Population 2'], errors='coerce').dropna()
+
+    # Handle insufficient sample sizes
+    if len(values1) < 2 or len(values2) < 2:
+        return go.Figure(), "T-Test: Insufficient data for calculation."
 
     # Perform t-test
-    t_stat, p_value = stats.ttest_ind(data_frame1['Y Values'],
-                                      data_frame2['Y Values'],
-                                      nan_policy='omit')
+    t_stat, p_value = stats.ttest_ind(values1, values2, equal_var=False, nan_policy='omit')
 
-    # Create a comparison plot using Plotly
-    figure = {
-        'data': [
-            go.Scatter(
-                x=data_frame1['X Values'],
-                y=data_frame1['Y Values'],
-                mode='lines+markers',
-                name='Dataset 1'
-            ),
-            go.Scatter(
-                x=data_frame2['X Values'],
-                y=data_frame2['Y Values'],
-                mode='lines+markers',
-                name='Dataset 2'
-            )
-        ],
-        'layout': {
-            'title': 'Comparison of Two Datasets',
-            'xaxis': {'title': 'X Values'},
-            'yaxis': {'title': 'Y Values'},
-        }
-    }
+    # Create a box plot
+    figure = go.Figure()
+    figure.add_trace(go.Box(y=values1, name='Population 1'))
+    figure.add_trace(go.Box(y=values2, name='Population 2'))
+    figure.update_layout(
+        title="Box Plot of Sample Populations",
+        yaxis={"title": "Values"}
+    )
 
     # Format t-test results for display
     t_test_result_text = f"T-Statistic: {t_stat:.2f}, P-Value: {p_value:.4f}"

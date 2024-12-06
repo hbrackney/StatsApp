@@ -9,25 +9,29 @@ import plots
 class TestGenerateTTestData:
     """Tests for the generate_ttest_data function."""
 
-    def test_generate_ttest_data(self):
-        """Test that the generate_ttest_data function returns two correct DataFrames."""
-        data1, data2 = plots.generate_ttest_data()
+    def test_initialize_ttest_data(self):
+        """Test that the initialize_ttest_data function returns two correct DataFrames."""
+        data1, data2 = plots.initialize_ttest_data(rows=10)
 
         # Check if the return values are dataframes
-        assert isinstance(data1, pd.DataFrame)
-        assert isinstance(data2, pd.DataFrame)
+        assert isinstance(data1, pd.DataFrame), "First output should be a DataFrame"
+        assert isinstance(data2, pd.DataFrame), "Second output should be a DataFrame"
 
         # Check if they have the correct columns
-        assert list(data1.columns) == ['X Values', 'Y Values']
-        assert list(data2.columns) == ['X Values', 'Y Values']
+        assert list(data1.columns) == ['X Values', 'Population 1'], "DataFrame 1 should have 'X Values' and 'Population 1'"
+        assert list(data2.columns) == ['X Values', 'Population 2'], "DataFrame 2 should have 'X Values' and 'Population 2'"
 
-        # Check the data in the first dataframe
-        assert data1['X Values'].tolist() == [1, 2, 3, 4, 5]
-        assert data1['Y Values'].tolist() == [10, 15, 13, 17, 19]
+        # Check the length of the DataFrames
+        assert len(data1) == 10, "DataFrame 1 should have 10 rows"
+        assert len(data2) == 10, "DataFrame 2 should have 10 rows"
 
-        # Check the data in the second dataframe
-        assert data2['X Values'].tolist() == [1, 2, 3, 4, 5]
-        assert data2['Y Values'].tolist() == [12, 14, 11, 20, 18]
+        # Check the values in the DataFrames
+        assert data1['X Values'].tolist() == list(range(1, 11)), "X Values in DataFrame 1 should be consecutive numbers from 1 to 10"
+        assert data2['X Values'].tolist() == list(range(1, 11)), "X Values in DataFrame 2 should be consecutive numbers from 1 to 10"
+
+        # Verify that Population 1 and Population 2 values are within the expected range
+        assert data1['Population 1'].between(80, 100).all(), "Population 1 values should be between 80 and 100"
+        assert data2['Population 2'].between(80, 100).all(), "Population 2 values should be between 80 and 100"
 
 
 class TestGenerateTTestPlot:
@@ -35,64 +39,88 @@ class TestGenerateTTestPlot:
 
     def test_generate_ttest_plot_valid_data(self):
         """Test generate_ttest_plot with valid data."""
-        data1 = {'X Values': [1, 2, 3, 4, 5], 'Y Values': [10, 15, 13, 17, 19]}
-        data2 = {'X Values': [1, 2, 3, 4, 5], 'Y Values': [12, 14, 11, 20, 18]}
+        data1 = [{'X Values': 1, 'Population 1': 10},
+                 {'X Values': 2, 'Population 1': 15},
+                 {'X Values': 3, 'Population 1': 13},
+                 {'X Values': 4, 'Population 1': 17},
+                 {'X Values': 5, 'Population 1': 19}]
+        data2 = [{'X Values': 1, 'Population 2': 12},
+                 {'X Values': 2, 'Population 2': 14},
+                 {'X Values': 3, 'Population 2': 11},
+                 {'X Values': 4, 'Population 2': 20},
+                 {'X Values': 5, 'Population 2': 18}]
 
         figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
 
         # Test that the return values are correct types
-        assert isinstance(figure, dict)  # A plotly figure dictionary
-        assert 'data' in figure  # Check if the 'data' key exists in the figure
-
-        # Check for specific t-statistics and p-values
+        assert isinstance(figure, go.Figure), "Output should be a Plotly Figure"
         assert "T-Statistic:" in t_test_result_text
         assert "P-Value:" in t_test_result_text
 
     def test_generate_ttest_plot_empty_data(self):
-        """Test with empty data or small sample sizes."""
-        data1 = {'X Values': [], 'Y Values': []}
-        data2 = {'X Values': [], 'Y Values': []}
+        """Test with empty data."""
+        data1 = {'X Values': [], 'Population 1': []}
+        data2 = {'X Values': [], 'Population 2': []}
 
         figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
 
-        # The result should still produce a plot figure, but the t-test should handle empty data
-        assert isinstance(figure, dict)
-        assert 'data' in figure
-        assert 'layout' in figure
-
-        # Check if the t-test string is well-formatted even for empty data
-        assert t_test_result_text == "T-Statistic: nan, P-Value: nan"
+        # Ensure the result is a valid figure and handles empty data gracefully
+        assert isinstance(figure, go.Figure), "Output should be a Plotly Figure"
+        assert 'data' in figure.to_dict(), "Figure should have a 'data' key"
+        assert "T-Test: Insufficient data for calculation." == t_test_result_text
 
     def test_generate_ttest_plot_data_with_nans(self):
         """Test with data containing NaN values."""
-        data1 = {'X Values': [1, 2, 3, 4, 5], 'Y Values': [10, 15, None, 17, 19]}
-        data2 = {'X Values': [1, 2, 3, 4, 5], 'Y Values': [12, 14, 11, None, 18]}
+        data1 = [{'X Values': 1, 'Population 1': 10},
+                 {'X Values': 2, 'Population 1': 15},
+                 {'X Values': 3, 'Population 1': None},
+                 {'X Values': 4, 'Population 1': 17},
+                 {'X Values': 5, 'Population 1': 19}]
+        data2 = [{'X Values': 1, 'Population 2': 12},
+                 {'X Values': 2, 'Population 2': 14},
+                 {'X Values': 3, 'Population 2': 11},
+                 {'X Values': 4, 'Population 2': None},
+                 {'X Values': 5, 'Population 2': 18}]
 
         figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
 
-        # Check if the function handles NaN values gracefully
-        assert isinstance(figure, dict)
-        assert 'data' in figure
-        assert 'layout' in figure
-
-        # Check if the t-test result text is well-formatted
-        assert isinstance(t_test_result_text, str)
+        # Ensure the function handles NaN values gracefully
+        assert isinstance(figure, go.Figure), "Output should be a Plotly Figure"
+        assert len(figure.data) == 2, "Figure should plot two datasets"
         assert "T-Statistic:" in t_test_result_text
         assert "P-Value:" in t_test_result_text
 
     def test_generate_ttest_plot_different_lengths(self):
         """Test with data of different lengths."""
-        data1 = {'X Values': [1, 2, 3, 4, 5], 'Y Values': [10, 15, 13, 17, 19]}
-        data2 = {'X Values': [1, 2, 3], 'Y Values': [12, 14, 11]}
+        data1 = [{'X Values': 1, 'Population 1': 10},
+                 {'X Values': 2, 'Population 1': 15},
+                 {'X Values': 3, 'Population 1': 13},
+                 {'X Values': 4, 'Population 1': 17},
+                 {'X Values': 5, 'Population 1': 19}]
+        data2 = [{'X Values': 1, 'Population 2': 12},
+                 {'X Values': 2, 'Population 2': 14},
+                 {'X Values': 3, 'Population 2': 11}]
 
         figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
 
-        # Ensure the function handles different lengths correctly
-        assert isinstance(figure, dict)
-        assert 'data' in figure
-        assert len(figure['data']) == 2  # Expecting two datasets to be plotted
+        # Ensure the function handles different lengths gracefully
+        assert isinstance(figure, go.Figure), "Output should be a Plotly Figure"
+        assert len(figure.data) == 2, "Figure should plot two datasets"
         assert "T-Statistic:" in t_test_result_text
         assert "P-Value:" in t_test_result_text
+
+    def test_generate_ttest_plot_insufficient_sample_size(self):
+        """Test with insufficient sample size for t-test."""
+        data1 = [{'X Values': 1, 'Population 1': 10}]
+        data2 = [{'X Values': 1, 'Population 2': 12}]
+
+        figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
+
+        # Ensure the function handles insufficient data gracefully
+        assert isinstance(figure, go.Figure), "Output should be a Plotly Figure"
+        assert len(figure.data) == 0, "Figure should have no data for insufficient input"
+        assert t_test_result_text == "T-Test: Insufficient data for calculation."
+
 
 class TestInitializeRandomData:
     """Tests for the initialize_random_data function."""
