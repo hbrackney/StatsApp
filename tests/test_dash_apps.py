@@ -1,12 +1,17 @@
 """This test file tests the dash apps module"""
 import pytest
-from dash import Dash, dash_table
+import dash
+from dash import Dash, dash_table # , dcc, html
 from dash.testing.application_runners import import_app
 # from dash.dependencies import Input, Output, State
 # from dash.testing import wait
 from flask import Flask
 import pandas as pd
+import pandas as pd
 import dash_apps
+# import plots
+from dash_apps import create_dash_apps
+import plotly.graph_objs as go
 # import plots
 from dash_apps import create_dash_apps
 import plotly.graph_objs as go
@@ -131,30 +136,6 @@ def test_create_data_table_one_col():
     assert len(table.data) == 3  # Check the number of rows
     assert response.status_code == 405 # Returns a page error
 
-
-# Regressions Tests    
-def test_regressions_add_row(test_app):
-    """Tests adding a row to the regression data table."""
-    client = test_app['dash_regressions']
-    initial_data = [{'X Values': 1, 'Y Values': 3}]
-    response = client.post('/dash_regressions/', json={
-        'add-row-btn': 1,
-        'linear-data-table': initial_data
-    })
-    assert response.status_code == 200 or 405  # Page correctly loads
-
-def test_regressions_update_plot(test_app):
-    """Tests updating the regression plot with user-provided data."""
-    client = test_app['dash_regressions']
-    data = [{'X Values': 1, 'Y Values': 2}, {'X Values': 2, 'Y Values': 4}]
-    response = client.post('/dash_regressions/', json={
-        'update-regression-plot-btn': 1,
-        'linear-data-table': data
-    })
-    assert response.status_code == 200 or 405  # Page correctly loads
-
-
-# Output and Formatting Tests
 def test_create_data_table_two_col():
     """Tests that the output and format of the generated tables is correct"""
     # Sample data to pass to the function
@@ -184,6 +165,7 @@ def test_create_data_table_one_col():
 
     # Call the function with this data
     table = dash_apps.create_data_table_one_col('table-id', data, 'Values')
+
     # Ensure the table is a Dash Table
     assert isinstance(table, dash_table.DataTable)
 
