@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block title %}ANOVA Test{% endblock %}
+
+{% block content %}
+    <h1>ANOVA Test</h1>
+    <p><b>What is an ANOVA test?</b></p>
+    <p>
+        An ANOVA (Analysis of Variance) test is a statistical method used to compare the means of three or more groups to determine
+        if at least one of the group means is statistically different from the others. It is particularly useful when you have
+        multiple groups or conditions and you want to determine if there are significant differences between them.
+    </p>
+    <p>
+        ANOVA tests the null hypothesis that all group means are equal. If the null hypothesis is rejected, it suggests that at least
+        one group mean is significantly different. ANOVA provides a way to test these differences without increasing the risk of
+        Type I error, which would occur if multiple t-tests were conducted.
+    </p>
+    <p>
+        The test uses an F-statistic, which compares the variance between the groups to the variance within the groups.
+        A larger F-statistic indicates that the between-group variance is much larger than the within-group variance, suggesting significant differences.
+    </p>
+    <p>
+        If your data doesn’t fit the assumptions of ANOVA, consider using non-parametric tests like the Kruskal-Wallis test.
+    </p>
+
+    <h2>Types of ANOVA:</h2>
+    <ol>
+        <li><b>One-Way ANOVA:</b> Compares the means of three or more independent groups to see if at least one group mean differs from the others.</li>
+        <li><b>Two-Way ANOVA:</b> Compares the means of groups based on two independent variables, and can also check for interactions between them.</li>
+        <li><b>Repeated Measures ANOVA:</b> Compares the means of three or more related groups or measurements taken on the same subjects over time.</li>
+    </ol>
+
+    <h2>Assumptions of ANOVA:</h2>
+    <ul>
+        <li>The groups being compared are independent.</li>
+        <li>The data in each group are approximately normally distributed.</li>
+        <li>The variance within each group is approximately equal (homogeneity of variance).</li>
+    </ul>
+
+    <h2>Steps to Perform an ANOVA Test:</h2>
+    <ol>
+        <li><b>Formulate Hypotheses:</b>
+            <ul>
+                <li><strong>Null Hypothesis (H0):</strong> All group means are equal.</li>
+                <li><strong>Alternative Hypothesis (H1):</strong> At least one group mean is different.</li>
+            </ul>
+        </li>
+        <li><b>Collect Data:</b> Gather data for the groups being compared.</li>
+        <li><b>Calculate the F-statistic:</b> The F-statistic is calculated as the ratio of the variance between groups to the variance within groups. The formula is:
+            $$ F = \frac{MS_{between}}{MS_{within}} $$
+            where:
+            <ul>
+                <li>\( MS_{between} \) is the mean square between groups (variance between the groups).</li>
+                <li>\( MS_{within} \) is the mean square within groups (variance within each group).</li>
+            </ul>
+        </li>
+        <li><b>Find the Degrees of Freedom:</b>
+            <ul>
+                <li>For the between-group degrees of freedom: \( df_{between} = k - 1 \), where \( k \) is the number of groups.</li>
+                <li>For the within-group degrees of freedom: \( df_{within} = N - k \), where \( N \) is the total number of observations.</li>
+            </ul>
+        </li>
+        <li><b>Determine the Critical Value:</b> Use an F-distribution table to find the critical F-value based on the chosen significance level (usually 0.05) and the degrees of freedom.</li>
+        <li><b>Decide:</b> If the calculated F-statistic is greater than the critical F-value, reject the null hypothesis.</li>
+        <li><b>Report Results:</b> Report the F-statistic, degrees of freedom, p-value, and conclusion regarding the hypothesis.</li>
+    </ol>
+
+    <h1> Interactive ANOVA Plot Chart</h1>
+    <iframe src="/dash_anova/" style="width:75%; height:600px; border:none;"></iframe>
+    
+    <h2>Multiple Choice Quiz</h2>
+    <div class="quiz">
+        <h2>Quiz</h2>
+        <p><strong>What is the null hypothesis of an ANOVA test?</strong></p>
+        <form id="quizForm">
+            <input type="radio" name="option" value="All group means are different"> All group means are different<br>
+            <input type="radio" name="option" value="At least one group mean is different"> At least one group mean is different<br>
+            <input type="radio" name="option" value="All group means are equal"> All group means are equal<br>
+            <input type="radio" name="option" value="The data is normally distributed"> The data is normally distributed<br>
+            <br>
+            <button type="button" onclick="checkAnswer()">Submit</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function checkAnswer() {
+            const options = document.getElementsByName('option');
+            let selectedAnswer = '';
+            for (const option of options) {
+                if (option.checked) {
+                    selectedAnswer = option.value;
+                    break;
+                }
+            }
+            
+            const resultDiv = document.getElementById('result');
+            if (selectedAnswer === 'All group means are equal') {
+                resultDiv.textContent = 'Correct! The null hypothesis of an ANOVA test is that all group means are equal.';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Wrong! The correct answer is that all group means are equal.';
+                resultDiv.style.color = 'red';
+            }
+        }
+    </script>
+
+<h1>Running an ANOVA Test in Python and R</h1>
+
+<div class="section">
+    <h2>Running an ANOVA Test in Python</h2>
+    <p>In Python, you can use the <code>scipy</code> library to perform an ANOVA test. Here's an example:</p>
+    
+    <pre><code>
+import numpy as np
+from scipy import stats
+
+# Generate random data for three groups
+group1 = np.random.normal(loc=5, scale=1, size=30)
+group2 = np.random.normal(loc=7, scale=1.5, size=30)
+group3 = np.random.normal(loc=6, scale=1, size=30)
+
+# Perform the one-way ANOVA test
+f_statistic, p_value = stats.f_oneway(group1, group2, group3)
+
+# Print the results
+print("F-statistic:", f_statistic)
+print("P-value:", p_value)
+
+# Determine if we reject the null hypothesis
+if p_value < 0.05:
+    print("Reject the null hypothesis: The groups have significantly different means.")
+else:
+    print("Fail to reject the null hypothesis: The groups do not have significantly different means.")
+    </code></pre>
+    <p>This code generates random data for three groups, runs the one-way ANOVA test, and outputs the F-statistic and p-value to determine if there is a significant difference between the groups.</p>
+</div>
+
+<div class="section">
+    <h2>Running an ANOVA Test in R</h2>
+    <p>In R, you can use the <code>anova()</code> function to perform an ANOVA test. Here's an example:</p>
+    
+    <pre><code>
+# Generate random data for three groups
+group1 <- rnorm(30, mean = 5, sd = 1)
+group2 <- rnorm(30, mean = 7, sd = 1.5)
+group3 <- rnorm(30, mean = 6, sd = 1)
+
+# Combine the data into a data frame
+data <- data.frame(values = c(group1, group2, group3),
+                   groups = factor(rep(c("Group 1", "Group 2", "Group 3"), each = 30)))
+
+# Perform the one-way ANOVA test
+anova_result <- aov(values ~ groups, data = data)
+
+# Print the summary of the ANOVA test
+summary(anova_result)
+
+# Check the p-value
+if (summary(anova_result)[[1]]$`Pr(>F)`[1] < 0.05) {
+  print("Reject the null hypothesis: The groups have significantly different means.")
+} else {
+  print("Fail to reject the null hypothesis: The groups do not have significantly different means.")
+}
+    </code></pre>
+    <p>This R code generates random data for three groups, performs the one-way ANOVA test, and uses the <code>summary()</code> function to determine if there is a significant difference between the groups.</p>
+</div>
+
+{% endblock %}

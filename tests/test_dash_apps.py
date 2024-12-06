@@ -1,12 +1,16 @@
 """This test file tests the dash apps module"""
 import pytest
-from dash import Dash # , dcc, html
+import dash
+from dash import Dash, dash_table # , dcc, html
+from dash.testing.application_runners import import_app
 # from dash.dependencies import Input, Output, State
 # from dash.testing import wait
 from flask import Flask
-# import pandas as pd
+import pandas as pd
 import dash_apps
 # import plots
+from dash_apps import create_dash_apps
+import plotly.graph_objs as go
 
 @pytest.fixture
 def test_app():
@@ -61,3 +65,57 @@ def test_update_distributions_test(test_app):
     # Simulate the input value change correctly
     response = client.post('/dash_distribution/', json={'data-input': 3})
     assert response.status_code == 405 # Page correctly loads
+    assert response.status_code == 405 # Returns a page error
+
+def test_create_data_table_two_col():
+    """Tests that the output and format of the generated tables is correct"""
+    # Sample data to pass to the function
+    data = pd.DataFrame({
+        'X Values': [1, 2, 3],
+        'Y Values': [10, 20, 30]
+    })
+
+    # Call the function with this data
+    table = dash_apps.create_data_table_two_col('table-id', data, 'Y Values')
+
+    # Ensure the table is a Dash Table
+    assert isinstance(table, dash_table.DataTable)
+
+    # Check that the table has the correct number of columns and rows
+    assert len(table.columns) == 2  # 'X Values' and 'Y Values'
+    assert table.columns[0]['name'] == 'X Values'  # Check the column names
+    assert table.columns[1]['name'] == 'Y Values'
+    assert len(table.data) == 3  # Check the number of rows
+
+def test_create_data_table_one_col():
+    """Tests that the output and format of the table is correct"""
+    # Sample data to pass to the function
+    data = pd.DataFrame({
+        'Values': [10, 20, 30]
+    })
+
+    # Call the function with this data
+    table = dash_apps.create_data_table_one_col('table-id', data, 'Values')
+
+    # Ensure the table is a Dash Table
+    assert isinstance(table, dash_table.DataTable)
+
+    # Check that the table has the correct number of columns (1 column)
+    assert len(table.columns) == 1
+    assert table.columns[0]['name'] == 'Values'
+    assert len(table.data) == 3  # Check the number of rows
+
+def test_create_dash_apps(test_app):
+    """Test to check if Dash apps are created and their routes are accessible"""
+
+    # List of the Dash app routes to test
+    dash_routes = ['/dash_anova/', '/dash_distribution/', '/dash_ttest/']
+
+    # Check if each route returns a 200 OK response
+    for route in dash_routes:
+        response = test_app['dash_anova'].get(route)  # Use any client from the test_app
+        assert response.status_code == 200, f"Route {route} did not return 200 OK"
+
+    # Check for 405 on unsupported methods
+    response = test_app['dash_anova'].post('/dash_anova/')  # Simulate a POST to check 405
+    assert response.status_code == 405, "Expected 405 Method Not Allowed for POST"

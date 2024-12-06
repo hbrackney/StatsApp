@@ -4,9 +4,7 @@
 
 {% block content %}
     <h1>T-test</h1>
-    <p>
-        <b>What is a t-test?</b>
-    </p>
+    <p><b>What is a t-test?</b></p>
     <p>A t-test is a statistical test used to compare the means of two groups
         to determine if they are statistically different from each other.
         It is useful when dealing with small sample sizes and is based on the
@@ -37,9 +35,7 @@
         to the t-test, such as the Wilcoxon Signed-Rank test for data with unequal variances.
     </p>
 
-    <p>
-        <b>What type of t-test should be used?</b>
-    </p>
+    <h2>What type of t-test should be used?</h2>
     <p>
         When choosing a t-test, consider two things: whether the groups being compared come
         from a single population or two different populations, and whether you want to test
@@ -47,9 +43,7 @@
     </p>
     <img src="https://cdn.educba.com/academy/wp-content/uploads/2020/02/Types-of-t-Test-Formulas-1024x478.jpg">
 
-    <p>
-        <b>Type of t-tests:</b>
-    </p>
+    <h2>Types of t-tests:</h2>
     <ol>
         <li>Independent t-test: Compares means from two different populations (e.g., amount of leaf growth in two species of plants).</li>
         <li>Paired t-test: Compares means from the same population at different times (e.g., weight loss measurements before and after a diet).</li>
@@ -57,19 +51,15 @@
 
     </ol>
 
-    <p>
-        <b>One-tailed or two-tailed t-test?</b>
-    </p>
+    <h2>One-tailed or two-tailed t-test?</h2>
     <ul>
         <li>Use a <b>two-tailed t-test</b> to compare if two populations are different from one another</li>
         <li>Use a <b>one-tailed t-test</b> to know whether one population mean is less than or greater than the other</li>
     </ul>
 
-    <p>
-        <b>To perform a t-test:</b>
-    </p>
+    <h2>Steps to Perform a t-test:</h2>
     <ol>
-        <li><b>Formulate Hypothesis (THIS IS IMPORTANT)</b>
+        <li><b>Formulate Hypothesis (This is important!)</b>
             <ul>
                 <li><strong>Null Hypothesis (H0):</strong> Assumes no difference between the two group means.</li>
                 <li><strong>Alternative Hypothesis (H1):</strong> Assumes a difference between the two group means.</li>
@@ -103,22 +93,25 @@
         <li><b>Report Results:</b> Include the t-statistic, degrees of freedom, p-value, and conclusion regarding the hypothesis.</li>
     </ol>
 
-    <p> Add a section here on the importance of the null and alternative hypothesis. An incorrect set of hypothesis will make or break a t-test.</p>
-
-    <p>A simulation will go here. Users can change numbers in a data set and see how it affects the concept they just learned about. Do we need to plot 
-        the table values over time? Might be good to include a table of the mean, standard deviation, number, t-statistic, and p-value?</p>
+    <p>
+        The null and alternative hypotheses are crucial because they define the basis for testing assumptions in statistical analysis. The null
+        hypothesis represents the assumption of no effect or difference, while the alternative hypothesis suggests a potential effect or difference.
+        This framework allows for objective decision-making, helping to determine whether the data provides enough evidence to reject the null hypothesis
+        or if the results are due to chance. Without these hypotheses, interpreting results and drawing conclusions would be unclear.
+    </p>
+    
     <h1> Interactive T Test Plot Chart</h1>
     <iframe src="/dash_ttest/" style="width:75%; height:600px; border:none;"></iframe>
     
     <h2>Multiple Choice Quiz</h2>
     <div class="quiz">
         <h2>Quiz</h2>
-        <p><strong>What is the capital of France?</strong></p>
+        <p><strong>What is the null hypothesis of a t-test?</strong></p>
         <form id="quizForm">
-            <input type="radio" name="option" value="Berlin"> Berlin<br>
-            <input type="radio" name="option" value="Madrid"> Madrid<br>
-            <input type="radio" name="option" value="Paris"> Paris<br>
-            <input type="radio" name="option" value="Rome"> Rome<br>
+            <input type="radio" name="option" value="There is a large statistical difference"> There is a large statistical difference<br>
+            <input type="radio" name="option" value="There is no statistical difference"> There is no statistical difference<br>
+            <input type="radio" name="option" value="There is a small difference"> There is a small statistical difference<br>
+            <input type="radio" name="option" value="The hypothesis was wrong"> The hypothesis was wrong<br>
             <br>
             <button type="button" onclick="checkAnswer()">Submit</button>
         </form>
@@ -137,14 +130,69 @@
             }
             
             const resultDiv = document.getElementById('result');
-            if (selectedAnswer === 'Paris') {
-                resultDiv.textContent = 'Correct! The capital of France is Paris.';
+            if (selectedAnswer === 'There is no statistical difference') {
+                resultDiv.textContent = 'Correct! The null hypothesis is where there is no statistical difference in the results.';
                 resultDiv.style.color = 'green';
             } else {
-                resultDiv.textContent = 'Wrong! The correct answer is Paris.';
+                resultDiv.textContent = 'Wrong! The correct answer is there is no statistical difference.';
                 resultDiv.style.color = 'red';
             }
         }
     </script>
+
+<h1>Running a T-Test in Python and R</h1>
+
+<div class="section">
+    <h2>Running a T-Test in Python</h2>
+    <p>In Python, you can use the <code>scipy</code> library to perform a t-test. Here's an example:</p>
+    
+    <pre><code>
+import numpy as np
+from scipy import stats
+
+# Generate random data for two groups
+group1 = np.random.normal(loc=5, scale=1, size=30)
+group2 = np.random.normal(loc=6, scale=1, size=30)
+
+# Perform the independent t-test
+t_statistic, p_value = stats.ttest_ind(group1, group2)
+
+# Print the results
+print("T-statistic:", t_statistic)
+print("P-value:", p_value)
+
+# Determine if we reject the null hypothesis
+if p_value < 0.05:
+    print("Reject the null hypothesis: The groups have significantly different means.")
+else:
+    print("Fail to reject the null hypothesis: The groups do not have significantly different means.")
+    </code></pre>
+    <p>This code generates random data for two groups, runs the independent t-test, and outputs the t-statistic and p-value to determine if there is a significant difference between the groups.</p>
+</div>
+
+<div class="section">
+    <h2>Running a T-Test in R</h2>
+    <p>In R, you can use the <code>t.test()</code> function to perform a t-test. Here's an example:</p>
+    
+    <pre><code>
+# Generate random data for two groups
+group1 <- rnorm(30, mean = 5, sd = 1)
+group2 <- rnorm(30, mean = 6, sd = 1)
+
+# Perform the independent t-test
+t_test_result <- t.test(group1, group2)
+
+# Print the results
+print(t_test_result)
+
+# Check the p-value
+if (t_test_result$p.value < 0.05) {
+  print("Reject the null hypothesis: The groups have significantly different means.")
+} else {
+  print("Fail to reject the null hypothesis: The groups do not have significantly different means.")
+}
+    </code></pre>
+    <p>This R code generates random data for two groups, performs the independent t-test, and outputs the t-statistic and p-value to determine if there is a significant difference between the groups.</p>
+</div>
 
 {% endblock %}
