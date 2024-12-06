@@ -1,5 +1,190 @@
 # BioStat Academy
-CSCI 6118 Project - An interactive app designed to introduce basic statistical concepts to biologists. Learning statistics is crucial for biologists, as it enables them to analyze data, design reliable experiments, and draw valid conclusions. Statistics is essential in concepts like hypothesis testing and biological variability, as well as making evidence-based decisions. With statistical tools, biologists can interpret results accurately, manage large datasets, and communicate findings effectively. Thus, learning and understanding statistics is important for all research biologists.
+## CSCI 6118 Project - Interactive App to Teach Basic Statistics to Biologists
+
+## Project Overview
+
+This interactive app is designed to help biologists learn and apply basic statistical concepts essential for analyzing biological data, conducting experiments, and drawing valid conclusions. Statistics is a critical tool for biologists in fields such as genetics, ecology, and epidemiology, enabling them to make evidence-based decisions and communicate findings effectively. Our app provides an easy-to-use platform for mastering key statistical techniques commonly used in biological research.
+
+## Why Statistics for Biologists?
+
+Biologists frequently work with large datasets, and statistical analysis helps make sense of complex biological information. The app helps users:
+
+- Analyze biological data (e.g., gene expression, species population)
+- Design experiments with scientifically rigorous methods
+- Make inferences and test hypotheses
+- Understand relationships between variables
+- Visualize and interpret results
+
+## Core Statistical Concepts Covered
+
+The app provides a hands-on introduction to five key statistical methods frequently used in biological research:
+
+### 1. **T-Tests (Two-Sample and Paired)**
+
+T-tests compare the means of two groups to assess whether any observed differences are statistically significant.
+
+- **Two-Sample T-Test**: Compares means of two independent groups.  
+  - *Example*: Comparing plant height between two different fertilizer treatments.
+
+- **Paired T-Test**: Compares measurements from the same group under two conditions.  
+  - *Example*: Measuring before-and-after weight changes in fish exposed to a drug.
+  
+![T-Test](static/images/T-test_screenshot.png)
+
+### 2. **Z-Test**
+
+The z-test compares a sample mean to a population mean, typically used when the sample size is large.
+
+- *Example*: Testing if the average height of a species of tree has changed compared to historical data.
+
+![Z-Test](static/images/Z-test_screenshot.png)
+
+### 3. **Data Distributions**
+
+Understanding data distributions is key to selecting the right statistical tests.
+
+- **Normal Distribution**: Often used to model biological data such as body sizes or enzyme activity.  
+  - *Example*: Determining probabilities of measuring a certain enzyme level in a sample.
+
+- **Binomial & Poisson Distributions**: Used for categorical or count-based data.  
+  - *Example*: Modeling the probability of an event occurring (e.g., a species' presence in different habitats).
+
+![Data Distribution](static/images/Distributions_screenshot.png)
+
+### 4. **ANOVA (Analysis of Variance)**
+
+ANOVA tests whether there are significant differences between the means of three or more groups.
+
+- **One-Way ANOVA**: Compares the means across multiple groups for one factor.  
+  - *Example*: Comparing plant growth under different light conditions.
+
+- **Two-Way ANOVA**: Evaluates two independent variables and their interaction.  
+  - *Example*: Examining how both water and fertilizer affect plant growth.
+
+![ANOVA](static/images/anova_screenshot.png)
+
+### 5. **Regression Analysis (Linear and Multiple)**
+
+Regression helps to model relationships between variables.
+
+- **Linear Regression**: Models the relationship between one independent and one dependent variable.  
+  - *Example*: Modeling the effect of temperature on algae growth.
+
+- **Multiple Regression**: Assesses multiple predictors simultaneously.  
+  - *Example*: Analyzing how light, temperature, and soil type together affect plant growth.
+
+## Interactive Features
+
+The app incorporates several engaging, interactive features to enhance the learning experience:
+
+- **Data Visualizations**: Interactive graphs (e.g., histograms, scatter plots, box plots) to help users visualize distributions, regression lines, and test results.
+- **Code Examples and Walkthroughs**: Step-by-step guides and sample code to show users how to apply statistical tests in practice.
+- **Quiz**: A built-in quiz feature to test knowledge, with immediate feedback to reinforce concepts and improve understanding.
+
+## Example Scenarios
+
+1. **Ecology**: A biologist compares species diversity in two habitats using a **t-test** to determine if the difference is significant.
+2. **Genetics**: A researcher tests if a new drug affects the growth of bacteria using a **z-test** to compare growth rates.
+3. **Clinical Trials**: An **ANOVA** is used to test the effects of three drug treatments on patient outcomes.
+4. **Environmental Science**: A study uses **linear regression** to predict plant growth based on temperature data.
+
+## Conclusion
+
+This app provides biologists with the statistical tools they need to analyze data, design experiments, and draw meaningful conclusions. By focusing on essential techniques like t-tests, z-tests, ANOVA, and regression analysis, the app helps users build a strong foundation in statistics, making complex data more accessible and interpretable.
+
+## CSCI 6118 Project - Interactive App to Teach Basic Statistics to Biologists
+
+## Project Overview
+
+This interactive app is designed to help biologists learn and apply basic statistical concepts essential for analyzing biological data, conducting experiments, and drawing valid conclusions. Statistics is a critical tool for biologists in fields such as genetics, ecology, and epidemiology, enabling them to make evidence-based decisions and communicate findings effectively. Our app provides an easy-to-use platform for mastering key statistical techniques commonly used in biological research.
+
+## Why Statistics for Biologists?
+
+Biologists frequently work with large datasets, and statistical analysis helps make sense of complex biological information. The app helps users:
+
+- Analyze biological data (e.g., gene expression, species population)
+- Design experiments with scientifically rigorous methods
+- Make inferences and test hypotheses
+- Understand relationships between variables
+- Visualize and interpret results
+
+## Core Statistical Concepts Covered
+
+The app provides a hands-on introduction to five key statistical methods frequently used in biological research:
+
+### 1. **T-Tests (Two-Sample and Paired)**
+
+T-tests compare the means of two groups to assess whether any observed differences are statistically significant.
+
+- **Two-Sample T-Test**: Compares means of two independent groups.  
+  - *Example*: Comparing plant height between two different fertilizer treatments.
+
+- **Paired T-Test**: Compares measurements from the same group under two conditions.  
+  - *Example*: Measuring before-and-after weight changes in fish exposed to a drug.
+  
+![T-Test](static/images/T-test_screenshot.png)
+
+### 2. **Z-Test**
+
+The z-test compares a sample mean to a population mean, typically used when the sample size is large.
+
+- *Example*: Testing if the average height of a species of tree has changed compared to historical data.
+
+![Z-Test](static/images/Z-test_screenshot.png)
+
+### 3. **Data Distributions**
+
+Understanding data distributions is key to selecting the right statistical tests.
+
+- **Normal Distribution**: Often used to model biological data such as body sizes or enzyme activity.  
+  - *Example*: Determining probabilities of measuring a certain enzyme level in a sample.
+
+- **Binomial & Poisson Distributions**: Used for categorical or count-based data.  
+  - *Example*: Modeling the probability of an event occurring (e.g., a species' presence in different habitats).
+
+![Data Distribution](static/images/Distributions_screenshot.png)
+
+### 4. **ANOVA (Analysis of Variance)**
+
+ANOVA tests whether there are significant differences between the means of three or more groups.
+
+- **One-Way ANOVA**: Compares the means across multiple groups for one factor.  
+  - *Example*: Comparing plant growth under different light conditions.
+
+- **Two-Way ANOVA**: Evaluates two independent variables and their interaction.  
+  - *Example*: Examining how both water and fertilizer affect plant growth.
+
+![ANOVA](static/images/anova_screenshot.png)
+
+### 5. **Regression Analysis (Linear and Multiple)**
+
+Regression helps to model relationships between variables.
+
+- **Linear Regression**: Models the relationship between one independent and one dependent variable.  
+  - *Example*: Modeling the effect of temperature on algae growth.
+
+- **Multiple Regression**: Assesses multiple predictors simultaneously.  
+  - *Example*: Analyzing how light, temperature, and soil type together affect plant growth.
+
+## Interactive Features
+
+The app incorporates several engaging, interactive features to enhance the learning experience:
+
+- **Data Visualizations**: Interactive graphs (e.g., histograms, scatter plots, box plots) to help users visualize distributions, regression lines, and test results.
+- **Code Examples and Walkthroughs**: Step-by-step guides and sample code to show users how to apply statistical tests in practice.
+- **Quiz**: A built-in quiz feature to test knowledge, with immediate feedback to reinforce concepts and improve understanding.
+
+## Example Scenarios
+
+1. **Ecology**: A biologist compares species diversity in two habitats using a **t-test** to determine if the difference is significant.
+2. **Genetics**: A researcher tests if a new drug affects the growth of bacteria using a **z-test** to compare growth rates.
+3. **Clinical Trials**: An **ANOVA** is used to test the effects of three drug treatments on patient outcomes.
+4. **Environmental Science**: A study uses **linear regression** to predict plant growth based on temperature data.
+
+## Conclusion
+
+This app provides biologists with the statistical tools they need to analyze data, design experiments, and draw meaningful conclusions. By focusing on essential techniques like t-tests, z-tests, ANOVA, and regression analysis, the app helps users build a strong foundation in statistics, making complex data more accessible and interpretable.
+
 
 ## Installation 
 Clone the repository in your command line by:
@@ -33,6 +218,7 @@ The website is now live!
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+05-12-2024 (LS): Updated README to expand explanations and images. Added tests to dash_apps. </br>
 02-12-2024 (HB): Fixed Page mapping and added more comments to dash_apps.py and tests </br>
 01-12-2024 (SS): Completed Regressions page. Note: I added scikit-learn to the dependencies, so install that before running again. </br>
 19-11-2024 (LS): Added description to the About page. </br>
