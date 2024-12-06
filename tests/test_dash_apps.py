@@ -7,6 +7,7 @@ from dash.testing.application_runners import import_app
 # from dash.testing import wait
 from flask import Flask
 import pandas as pd
+import pandas as pd
 import dash_apps
 # import plots
 from dash_apps import create_dash_apps
@@ -130,21 +131,7 @@ def test_create_data_table_one_col():
     assert len(table.columns) == 1
     assert table.columns[0]['name'] == 'Values'
     assert len(table.data) == 3  # Check the number of rows
-
-def test_create_dash_apps(test_app):
-    """Test to check if Dash apps are created and their routes are accessible"""
-
-    # List of the Dash app routes to test
-    dash_routes = ['/dash_anova/', '/dash_distribution/', '/dash_ttest/']
-
-    # Check if each route returns a 200 OK response
-    for route in dash_routes:
-        response = test_app['dash_anova'].get(route)  # Use any client from the test_app
-        assert response.status_code == 200, f"Route {route} did not return 200 OK"
-
-    # Check for 405 on unsupported methods
-    response = test_app['dash_anova'].post('/dash_anova/')  # Simulate a POST to check 405
-    assert response.status_code == 405, "Expected 405 Method Not Allowed for POST"
+    assert response.status_code == 405 # Returns a page error
 
 def test_create_data_table_two_col():
     """Tests that the output and format of the generated tables is correct"""
@@ -183,3 +170,18 @@ def test_create_data_table_one_col():
     assert len(table.columns) == 1
     assert table.columns[0]['name'] == 'Values'
     assert len(table.data) == 3  # Check the number of rows
+
+def test_create_dash_apps(test_app):
+    """Test to check if Dash apps are created and their routes are accessible"""
+
+    # List of the Dash app routes to test
+    dash_routes = ['/dash_anova/', '/dash_distribution/', '/dash_ttest/']
+
+    # Check if each route returns a 200 OK response
+    for route in dash_routes:
+        response = test_app['dash_anova'].get(route)  # Use any client from the test_app
+        assert response.status_code == 200, f"Route {route} did not return 200 OK"
+
+    # Check for 405 on unsupported methods
+    response = test_app['dash_anova'].post('/dash_anova/')  # Simulate a POST to check 405
+    assert response.status_code == 405, "Expected 405 Method Not Allowed for POST"
