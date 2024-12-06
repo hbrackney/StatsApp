@@ -9,13 +9,15 @@ app = Flask(__name__)
 
 # List of Pages -> make sure if page name is changed, the html file matches
 pages = ["home", "about", "ttest", "z_test_page", "distributions_page",
-         "anova", "reference_page"]
+         "anova", "anova", "regressions", "reference_page"]
 
 # Home Page Dropdown Menu Options
 options = {
     "t-test": pages[2],
     "z-test": pages[3],
     "Data Distributions": pages[4],
+    "ANOVA test": pages[5],
+    "Example page": pages [6],
     "ANOVA test": pages[5],
     "Regressions": pages[6]
 }
@@ -76,7 +78,7 @@ def distributions_page():
 
     Returns: Creates the Data Distributions page
     """
-    return render_template(f'{pages[4]}.html')
+    return render_template("distributions_page.html")
 
 @app.route(f"/{pages[5]}")
 def anova():
@@ -95,6 +97,14 @@ def regressions():
     return render_template(f'{pages[6]}.html')
 
 @app.route(f"/{pages[7]}")
+def anova():
+    """This function renders the ANOVA page.
+
+    Returns: Creates the ANOVA page
+    """
+    return render_template("anova.html")
+
+@app.route(f"/{pages[6]}")
 def example_page():
     """This function renders the interactive test
     page. This page serves as an example for any users
@@ -103,7 +113,7 @@ def example_page():
 
     Returns: Creates the interactive page
     """
-    return render_template(f"{pages[7]}.html")
+    return render_template(f"{pages[6]}.html")
 
 if __name__ == "__main__":
     serve(app, host="0.0.0.0", port=14000)
