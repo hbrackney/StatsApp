@@ -49,7 +49,7 @@ class TestGenerateTTestPlot:
         assert "P-Value:" in t_test_result_text
 
     def test_generate_ttest_plot_empty_data(self):
-        """Test with empty data."""
+        """Test with empty data or small sample sizes."""
         data1 = {'X Values': [], 'Y Values': []}
         data2 = {'X Values': [], 'Y Values': []}
 
