@@ -44,7 +44,7 @@ def about():
 @app.route("/submit", methods=["POST"])
 def submit(options_list=options):
     """This function submits the drop
-    down box entry and take you to the home page.
+    down box entry and takes you to the home page.
 
     Returns: redirects to  home page
     """
@@ -53,16 +53,12 @@ def submit(options_list=options):
         return redirect(url_for(options_list[selected_option]))
     return redirect(url_for(pages[0]))
 
-
-# T-test page
-@app.route(f"/{pages[2]}", methods=['GET', 'POST'])
+@app.route(f"/{pages[2]}", methods=['GET', 'POST']) # T-test Page
 def ttest():
     """This function renders the t test page or handles POST requests."""
     return render_template(f'{pages[2]}.html')
 
-
-# Z-test page
-@app.route(f"/{pages[3]}")
+@app.route(f"/{pages[3]}") # Z-Test Page
 def z_test_page():
     """This function renders the z test page.
 
@@ -70,7 +66,7 @@ def z_test_page():
     """
     return render_template(f'{pages[3]}.html')
 
-@app.route(f"/{pages[4]}")
+@app.route(f"/{pages[4]}") # Distributions Page
 def distributions_page():
     """This function renders the Data Distributions page.
 
@@ -78,7 +74,7 @@ def distributions_page():
     """
     return render_template(f'{pages[4]}.html')
 
-@app.route(f"/{pages[5]}")
+@app.route(f"/{pages[5]}") # ANOVA Page
 def anova():
     """This function renders the ANOVA page.
 
@@ -86,7 +82,7 @@ def anova():
     """
     return render_template(f'{pages[5]}.html')
 
-@app.route(f"/{pages[6]}")
+@app.route(f"/{pages[6]}") # Regressions Page
 def regressions():
     """This function renders the regressions page.
 
@@ -94,7 +90,7 @@ def regressions():
     """
     return render_template(f'{pages[6]}.html')
 
-@app.route(f"/{pages[7]}")
+@app.route(f"/{pages[7]}") # Example page
 def example_page():
     """This function renders the interactive test
     page. This page serves as an example for any users
@@ -105,5 +101,7 @@ def example_page():
     """
     return render_template(f"{pages[7]}.html")
 
+# Change this port # below if the terminal says that the Address is already in use.
+# If you change port #, update the README Usage instrcutions to reflect the new number
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=14000)
+    serve(app, host="0.0.0.0", port=1000) # port number

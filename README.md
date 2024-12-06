@@ -33,6 +33,8 @@ The website is now live!
 To end the website run and to regain typing ability in command line or terminal press `Crtl + C`. 
 
 ## Changelog
+05-12-2024 (SS): Added comments to app.py, plots.py, test_app.py, and test_plots.py. </br>
+04-12-2024 (SS): Created regressions tests to test_app.py, test_dash_apps.py, and test_plots.py </br>
 02-12-2024 (HB): Fixed Page mapping and added more comments to dash_apps.py and tests </br>
 01-12-2024 (SS): Completed Regressions page. Note: I added scikit-learn to the dependencies, so install that before running again. </br>
 19-11-2024 (LS): Added description to the About page. </br>

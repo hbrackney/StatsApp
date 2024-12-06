@@ -27,7 +27,7 @@ def generate_ttest_data():
         'X Values': [1, 2, 3, 4, 5],
         'Y Values': [12, 14, 11, 20, 18]
     }
-    return pd.DataFrame(initial_data1), pd.DataFrame(initial_data2)
+    return pd.DataFrame(initial_data1), pd.DataFrame(initial_data2) # returns two data tables
 
 def generate_ttest_plot(data1, data2):
     """
@@ -50,6 +50,7 @@ def generate_ttest_plot(data1, data2):
             two datasets.
 
     """
+    # Convert input data into DataFrames
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
 
@@ -58,6 +59,7 @@ def generate_ttest_plot(data1, data2):
                                       data_frame2['Y Values'],
                                       nan_policy='omit')
 
+    # Create a comparison plot using Plotly
     figure = {
         'data': [
             go.Scatter(
@@ -80,6 +82,7 @@ def generate_ttest_plot(data1, data2):
         }
     }
 
+    # Format t-test results for display
     t_test_result_text = f"T-Statistic: {t_stat:.2f}, P-Value: {p_value:.4f}"
     return figure, t_test_result_text
 
@@ -130,7 +133,7 @@ def generate_ztest_plot(data1, data2):
     data_frame1 = pd.DataFrame(data1)
     data_frame2 = pd.DataFrame(data2)
 
-    # Ensure we are using the correct columns for z-test calculations
+    # Extract numeric values for z-test calculations
     if 'Population 1' in data_frame1.columns and 'Population 2' in data_frame2.columns:
         values1 = pd.to_numeric(data_frame1['Population 1'], errors='coerce').fillna(0)
         values2 = pd.to_numeric(data_frame2['Population 2'], errors='coerce').fillna(0)
@@ -167,6 +170,7 @@ def generate_distribution_data():
     Returns:
         Dataframes: one pandas dataframes of data
     """
+    # Initialize sequence of 20 evenly spaced numbers between 1 and 20
     initial_data1 = {
         'Values': list(np.linspace(1,20,20)),
     }
@@ -181,8 +185,11 @@ def generate_distribution_plot(data1):
         'Values' with 20 evenly spaced values from 1 to 20.
     """
     data_frame1 = pd.DataFrame(data1)
+    # Check that all elements in 'Values' column are numeric and raise error if not
     if not all(isinstance(x, (int, float)) for x in data_frame1['Values']):
         raise ValueError("All values in 'Values' must be numeric.")
+    
+    # Create a histogram for visualization
     figure = {
         'data': [
             go.Histogram(
@@ -252,7 +259,7 @@ def generate_anova_plot(data1, data2, data3):
     data_frame2 = pd.DataFrame(data2)
     data_frame3 = pd.DataFrame(data3)
 
-    # Ensure we are using the correct columns for ANOVA calculations
+    # Extract numeric values for ANOVA calculations
     if 'Population 1' in data_frame1.columns and 'Population 2' in data_frame2.columns and 'Population 3' in data_frame3.columns:
         values1 = pd.to_numeric(data_frame1['Population 1'], errors='coerce').fillna(0)
         values2 = pd.to_numeric(data_frame2['Population 2'], errors='coerce').fillna(0)
