@@ -60,40 +60,64 @@ def create_dash_apps(flask_app):
 
     # Making the T-test figures
     dash_ttest_app = Dash(__name__, server=flask_app, routes_pathname_prefix="/dash_ttest/")
-    tdf1, tdf2 = plots.generate_ttest_data()
+    tdf1, tdf2 = plots.initialize_ttest_data(10)
 
     # T-test Data Table
+    # T-Test Data Table and Plot Layout
     dash_ttest_app.layout = html.Div([
-        html.H1("Compare Two Datasets and Calculate T-Test"), # Header
-        create_data_table_two_col('data-table1', tdf1, 'Y-Values'), # Table 1
-        create_data_table_two_col('data-table2', tdf2, 'Y-Values'), # Table 2
-        dcc.Graph(id='line-chart'), # Creating the graph
-        html.H3("T-Test Result"), # Header
-        html.Div(id='t-test-result') # Styling
+        html.H1("Compare Two Datasets and Calculate T-Test"),
+        html.Div([
+            html.H3("Enter Data for Population 1"),
+            create_data_table_two_col('ttest-data-table1', tdf1, 'Population 1'),
+            html.Button("Add Row to Population 1", id="ttest-add-row-btn1", n_clicks=0),
+        ]),
+        html.Div([
+            html.H3("Enter Data for Population 2"),
+            create_data_table_two_col('ttest-data-table2', tdf2, 'Population 2'),
+            html.Button("Add Row to Population 2", id="ttest-add-row-btn2", n_clicks=0),
+        ]),
+        html.Button("Update Box Plot and T-Test", id="ttest-update-plot-btn", n_clicks=0),
+        dcc.Graph(id='ttest-box-plot'),
+        html.H3("T-Test Result"),
+        html.Div(id='ttest-result', style={'marginTop': '20px'}),
     ])
 
     # T-test Plot
+    # Callback to add rows to Population 1
     @dash_ttest_app.callback(
-        Output('line-chart', 'figure'), # Creating the line chart
-        Output('t-test-result', 'children'), # Creating the result text output
-        Input('data-table1', 'data'), # Allowing for table updating
-        Input('data-table2', 'data') # Allowing for table updating
+        Output('ttest-data-table1', 'data'),
+        Input('ttest-add-row-btn1', 'n_clicks'),
+        State('ttest-data-table1', 'data')
     )
+    def add_row_ttest_population1(n_clicks, data1):
+        if n_clicks > 0:
+            data1.append({'X Values': len(data1) + 1, 'Population 1': np.random.randint(80, 101)})
+        return data1
 
-    # Updating T-Test Plot after User Provides Data
-    def update_ttest_plot(data1, data2):
-        """This function generates a line plot based on a
-        user-provided input values. As the user changes
-        the inputted values, the plot will change. 
+    # Callback to add rows to Population 2
+    @dash_ttest_app.callback(
+        Output('ttest-data-table2', 'data'),
+        Input('ttest-add-row-btn2', 'n_clicks'),
+        State('ttest-data-table2', 'data')
+    )
+    def add_row_ttest_population2(n_clicks, data2):
+        if n_clicks > 0:
+            data2.append({'X Values': len(data2) + 1, 'Population 2': np.random.randint(80, 101)})
+        return data2
 
-        Args:
-            data1: Web app user inputted numbers
-            data2: Web app user inputted numbers
-
-        Returns:
-            figure: the new updated plot is outputted.
-        """
-        return plots.generate_ttest_plot(data1, data2)
+    # Callback to update the T-Test Plot and Results
+    @dash_ttest_app.callback(
+        Output('ttest-box-plot', 'figure'),
+        Output('ttest-result', 'children'),
+        Input('ttest-update-plot-btn', 'n_clicks'),
+        State('ttest-data-table1', 'data'),
+        State('ttest-data-table2', 'data')
+    )
+    def update_ttest_plot(n_clicks, data1, data2):
+        if n_clicks > 0:
+            figure, t_test_result_text = plots.generate_ttest_plot(data1, data2)
+            return figure, t_test_result_text
+        return go.Figure(), "No updates requested."
 
     # Z-Test Figures
     dash_ztest_app = Dash(__name__, server=flask_app, routes_pathname_prefix='/dash_ztest/')
