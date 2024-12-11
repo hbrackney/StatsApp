@@ -98,6 +98,10 @@ Clone the repository in your command line by:
 ```
 git clone https://github.com/hbrackney/StatsApp.git
 ```
+Step into the repository by: (for Mac or Windows users)
+```
+cd StatsApp 
+```
  All specific dependencies are included in the ` environment.yaml` file. Create environment with required dependencies using the `environment.yaml` file: 
 ```
 conda env create -f environment.yaml
@@ -105,10 +109,6 @@ conda env create -f environment.yaml
 And then activate the environment:
 ```
 conda activate StatsApp
-```
-Step into the repository by: (for Mac or Windows users)
-```
-cd StatsApp 
 ```
 
 ## Usage
